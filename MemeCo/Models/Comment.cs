@@ -11,10 +11,12 @@ namespace MemeCo.Models
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int Id { get; set; }
+        public int ID { get; set; }
         [Required]
         public string Content { get; set; }
-        public ApplicationUser Poster { get; set; }
+        [Required]
+        public Guid MemeCoUserID { get; set; }
+        [Required]
         public Guid PostId { get; set; }
         [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
         public DateTime TimeCommented { get; set; }

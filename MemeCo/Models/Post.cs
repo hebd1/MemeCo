@@ -11,7 +11,9 @@ namespace MemeCo.Models
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public Guid Id { get; set; }
+        public Guid ID { get; set; }
+        [Required]
+        public Guid MemeCoUserID { get; set; }
         [Required]
         public byte[] Meme { get; set; }
         public string Description { get; set; }

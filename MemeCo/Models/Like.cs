@@ -11,11 +11,11 @@ namespace MemeCo.Models
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int Id { get; set; }
+        public int ID { get; set; }
         [Required]
-        public Guid UserId { get; set; }
+        public Guid MemeCoUserID { get; set; }
         [Required]
-        public Guid PostId { get; set; }
+        public Guid PostID { get; set; }
         [Required]
         public bool Liked { get; set; }
 
