@@ -8,9 +8,9 @@ namespace MemeCo.Models
 {
     public class Follow
     {
-        public Guid UserID { get; set; }
+        public string UserID { get; set; }
         public MemeCoUser User { get; set; }
-        public Guid FollowerID { get; set; }
+        public string FollowerID { get; set; }
         public MemeCoUser Follower { get; set; }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MemeCo.Areas.Identity.Data;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -15,10 +16,12 @@ namespace MemeCo.Models
         [Required]
         public string Content { get; set; }
         [Required]
-        public Guid MemeCoUserID { get; set; }
-        [Required]
-        public Guid PostId { get; set; }
+        public string MemeCoUserID { get; set; }
+        //[Required]
+        //public Guid PostID { get; set; }
         [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
         public DateTime TimeCommented { get; set; }
+        public Post Post { get; set; }
+        public MemeCoUser User { get; set; }
     }
 }
