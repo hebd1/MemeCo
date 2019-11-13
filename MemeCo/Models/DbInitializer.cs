@@ -10,12 +10,12 @@ namespace MemeCo.Models
 {
     public class DbInitializer
     {
-        private UserManager<MemeCoUser> userManager;
+        private UserManager<MemeCoUser> _userManager;
         private MemeCoContext _memeCoContext;
 
         public DbInitializer(UserManager<MemeCoUser> usermanager, MemeCoContext memeCoContext)
         {
-            userManager = usermanager;
+            _userManager = usermanager;
             _memeCoContext = memeCoContext;
         }
 
@@ -32,8 +32,19 @@ namespace MemeCo.Models
                 return; 
             }
 
-            // Seed User
-            MemeCoUser user =  addUser("testuser", "test@gmail.com", "test bio", false);
+            // Seed Users
+            MemeCoUser user = addUser("testuser", "test@meme.co", "test bio", false);
+
+            var users = new MemeCoUser[]
+            {
+                addUser("test1", "test1@meme.co", "test1 bio", true),
+                addUser("test2", "test2@meme.co", "test2 bio", true),
+                addUser("test3", "test3@meme.co", "test3 bio", true),
+                addUser("test4", "test4@meme.co", "test4 bio", true),
+                addUser("test5", "test5@meme.co", "test5 bio", true),
+            };
+            _memeCoContext.SaveChanges();
+
             // add test post by current user
             Post post = new Post();
             post.Description = "test description";
@@ -41,9 +52,6 @@ namespace MemeCo.Models
             post.MemeCoUserID = user.Id;
             post.User = user;
             _memeCoContext.Posts.Add(post);
-
-
-
 
             _memeCoContext.SaveChanges();
             
@@ -67,7 +75,7 @@ namespace MemeCo.Models
             user.Bio = bio;
             user.DarkMode = darkMode;
             user.EmailConfirmed = true;
-            IdentityResult result =  userManager.CreateAsync(user, "123ABC!@#def").Result;
+            IdentityResult result =  _userManager.CreateAsync(user, "123ABC!@#def").Result;
             return user;
         }
 
