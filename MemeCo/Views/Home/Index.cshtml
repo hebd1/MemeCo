@@ -1,8 +1,69 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Main Feed";
 }
+@using Microsoft.AspNetCore.Identity
+@using System.IO
+@using Microsoft.AspNetCore.Http;
+@using MemeCo.Areas.Identity.Data
+@model IEnumerable<MemeCo.Models.Post>
+@inject UserManager<MemeCoUser> userManager
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>@ViewData["Title"] - Index</title>
+    <meta name="description" content="Main Feed of the Meme.co meme viewer">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="author" content="Eli Hebdon u0871009">
+    <meta name="keywords" content="HTML, CSS, Meme.co, memes">
+    <link rel="stylesheet" href="~/css/mainFeed.css">
+    <script src="https://kit.fontawesome.com/50d38ee57a.js"></script>
+</head>
+
+<body>
+
+    <div id="posts">
+        @foreach (var post in Model)
+        {
+            var user = userManager.FindByIdAsync(post.MemeCoUserID).Result;
+            var base64 = Convert.ToBase64String(post.Meme);
+            var imgSrc = String.Format("data:image/gif;base64,{0}", base64);
+            //var likes = post.Likes.Where(o => o.Liked == true);
+            //var dislikes = post.Likes.Where(o => o.Liked == false);
+            <div class="post mx-auto">
+                <div class="card mx-auto" style="width: 30rem;">
+                    <div class="mx-auto">
+                        <img class="card-img-top" src="@imgSrc" alt="Card image cap">
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">@user.UserName</h5>
+                        <p class="card-text">@post.Description</p>
+                        <hr />
+                        <div class="like_buttons">
+                            <a href="#" class="btn btn-primary">like</a>
+                            <a href="#" class="btn btn-danger">dislike</a>
+                            <div class="progress">
+                                <div class="progress-bar bg-primary" style="width:40%">
+                                    40%
+                                </div>
+                                <div class="progress-bar bg-danger" style="width:60%">
+                                    60%
+                                </div>
+                            </div>
+                        </div>
+                      
+
+                    </div>
+                </div>
+            </div>
+
+        }
+    </div>
+
+
+</body>
+</html>
+

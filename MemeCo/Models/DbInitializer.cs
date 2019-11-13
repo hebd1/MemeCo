@@ -47,9 +47,18 @@ namespace MemeCo.Models
 
             // add test post by current user
             Post post = new Post();
-            
+           
             post.Description = "test description";
             post.Meme = File.ReadAllBytes("wwwroot\\meme_templates\\avengers_level_threat.jpg");
+            post.MemeCoUserID = user.Id;
+            post.User = user;
+            _memeCoContext.Posts.Add(post);
+
+            // add second test user
+            user = addUser("testuser2", "testy@gmail.com", "i like eggs", false);
+            post = new Post();
+            post.Description = "ok boomer";
+            post.Meme = File.ReadAllBytes("wwwroot\\meme_templates\\jealous_girlfriend.jpg");
             post.MemeCoUserID = user.Id;
             post.User = user;
             _memeCoContext.Posts.Add(post);
