@@ -1,0 +1,25 @@
+﻿
+:root {
+    --background-color: rgb(240, 240, 240);
+    --text-color: rgb(15, 15, 15);
+}
+
+.nav-item {
+    color: rgb(15, 15,15);
+}
+
+.border-bottom {
+    color: rgb(240, 240, 240);
+}
+
+.border-top {
+    color: rgb(240, 240, 240);
+}
+
+#Logo {
+    content:url(../files/LightLogo.png);
+}
+.navbar .navbar-expand-sm .navbar-toggleable-sm .border-bottom .box-shadow .mb-3 {
+    --background-color: rgb(240, 240, 240);
+    --text-color: rgb(15, 15, 15);
+}

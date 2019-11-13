@@ -1,0 +1,51 @@
+﻿
+body {
+    background-color: rgb(40, 44, 53);
+    color: rgb(240, 240, 240);
+}
+
+.nav-item {
+    color: rgb(240, 240, 240);
+}
+.border-bottom {
+    color: rgb(40, 44,53);
+}
+
+.border-top {
+    color: rgb(40, 44, 53);
+}
+
+#Logo {
+    content: url(../files/DarkLogo.png);
+}
+
+.navbar .navbar-expand-sm .navbar-toggleable-sm .border-bottom .box-shadow .mb-3 {
+    color: rgb(240, 240, 240);
+    background-color: rgb(40, 44, 53);
+}
+
+.icon {
+    filter: invert(100%);
+}
+
+/* If no dark mode user agent stylesheet exists, emulate it */
+select,
+input,
+button,
+option {
+    color: var(--text-color);
+    background-color: var(--background-color);
+    border-width: 1px;
+    border-radius: 1px;
+}
+
+/* Else, use the user agent stylesheet */
+@media (prefers-color-scheme: dark) {
+    select,
+    input,
+    button,
+    option {
+        color: unset;
+        background-color: unset;
+    }
+}
