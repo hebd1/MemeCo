@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using MemeCo.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace MemeCo.Controllers
 {
@@ -22,7 +23,8 @@ namespace MemeCo.Controllers
 
         public async Task<IActionResult> Index()
         {
-            return View(_context.Posts.ToList());
+            var result = _context.Posts.Include(o => o.Likes).Include(o => o.User).Include(o => o.Comments).ToList();  
+            return View(result);
         }
 
         public IActionResult Privacy()

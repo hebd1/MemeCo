@@ -20,9 +20,13 @@ namespace MemeCo.Models
         [Required]
         public bool Liked { get; set; }
 
-        [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
         public DateTime TimeLiked { get; set; }
         public Post Post { get; set; }
         public MemeCoUser User { get; set; }
+
+        public Like()
+        {
+            TimeLiked = DateTime.UtcNow;
+        }
     }
 }

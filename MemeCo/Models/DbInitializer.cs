@@ -33,9 +33,7 @@ namespace MemeCo.Models
             }
 
             // Seed Users
-            MemeCoUser user = addUser("testuser", "test@meme.co", "test bio", false);
-
-            var users = new MemeCoUser[]
+            var likeUsers = new MemeCoUser[]
             {
                 addUser("test1", "test1@meme.co", "test1 bio", true),
                 addUser("test2", "test2@meme.co", "test2 bio", true),
@@ -43,25 +41,41 @@ namespace MemeCo.Models
                 addUser("test4", "test4@meme.co", "test4 bio", true),
                 addUser("test5", "test5@meme.co", "test5 bio", true),
             };
+            var dislikeUsers = new MemeCoUser[]
+           {
+                addUser("test6", "test6@meme.co", "test6 bio", true),
+                addUser("test7", "test7@meme.co", "test7 bio", true),
+                addUser("test8", "test8@meme.co", "test8 bio", true),
+                addUser("test9", "test9@meme.co", "test9 bio", true),
+           };
             _memeCoContext.SaveChanges();
 
             // add test post by current user
-            Post post = new Post();
-           
-            post.Description = "test description";
-            post.Meme = File.ReadAllBytes("wwwroot\\meme_templates\\avengers_level_threat.jpg");
-            post.MemeCoUserID = user.Id;
-            post.User = user;
-            _memeCoContext.Posts.Add(post);
+            MemeCoUser user = addUser("testuser", "test@meme.co", "test bio", false);
+            IEnumerable<Like> likes = new List<Like>();
+            IEnumerable<Comment> comments = new List<Comment>();
+            Post post1 = addPost("test description", likes, File.ReadAllBytes("wwwroot\\meme_templates\\spongebob_burned_note.png"),user.Id, comments, user);
+            
 
             // add second test user
             user = addUser("testuser2", "testy@gmail.com", "i like eggs", false);
-            post = new Post();
-            post.Description = "ok boomer";
-            post.Meme = File.ReadAllBytes("wwwroot\\meme_templates\\jealous_girlfriend.jpg");
-            post.MemeCoUserID = user.Id;
-            post.User = user;
-            _memeCoContext.Posts.Add(post);
+            likes = new List<Like>();
+            foreach (MemeCoUser usr in likeUsers)
+            {
+                addLike(likes, true, usr.Id, post1);
+            }
+            foreach (MemeCoUser usr in dislikeUsers)
+            {
+                addLike(likes, false, usr.Id, post1);
+            }
+
+            // add second post
+            Post post2 = addPost("ok boomer test description", likes, File.ReadAllBytes("wwwroot\\meme_templates\\jealous_girlfriend.jpg"), user.Id, comments, user);
+            foreach (MemeCoUser usr in dislikeUsers)
+            {
+                addLike(likes, false, usr.Id, post2);
+            }
+            addLike(likes, true, likeUsers[1].Id, post2);
 
 
             // add meme templates to DB
@@ -103,7 +117,7 @@ namespace MemeCo.Models
         /// <param name="memeCoUserID"></param>
         /// <param name="comments"></param>
         /// <param name="user"></param>
-        private async void addPost(string description, IEnumerable<Like> likes, byte[] meme, string memeCoUserID, IEnumerable<Comment> comments, MemeCoUser user)
+        private Post addPost(string description, IEnumerable<Like> likes, byte[] meme, string memeCoUserID, IEnumerable<Comment> comments, MemeCoUser user)
         {
             Post post = new Post();
             post.Description = description;
@@ -113,9 +127,21 @@ namespace MemeCo.Models
             post.Comments = comments;
             post.User = user;
 
-            await _memeCoContext.Posts.AddAsync(post);
+            _memeCoContext.Posts.Add(post);
             _memeCoContext.SaveChanges();
+            return post;
           
+        }
+
+        private Like addLike(IEnumerable<Like> likes, bool liked, string userID, Post post)
+        {
+            Like like = new Like();
+            like.Liked = liked;
+            like.MemeCoUserID = userID;
+            like.Post = post;
+            likes.Append(like);
+            _memeCoContext.Likes.Add(like);
+            return like;
         }
 
         /// <summary>
