@@ -18,10 +18,14 @@ namespace MemeCo.Models
         [Required]
         public byte[] Meme { get; set; }
         public string Description { get; set; }
-        [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
         public DateTime TimePosted { get; set; }
         public IEnumerable<Like> Likes { get; set; }
         public IEnumerable<Comment> Comments { get; set; }
         public MemeCoUser User { get; set; }
+
+        public Post()
+        {
+            TimePosted = DateTime.UtcNow;
+        }
     }
 }

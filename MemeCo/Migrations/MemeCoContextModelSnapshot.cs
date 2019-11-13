@@ -184,7 +184,6 @@ namespace MemeCo.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<DateTime>("TimePosted")
-                        .ValueGeneratedOnAddOrUpdate()
                         .HasColumnType("datetime2");
 
                     b.HasKey("ID");

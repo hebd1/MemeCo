@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MemeCo.Migrations
 {
     [DbContext(typeof(MemeCoContext))]
-    [Migration("20191111200005_initial")]
-    partial class initial
+    [Migration("20191113014435_InitialCreate")]
+    partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -186,7 +186,6 @@ namespace MemeCo.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<DateTime>("TimePosted")
-                        .ValueGeneratedOnAddOrUpdate()
                         .HasColumnType("datetime2");
 
                     b.HasKey("ID");
