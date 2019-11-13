@@ -1,0 +1,15 @@
+﻿a {
+    color: #0366d6;
+}
+
+.nav-item {
+    color: rgb(15, 15,15);
+}
+
+#Logo {
+    content:url(../files/LightLogo.png);
+}
+.navbar .navbar-expand-sm .navbar-toggleable-sm .box-shadow .mb-3 {
+    background-color: rgb(240, 240, 240);
+    color: rgb(15, 15, 15);
+}
