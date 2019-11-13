@@ -4,7 +4,7 @@
 @inject SignInManager<MemeCoUser> SignInManager
 @inject UserManager<MemeCoUser> UserManager
 
-<ul class="navbar-nav">
+<ul class="navbar-nav flex-grow-0">
 @if (SignInManager.IsSignedIn(User))
 {
     <li class="nav-item">

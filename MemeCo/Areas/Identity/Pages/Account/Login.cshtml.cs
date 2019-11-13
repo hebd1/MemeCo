@@ -100,7 +100,15 @@ namespace MemeCo.Areas.Identity.Pages.Account
                 }
                 else
                 {
-                    ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+                    var confirmed = await _userManager.FindByEmailAsync(Input.Email);
+                    if (!confirmed.EmailConfirmed)
+                    {
+                        ModelState.AddModelError(string.Empty, "Please check your email to confirm your account.");
+                    } else
+                    {
+                        ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+                    }
+                    
                     return Page();
                 }
             }
