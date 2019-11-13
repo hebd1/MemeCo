@@ -16,6 +16,8 @@ namespace MemeCo.Areas.Identity.Data
         [Required]
         public bool DarkMode { get; set; }
 
+        public byte[] ProfilePicture { get; set; }
+
         public IEnumerable<Follow> Followers { get; set; }
 
         public IEnumerable<Follow> Following { get; set; }
