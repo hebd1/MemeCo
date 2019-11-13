@@ -33,6 +33,11 @@ namespace MemeCo
             // using WebPWrecover.Services;
             services.AddTransient<IEmailSender, EmailSender>();
             services.Configure<AuthMessageSenderOptions>(Configuration);
+
+
+            // from MindingData on StackOverflow:
+            // https://stackoverflow.com/questions/43757189/how-to-get-value-from-appsettings-json
+            services.Configure<AuthMessageSenderOptions>(Configuration.GetSection("AuthMessageSenderOptions"));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
