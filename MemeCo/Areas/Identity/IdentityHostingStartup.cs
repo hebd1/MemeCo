@@ -20,7 +20,7 @@ namespace MemeCo.Areas.Identity
                     options.UseSqlServer(
                         context.Configuration.GetConnectionString("MemeCoContextConnection")));
 
-                services.AddDefaultIdentity<MemeCoUser>(options => options.SignIn.RequireConfirmedEmail = true)
+                services.AddDefaultIdentity<MemeCoUser>(options => options.SignIn.RequireConfirmedAccount = true)
                     .AddEntityFrameworkStores<MemeCoContext>();
             });
         }
