@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MemeCo.Migrations
 {
     [DbContext(typeof(MemeCoContext))]
-    [Migration("20191113014435_InitialCreate")]
+    [Migration("20191113023646_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -205,6 +205,9 @@ namespace MemeCo.Migrations
                     b.Property<byte[]>("Content")
                         .IsRequired()
                         .HasColumnType("varbinary(max)");
+
+                    b.Property<string>("name")
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("ID");
 

@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
-using System.Linq;
+using System.IO;using System.Linq;
 using System.Threading.Tasks;
 
 namespace MemeCo.Models
@@ -47,11 +47,16 @@ namespace MemeCo.Models
 
             // add test post by current user
             Post post = new Post();
+            
             post.Description = "test description";
-            post.Meme = new byte[100];
+            post.Meme = File.ReadAllBytes("wwwroot\\meme_templates\\avengers_level_threat.jpg");
             post.MemeCoUserID = user.Id;
             post.User = user;
             _memeCoContext.Posts.Add(post);
+
+
+            // add meme templates to DB
+            addTemplates();
 
             _memeCoContext.SaveChanges();
             
@@ -102,6 +107,23 @@ namespace MemeCo.Models
             await _memeCoContext.Posts.AddAsync(post);
             _memeCoContext.SaveChanges();
           
+        }
+
+        /// <summary>
+        /// Adds all templates located in the meme_templates folder to the database. 
+        /// </summary>
+        private void addTemplates()
+        {
+            var templates = Directory.GetFiles("wwwroot/meme_templates");
+            foreach(var meme in templates)
+            {
+                Template temp = new Template();
+                temp.Content = File.ReadAllBytes(meme);
+                temp.name = meme.Split("\\")[1];
+                _memeCoContext.Templates.Add(temp);
+                
+            }
+
         }
         
     }
