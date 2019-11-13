@@ -3,19 +3,19 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
-using System.Linq;
+using System.IO;using System.Linq;
 using System.Threading.Tasks;
 
 namespace MemeCo.Models
 {
     public class DbInitializer
     {
-        private UserManager<MemeCoUser> userManager;
+        private UserManager<MemeCoUser> _userManager;
         private MemeCoContext _memeCoContext;
 
         public DbInitializer(UserManager<MemeCoUser> usermanager, MemeCoContext memeCoContext)
         {
-            userManager = usermanager;
+            _userManager = usermanager;
             _memeCoContext = memeCoContext;
         }
 
@@ -32,18 +32,31 @@ namespace MemeCo.Models
                 return; 
             }
 
-            // Seed User
-            MemeCoUser user =  addUser("testuser", "test@gmail.com", "test bio", false);
+            // Seed Users
+            MemeCoUser user = addUser("testuser", "test@meme.co", "test bio", false);
+
+            var users = new MemeCoUser[]
+            {
+                addUser("test1", "test1@meme.co", "test1 bio", true),
+                addUser("test2", "test2@meme.co", "test2 bio", true),
+                addUser("test3", "test3@meme.co", "test3 bio", true),
+                addUser("test4", "test4@meme.co", "test4 bio", true),
+                addUser("test5", "test5@meme.co", "test5 bio", true),
+            };
+            _memeCoContext.SaveChanges();
+
             // add test post by current user
             Post post = new Post();
+            
             post.Description = "test description";
-            post.Meme = new byte[100];
+            post.Meme = File.ReadAllBytes("wwwroot\\meme_templates\\avengers_level_threat.jpg");
             post.MemeCoUserID = user.Id;
             post.User = user;
             _memeCoContext.Posts.Add(post);
 
 
-
+            // add meme templates to DB
+            addTemplates();
 
             _memeCoContext.SaveChanges();
             
@@ -67,7 +80,7 @@ namespace MemeCo.Models
             user.Bio = bio;
             user.DarkMode = darkMode;
             user.EmailConfirmed = true;
-            IdentityResult result =  userManager.CreateAsync(user, "123ABC!@#def").Result;
+            IdentityResult result =  _userManager.CreateAsync(user, "123ABC!@#def").Result;
             return user;
         }
 
@@ -94,6 +107,23 @@ namespace MemeCo.Models
             await _memeCoContext.Posts.AddAsync(post);
             _memeCoContext.SaveChanges();
           
+        }
+
+        /// <summary>
+        /// Adds all templates located in the meme_templates folder to the database. 
+        /// </summary>
+        private void addTemplates()
+        {
+            var templates = Directory.GetFiles("wwwroot/meme_templates");
+            foreach(var meme in templates)
+            {
+                Template temp = new Template();
+                temp.Content = File.ReadAllBytes(meme);
+                temp.name = meme.Split("\\")[1];
+                _memeCoContext.Templates.Add(temp);
+                
+            }
+
         }
         
     }
