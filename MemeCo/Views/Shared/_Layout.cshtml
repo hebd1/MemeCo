@@ -1,6 +1,6 @@
 ﻿<!--
   Author:    Jose Monterroso
-  Partner:   Jasen Lassig, Eli Hedbon
+  Partner:   Jasen Lassig, Eli Hebdon
   Date:      November 13 2019
   Course:    CS 4540, University of Utah, School of Computing
   Copyright: CS 4540 and Jose, Eli, Jasen - This work may not be copied for use in Academic Coursework.
@@ -25,9 +25,9 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
 
     <!--Page Tab Favicon-->
-    <link rel="shortcut icon" type="image/x-icon" href="~/files/pika.jpg" />
+    <link rel="shortcut icon" type="image/x-icon" href="~/files/blockU.png" />
 
-    <!--Dark/Light Theme Transition from: https://github.com/GoogleChromeLabs/dark-mode-toggle-->
+    <!--Dark/Light Theme Transition from: https://github.com/GoogleChromeLabs/dark-mode-toggle -->
     <link rel="stylesheet" href="~/css/site.css" />
     <link rel="stylesheet"
           href="~/css/light.css"
@@ -40,7 +40,8 @@
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm border-bottom mb-3">
+        <!--Navbar-->
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm mb-3">
             <div class="container">
                 <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">
                     <img alt="MemeCo Logo" id="Logo" src="~/files/LightLogo.png" width="190" height="35" />
@@ -52,13 +53,14 @@
                 <div class="navbar-collapse collapse d-sm-inline-flex">
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
-                            <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                            <form class="form-inline">
+                                <input class="form-control mr-sm-2 form-control-sm" type="search" placeholder="Find Users" aria-label="Search">
+                                <button class="btn my-2 my-sm-0 btn-sm navb" type="submit">Search</button>
+                            </form>
                         </li>
                     </ul>
                     <partial name="_LoginPartial" />
+                    <dark-mode-toggle appearance="toggle" permanent="false"></dark-mode-toggle>
                 </div>
             </div>
         </nav>
@@ -69,16 +71,14 @@
         </main>
     </div>
 
-
-
-    <dark-mode-toggle legend="Theme Switcher" appearance="toggle" permanent="false"></dark-mode-toggle>
-
-
+    <!--Footer-->
     <footer class="footer text-muted">
         <div class="container">
-            &copy; 2019 - Meme Incorporated - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            &copy; 2019 - Meme Incorporated
         </div>
     </footer>
+
+    <!--JavaScript-->
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>

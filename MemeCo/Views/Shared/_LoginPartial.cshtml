@@ -11,8 +11,8 @@
         <a id="manage" class="nav-link" href="@Url.Action("", UserManager.GetUserName(User))" title="Manage">Welcome: @UserManager.GetUserName(User)!</a>
     </li>
     <li class="nav-item">
-        <form id="logoutForm" class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
-            <button id="logout" type="submit" class="nav-link btn btn-link">Logout</button>
+        <form class="form-control-sm" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+            <button type="submit" class="btn btn-link btn-sm navb">Logout</button>
         </form>
     </li>
 }
