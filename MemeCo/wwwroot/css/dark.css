@@ -1,42 +1,61 @@
-﻿body {
-    background-color: #212121; 
+﻿/**
+ * Author:    Jose Monterroso
+ * Partner:   Jasen Lassig, Eli Hebdon
+ * Date:      Novemeber 13, 2019
+ * Course:    CS 4540, University of Utah, School of Computing
+ * Copyright: CS 4540 and Jose, Eli, Jasen - This work may not be copied for use in Academic Coursework.
+ *
+ * I, Jose, certify that I wrote this code from scratch and did not copy it in part or whole from 
+ * another source.  Any references used in the completion of the assignment are cited in my README file.
+ *
+ * File Contents
+ *
+ *    CSS File for Dark webpage theme
+ */
+
+/*Dark theme body*/
+body {
+    background-color: #232323;
     color: rgb(240, 240, 240);
 }
 
+/*Navbar style*/
 a {
     color: #00b0ff;
 }
-.nav-item {
-    color: rgb(240, 240, 240);
+
+.navb {
+    border: 1px solid #00b0ff;
+    color: #00b0ff;
 }
 
+.navbar {
+    background-color: #212121;
+    border-bottom: .5px groove #000000;
+}
+
+/*Dark theme logo*/
 #Logo {
     content: url(../files/DarkLogo.png);
 }
 
-.navbar .navbar-expand-sm .navbar-toggleable-sm .box-shadow .mb-3 {
+/*Footer*/
+.footer {
+    background-color: #212121;
+    border-top: .5px groove #000000;
+}
+
+/*Main feed Posts*/
+.post .mx-auto {
+    background-color: #232323;
     color: rgb(240, 240, 240);
-    background-color: rgb(40, 44, 53);
+    border-left: 1px solid #cccccc;
+    border-bottom: 1px solid #cccccc;
 }
 
-/* If no dark mode user agent stylesheet exists, emulate it */
-select,
-input,
-button,
-option {
-    color: var(--text-color);
-    background-color: var(--background-color);
-    border-width: 1px;
-    border-radius: 1px;
-}
-
-/* Else, use the user agent stylesheet */
-@media (prefers-color-scheme: dark) {
-    select,
-    input,
-    button,
-    option {
-        color: unset;
-        background-color: unset;
-    }
+hr {
+    display: block;
+    height: .5px;
+    border-top: 1px solid #cccccc;
+    margin: 1em 0;
 }
