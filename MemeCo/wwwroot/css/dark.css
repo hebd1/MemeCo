@@ -6,13 +6,16 @@
 a {
     color: #00b0ff;
 }
-.nav-item {
-    color: rgb(240, 240, 240);
+
+.btn-link {
+    color: #00b0ff;
 }
+
 
 #Logo {
     content: url(../files/DarkLogo.png);
 }
+
 
 .navbar .navbar-expand-sm .navbar-toggleable-sm .box-shadow .mb-3 {
     color: rgb(240, 240, 240);

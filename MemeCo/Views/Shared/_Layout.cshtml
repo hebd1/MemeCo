@@ -1,11 +1,33 @@
-﻿<!DOCTYPE html>
+﻿<!--
+  Author:    Jose Monterroso
+  Partner:   Jasen Lassig, Eli Hedbon
+  Date:      November 13 2019
+  Course:    CS 4540, University of Utah, School of Computing
+  Copyright: CS 4540 and Jose, Eli, Jasen - This work may not be copied for use in Academic Coursework.
+
+  I, Jose, certify that I wrote this code from scratch and did not copy it in part or whole from
+  another source.  Any references used in the completion of the assignment are cited in my README file.
+
+  File Contents
+
+     Shared layout for all webpages. Primarily Navbar and header contents
+-->
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Social media site dedicated to the the love of memes">
+    <meta name="keywords" content="Meme, Memes, Meme.co, ">
+
     <title>@ViewData["Title"] - MemeCo</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
 
+    <!--Page Tab Favicon-->
+    <link rel="shortcut icon" type="image/x-icon" href="~/files/pika.jpg" />
+
+    <!--Dark/Light Theme Transition from: https://github.com/GoogleChromeLabs/dark-mode-toggle-->
     <link rel="stylesheet" href="~/css/site.css" />
     <link rel="stylesheet"
           href="~/css/light.css"
@@ -15,9 +37,6 @@
           media="(prefers-color-scheme: dark)" />
     <script type="module"
             src="https://googlechromelabs.github.io/dark-mode-toggle/src/dark-mode-toggle.mjs"></script>
-
-
-
 </head>
 <body>
     <header>
@@ -51,7 +70,7 @@
     </div>
 
 
-  
+
     <dark-mode-toggle legend="Theme Switcher" appearance="toggle" permanent="false"></dark-mode-toggle>
 
 
