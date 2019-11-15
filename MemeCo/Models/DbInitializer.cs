@@ -32,6 +32,7 @@ namespace MemeCo.Models
                 return; 
             }
 
+        
             // Seed Users
             var likeUsers = new MemeCoUser[]
             {
@@ -40,7 +41,9 @@ namespace MemeCo.Models
                 addUser("test3", "test3@meme.co", "test3 bio", true),
                 addUser("test4", "test4@meme.co", "test4 bio", true),
                 addUser("test5", "test5@meme.co", "test5 bio", true),
-            };
+              
+
+        };
             var dislikeUsers = new MemeCoUser[]
            {
                 addUser("test6", "test6@meme.co", "test6 bio", true),
@@ -48,13 +51,17 @@ namespace MemeCo.Models
                 addUser("test8", "test8@meme.co", "test8 bio", true),
                 addUser("test9", "test9@meme.co", "test9 bio", true),
            };
+
+            // TODO delete my temp user while sendgrid isn't working for me
+            addUser("eli", "fake@meme.co", "i'm the cooliest", true);
+
             _memeCoContext.SaveChanges();
 
             // add test post by current user
             MemeCoUser user = addUser("testuser", "test@meme.co", "test bio", false);
             IEnumerable<Like> likes = new List<Like>();
             IEnumerable<Comment> comments = new List<Comment>();
-            Post post1 = addPost("test description", likes, File.ReadAllBytes("wwwroot\\meme_templates\\spongebob_burned_note.png"),user.Id, comments, user);
+            Post post1 = addPost("test description", likes, File.ReadAllBytes("wwwroot\\meme_templates\\spongebob_burned_note.png"), user.Id, comments, user);
             
 
             // add second test user
