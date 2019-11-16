@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
@@ -133,6 +132,7 @@ namespace MemeCo.Controllers
         {
             try
             {
+                // Assign the theme
                 bool userTheme;
                 if (theme.Equals("light"))
                 {
@@ -143,9 +143,9 @@ namespace MemeCo.Controllers
                    userTheme = false;
                 }
 
-                // Get user theme
+                // Get user theme and change it 
                 var user = await _user_manager.FindByIdAsync(userid);
-                user.DarkMode = userTheme; // TODO: Save new theme to database
+                user.DarkMode = userTheme; 
                 _context.SaveChanges();
 
                 // Return user theme
@@ -172,6 +172,7 @@ namespace MemeCo.Controllers
         {
             try
             {
+                // To confirm accurate user
                 PasswordHasher<MemeCoUser> ph = new PasswordHasher<MemeCoUser>();
 
                 // Get user theme
@@ -199,7 +200,6 @@ namespace MemeCo.Controllers
                         username = username,
                         password = password,
                         darkmode = darkmode
-        
                     });
                 }
             }
@@ -215,7 +215,6 @@ namespace MemeCo.Controllers
                 });
             }
         }
-
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
