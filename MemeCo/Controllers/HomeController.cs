@@ -129,26 +129,35 @@ namespace MemeCo.Controllers
         /// <param name="username"></param>
         /// <returns></returns>
         [HttpPost]
-        public async Task<JsonResult> Set_Theme(string user_id)
+        public async Task<JsonResult> Set_Theme(string userid, string theme)
         {
             try
             {
+                bool userTheme;
+                if (theme.Equals("light"))
+                {
+                    userTheme = true;
+                }
+                else
+                {
+                   userTheme = false;
+                }
+
                 // Get user theme
-                var user = await _user_manager.FindByIdAsync(user_id);
-                bool theme = user.DarkMode;
+                var user = await _user_manager.FindByIdAsync(userid);
+                user.DarkMode = userTheme; // TODO: Save new theme to database
+                _context.SaveChanges();
 
                 // Return user theme
                 return Json(new {    
-                    success = true,
-                    DarkMode = theme
+                    success = true,    
                 });
             }
             catch(Exception)
             {
                 // Any issues 
                 return Json(new{
-                    success = false,
-                    DarkMode = false
+                    success = false,   
                 });
             }
         }
@@ -159,7 +168,7 @@ namespace MemeCo.Controllers
         /// <param name="username"></param>
         /// <returns></returns>
         [HttpPost]
-        public async Task<JsonResult> Get_Theme(string username, string password, bool DarkMode)
+        public async Task<JsonResult> Get_Theme(string username, string password, bool darkmode)
         {
             try
             {
@@ -171,13 +180,14 @@ namespace MemeCo.Controllers
                 // Verify it's the correct user
                 if(ph.VerifyHashedPassword(user, user.PasswordHash, password).Equals(PasswordVerificationResult.Success))
                 {
+                    bool dM = user.DarkMode;
                     // Return user theme
                     return Json(new
                     {
                         success = true,
                         username = username,
                         password = password,
-                        DarkMode = user.DarkMode
+                        darkmode = dM
                     });
                 }
                 else
@@ -188,7 +198,7 @@ namespace MemeCo.Controllers
                         success = false,
                         username = username,
                         password = password,
-                        DarkMode = DarkMode
+                        darkmode = darkmode
         
                     });
                 }
@@ -201,7 +211,7 @@ namespace MemeCo.Controllers
                     success = false,
                     username = username,
                     password = password,
-                    DarkMode = DarkMode
+                    darkmode = darkmode
                 });
             }
         }

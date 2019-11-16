@@ -15,29 +15,26 @@ function Get_Theme() {
     $.ajax({
         method: "POST",
         url: "../../../../Home/Get_Theme",
+        dataType: "json",
         data:
         {
             username: username,
             password: password,
-            DarkMode: false
+            darkmode: false
         }
     }).done(function (result) {
         var theme = $('#ThemeToggle').attr("mode");
-        console.log(theme);
 
         if (theme == "light") {
-            console.log("in the light theme if");
-            if (result.DarkMode) {
-                console.log("in the result.dark mode if");
+            if (result.darkmode) { 
                 // change to dark mode
-                $('#ThemeToggle').click();
-                console.log("clicked theme toggle");
+                $('#ThemeToggle').attr("mode", "dark");
             }
         }
-        else if (theme.toString() == "dark") {
-            if (result.DarkMode == false) {
+        else if (theme == "dark") {
+            if (!result.darkmode) {
                 // change to light
-                $('#ThemeToggle').click();
+                $('#ThemeToggle').attr("mode", "light");
             }
         }
     }).fail({
@@ -51,29 +48,21 @@ function Get_Theme() {
  */
 function Set_Theme(user_id) {
     console.log("Set_Theme");
+    console.log(user_id)
 
-
-    // e.preventDefault();
-
- 
-
-    console.log("get_theme");
-    console.log(password);
-    console.log(username);
-
+    var theme = $('#ThemeToggle').attr("mode");
     $.ajax({
-
-        //method: "POST",
-        //url: "/Home/Get_Theme",
-        //  data:
-        // {
-        //     username: username
-        // }
+        method: "POST",
+        url: "../../../../Home/Set_Theme",
+          data:
+          {
+              userid: user_id,
+              theme: theme
+         }
     }).done({
         //Succesful found user 
 
     }).fail({
-
-    }).always({});
-   
+        //Do Nothing
+    });
 }
