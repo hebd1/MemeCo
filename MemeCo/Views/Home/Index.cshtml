@@ -37,11 +37,11 @@
             var dislikePercent = "";
             if (likes > 0)
             {
-                likePercent = Math.Floor(likes / (likes + dislikes) * 100) + "%";
+                likePercent = Math.Ceiling(likes / (likes + dislikes) * 100) + "%";
             }
             if (dislikes > 0)
             {
-                dislikePercent = Math.Floor(dislikes / (likes + dislikes) * 100) + "%";
+                dislikePercent = Math.Ceiling(dislikes / (likes + dislikes) * 100) + "%";
             }
             <div class="post mx-auto">
                 <div class="card mx-auto" style="width: 30rem;">
@@ -60,28 +60,28 @@
                                 <a href="#" class="btn btn-primary" onclick="handle_change(this, '@userManager.GetUserId(this.User)', 'true', '@post.ID', event)">
                                     @if (reaction.Liked == true)
                                     {
-                                        <i class="fas fa-thumbs-up"></i>
+                                        <i id="@post.ID-like" class="fas fa-thumbs-up"></i>
                                     }
                                     else
                                     {
-                                        <i class="far fa-thumbs-up"></i>
+                                        <i id="@post.ID-like" class="far fa-thumbs-up"></i>
                                     }
                                 </a>
                                 <a href="#" class="btn btn-danger" onclick="handle_change(this, '@userManager.GetUserId(this.User)', 'false', '@post.ID', event)">
                                     @if (reaction.Liked == false)
                                     {
-                                        <i class="fas fa-thumbs-down"></i>
+                                        <i id="@post.ID-dislike" class="fas fa-thumbs-down"></i>
                                     }
                                     else
                                     {
-                                        <i class="far fa-thumbs-down"></i>
+                                        <i id="@post.ID-dislike" class="far fa-thumbs-down"></i>
                                     }
                                 </a>
                                 <div class="progress">
-                                    <div class="progress-bar bg-primary" style="width:@likePercent">
+                                    <div id="@post.ID-like-percent" class="progress-bar bg-primary" style="width:@likePercent">
                                         @likePercent
                                     </div>
-                                    <div class="progress-bar bg-danger" style="width:@dislikePercent">
+                                    <div id="@post.ID-dislike-percent" class="progress-bar bg-danger" style="width:@dislikePercent">
                                         @dislikePercent
                                     </div>
                                 </div>
@@ -91,16 +91,16 @@
                         {
                             <div class="like_buttons">
                                 <a href="#" class="btn btn-primary" onclick="handle_change(this, '@userManager.GetUserId(this.User)', 'true', '@post.ID', event)">
-                                        <i class="far fa-thumbs-up"></i>
+                                        <i id="@post.ID-like" class="far fa-thumbs-up"></i>
 
                                 <a href="#" class="btn btn-danger" onclick="handle_change(this, '@userManager.GetUserId(this.User)', 'false', '@post.ID', event)">
-                                        <i class="far fa-thumbs-down"></i>
+                                        <i id="@post.ID-dislike" class="far fa-thumbs-down"></i>
                                 </a>
                                 <div class="progress">
-                                    <div class="progress-bar bg-primary" style="width:@likePercent">
+                                    <div id="@post.ID-like-percent" class="progress-bar bg-primary" style="width:@likePercent">
                                         @likePercent
                                     </div>
-                                    <div class="progress-bar bg-danger" style="width:@dislikePercent">
+                                    <div id="@post.ID-dislike-percent" class="progress-bar bg-danger" style="width:@dislikePercent">
                                         @dislikePercent
                                     </div>
                                 </div>

@@ -52,14 +52,25 @@ namespace MemeCo.Controllers
 
                    });
                 }
-                // get previous reaction from user if it exists
-                if (_context.Likes.Where(o => o.Post == post).Any(o => o.MemeCoUserID == user.Id))
+                // get previous reaction of same type from user if it exists
+                if (_context.Likes.Where(o => o.Post == post).Any(o => o.MemeCoUserID == user.Id && o.Liked == liked))
                 {
-                    Like like = _context.Likes.Where(o => o.MemeCoUserID == user.Id && o.Post == post).First();
-                    like.Liked = liked;
-                    _context.Likes.Update(like);
-                } else
+                   
+                    Like reaction = _context.Likes.Where(o => o.MemeCoUserID == user.Id && o.Post == post && o.Liked == liked).First();
+                    // undo like/dislike
+                    _context.Likes.Remove(reaction);
+                   
+                }
+                else
                 {
+                    // user had a previous reaction that was the opposite of the current reaction
+                    if (_context.Likes.Where(o => o.Post == post).Any(o => o.MemeCoUserID == user.Id && o.Liked == !liked))
+                    {
+                        Like previousReaction = _context.Likes.Where(o => o.MemeCoUserID == user.Id && o.Post == post && o.Liked == !liked).First();
+                        _context.Likes.Remove(previousReaction);
+
+
+                    }
                     Like like = new Like();
                     like.Liked = liked;
                     like.MemeCoUserID = user.Id;
@@ -70,6 +81,20 @@ namespace MemeCo.Controllers
                
                 _context.SaveChanges();
 
+                // calculate new like/dislike ratio
+                double likes = _context.Likes.Where(o => o.Liked == true && o.Post == post).Count();
+                double dislikes = _context.Likes.Where(o => o.Liked == false && o.Post == post).Count();
+                var likePercent = "";
+                var dislikePercent = "";
+                if (likes > 0)
+                {
+                    likePercent = Math.Ceiling(likes / (likes + dislikes) * 100) + "%";
+                }
+                if (dislikes > 0)
+                {
+                    dislikePercent = Math.Ceiling(dislikes / (likes + dislikes) * 100) + "%";
+                }
+
                 // success
                 return Json(
                     new
@@ -78,6 +103,8 @@ namespace MemeCo.Controllers
                         user_id = user_id,
                         liked = liked,
                         post_id = post_id,
+                        like_percent = likePercent,
+                        dislike_percent = dislikePercent
                     });
                 // something else went wrong
             } catch (Exception e)
@@ -89,6 +116,8 @@ namespace MemeCo.Controllers
                        user_id = user_id,
                        liked = liked,
                        post_id = post_id,
+                       like_percent = 0,
+                       dislike_percent = 0
                    });
             }
            

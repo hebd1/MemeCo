@@ -8,7 +8,7 @@
         {
             user_id: user_id,
             liked: liked,
-            post_id: post_id
+            post_id: post_id,
         }
     }).done(function (result) {
 
@@ -22,7 +22,40 @@
                 location.reload();
             })
         } else {
-            location.reload();
+
+            var likedButton = $('#' + result.post_id + '-like');
+            var dislikedButton = $('#' + result.post_id + '-dislike');
+            if (result.liked == true) {
+
+                if (likedButton.attr('class') == "fas fa-thumbs-up") {
+                    // undo like
+                    likedButton.removeClass().addClass("far fa-thumbs-up");
+                }
+                // set like
+                else if (likedButton.attr('class') == "far fa-thumbs-up") {
+                    likedButton.removeClass().addClass("fas fa-thumbs-up");
+                    dislikedButton.removeClass().addClass("far fa-thumbs-down");
+                }
+            } else if (result.liked == false) {
+                if(dislikedButton.attr('class') == "fas fa-thumbs-down") {
+                    // undo dislike
+                    dislikedButton.removeClass().addClass("far fa-thumbs-down");
+                }
+                // set dislike
+                else if (dislikedButton.attr('class') == "far fa-thumbs-down") {
+                    dislikedButton.removeClass().addClass("fas fa-thumbs-down");
+                    likedButton.removeClass().addClass("far fa-thumbs-up");
+                }
+            }
+   
+            // update like/dislike ratio in progress bar
+            var likeProgress = $('#' + result.post_id + '-like-percent');
+            likeProgress.css('width', result.like_percent);
+            likeProgress.text(result.like_percent);
+            var dislikeProgress = $('#' + result.post_id + '-dislike-percent');
+            dislikeProgress.css('width', result.dislike_percent);
+            dislikeProgress.text(result.dislike_percent);
+            //location.reload();
         }
 
     }).fail(function (jqXHR, textStatus, errorThrown) {
