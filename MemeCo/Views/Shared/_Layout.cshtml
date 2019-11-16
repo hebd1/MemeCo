@@ -13,6 +13,13 @@
      Shared layout for all webpages. Primarily Navbar and header contents
 -->
 
+@using Microsoft.AspNetCore.Identity
+@using MemeCo.Areas.Identity.Data
+
+@inject SignInManager<MemeCoUser> SignInManager
+@inject UserManager<MemeCoUser> UserManager
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -60,7 +67,18 @@
                         </li>
                     </ul>
                     <partial name="_LoginPartial" />
-                    <dark-mode-toggle appearance="toggle" permanent="false"></dark-mode-toggle>
+
+                    @{
+                        if (SignInManager.IsSignedIn(User))
+                        {
+                            <dark-mode-toggle id="ThemeToggle" appearance="toggle" permanent="false" 
+                                              onclick="Set_Theme('@UserManager.GetUserId(User)')"></dark-mode-toggle>
+                        }
+                        else
+                        {
+                            <dark-mode-toggle id="ThemeToggle" appearance="toggle" permanent="false"></dark-mode-toggle>
+                        }
+                    }
                 </div>
             </div>
         </nav>

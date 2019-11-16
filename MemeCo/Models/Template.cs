@@ -14,6 +14,5 @@ namespace MemeCo.Models
         public int ID { get; set; }
         [Required]
         public byte[] Content { get; set; }
-        public string name { get; set; }
     }
 }

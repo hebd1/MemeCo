@@ -161,7 +161,6 @@ namespace MemeCo.Models
             {
                 Template temp = new Template();
                 temp.Content = File.ReadAllBytes(meme);
-                temp.name = meme.Split("\\")[1];
                 _memeCoContext.Templates.Add(temp);
                 
             }

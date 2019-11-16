@@ -22,6 +22,8 @@ namespace MemeCo.Models
         public IEnumerable<Like> Likes { get; set; }
         public IEnumerable<Comment> Comments { get; set; }
         public MemeCoUser User { get; set; }
+        
+        public int? TempleteID { get; set; }
 
         public Post()
         {

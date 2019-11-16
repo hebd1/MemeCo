@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
@@ -107,7 +106,7 @@ namespace MemeCo.Controllers
                         dislike_percent = dislikePercent
                     });
                 // something else went wrong
-            } catch (Exception e)
+            } catch (Exception)
             {
                 return Json(
                    new
@@ -123,9 +122,98 @@ namespace MemeCo.Controllers
            
         }
 
-        public IActionResult Privacy()
+        /// <summary>
+        /// Saves the Theme chosen by the user
+        /// </summary>
+        /// <param name="username"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public async Task<JsonResult> Set_Theme(string userid, string theme)
         {
-            return View();
+            try
+            {
+                // Assign the theme
+                bool userTheme;
+                if (theme.Equals("light"))
+                {
+                    userTheme = true;
+                }
+                else
+                {
+                   userTheme = false;
+                }
+
+                // Get user theme and change it 
+                var user = await _user_manager.FindByIdAsync(userid);
+                user.DarkMode = userTheme; 
+                _context.SaveChanges();
+
+                // Return user theme
+                return Json(new {    
+                    success = true,    
+                });
+            }
+            catch(Exception)
+            {
+                // Any issues 
+                return Json(new{
+                    success = false,   
+                });
+            }
+        }
+
+        /// <summary>
+        /// Get the perfered theme of the user
+        /// </summary>
+        /// <param name="username"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public async Task<JsonResult> Get_Theme(string username, string password, bool darkmode)
+        {
+            try
+            {
+                // To confirm accurate user
+                PasswordHasher<MemeCoUser> ph = new PasswordHasher<MemeCoUser>();
+
+                // Get user theme
+                MemeCoUser user = await _user_manager.FindByNameAsync(username);
+
+                // Verify it's the correct user
+                if(ph.VerifyHashedPassword(user, user.PasswordHash, password).Equals(PasswordVerificationResult.Success))
+                {
+                    bool dM = user.DarkMode;
+                    // Return user theme
+                    return Json(new
+                    {
+                        success = true,
+                        username = username,
+                        password = password,
+                        darkmode = dM
+                    });
+                }
+                else
+                {
+                    // Any issues 
+                    return Json(new
+                    {
+                        success = false,
+                        username = username,
+                        password = password,
+                        darkmode = darkmode
+                    });
+                }
+            }
+            catch (Exception)
+            {
+                // Any issues 
+                return Json(new
+                {
+                    success = false,
+                    username = username,
+                    password = password,
+                    darkmode = darkmode
+                });
+            }
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
