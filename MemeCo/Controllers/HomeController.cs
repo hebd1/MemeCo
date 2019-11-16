@@ -107,7 +107,7 @@ namespace MemeCo.Controllers
                         dislike_percent = dislikePercent
                     });
                 // something else went wrong
-            } catch (Exception e)
+            } catch (Exception)
             {
                 return Json(
                    new
@@ -123,10 +123,89 @@ namespace MemeCo.Controllers
            
         }
 
-        public IActionResult Privacy()
+        /// <summary>
+        /// Saves the Theme chosen by the user
+        /// </summary>
+        /// <param name="username"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public async Task<JsonResult> Set_Theme(string user_id)
         {
-            return View();
+            try
+            {
+                // Get user theme
+                var user = await _user_manager.FindByIdAsync(user_id);
+                bool theme = user.DarkMode;
+
+                // Return user theme
+                return Json(new {    
+                    success = true,
+                    DarkMode = theme
+                });
+            }
+            catch(Exception)
+            {
+                // Any issues 
+                return Json(new{
+                    success = false,
+                    DarkMode = false
+                });
+            }
         }
+
+        /// <summary>
+        /// Get the perfered theme of the user
+        /// </summary>
+        /// <param name="username"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public async Task<JsonResult> Get_Theme(string username, string password, bool DarkMode)
+        {
+            try
+            {
+                PasswordHasher<MemeCoUser> ph = new PasswordHasher<MemeCoUser>();
+
+                // Get user theme
+                MemeCoUser user = await _user_manager.FindByNameAsync(username);
+
+                // Verify it's the correct user
+                if(ph.VerifyHashedPassword(user, user.PasswordHash, password).Equals(PasswordVerificationResult.Success))
+                {
+                    // Return user theme
+                    return Json(new
+                    {
+                        success = true,
+                        username = username,
+                        password = password,
+                        DarkMode = user.DarkMode
+                    });
+                }
+                else
+                {
+                    // Any issues 
+                    return Json(new
+                    {
+                        success = false,
+                        username = username,
+                        password = password,
+                        DarkMode = DarkMode
+        
+                    });
+                }
+            }
+            catch (Exception)
+            {
+                // Any issues 
+                return Json(new
+                {
+                    success = false,
+                    username = username,
+                    password = password,
+                    DarkMode = DarkMode
+                });
+            }
+        }
+
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
