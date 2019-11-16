@@ -78,3 +78,8 @@ body {
 .btn {
     margin-bottom: 1rem;
 }
+
+#posts {
+    border-right: 1px solid #dbe0f1;
+    border-left: 1px solid #dbe0f1;
+}
