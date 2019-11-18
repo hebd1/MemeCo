@@ -57,24 +57,23 @@ namespace MemeCo.Models
 
          
 
-            // TODO delete temp user while sendgrid isn't working for me
             MemeCoUser user1 =  addUser("testuser1", "fake@meme.co", "i'm the cooliest", true);
             _memeCoContext.SaveChanges();
 
 
             // add test post by current user
-            MemeCoUser user = addUser("testuser2", "test@meme.co", "test bio", false);
+            MemeCoUser user2 = addUser("testuser2", "test@meme.co", "test bio", false);
 
-            // add user1 as a follower of user
+            // add user1 as a follower of user2
             IEnumerable<Follow> follows = new List<Follow>();
-            addFollower(follows, user.Id, user, user1.Id, user1);
+            addFollower(follows, user2.Id, user2, user1.Id, user1);
             IEnumerable<Like> likes = new List<Like>();
             IEnumerable<Comment> comments = new List<Comment>();
-            Post post1 = addPost("test description", likes, File.ReadAllBytes("wwwroot\\meme_templates\\spongebob_burned_note.png"), user.Id, comments, user);
+            Post post1 = addPost("test description", likes, File.ReadAllBytes("wwwroot\\meme_templates\\spongebob_burned_note.png"), user2.Id, comments, user2);
             
 
-            // add second test user
-            user = addUser("testuser3", "testy@gmail.com", "i like eggs", false);
+            // add third test user
+            user2 = addUser("testuser3", "testy@gmail.com", "i like eggs", false);
             likes = new List<Like>();
             foreach (MemeCoUser usr in likeUsers)
             {
@@ -85,8 +84,8 @@ namespace MemeCo.Models
                 addLike(likes, false, usr.Id, post1);
             }
 
-            // add second post
-            Post post2 = addPost("ok boomer test description", likes, File.ReadAllBytes("wwwroot\\meme_templates\\jealous_girlfriend.jpg"), user.Id, comments, user);
+            // add second test post
+            Post post2 = addPost("ok boomer test description", likes, File.ReadAllBytes("wwwroot\\meme_templates\\jealous_girlfriend.jpg"), user2.Id, comments, user2);
             foreach (MemeCoUser usr in dislikeUsers)
             {
                 addLike(likes, false, usr.Id, post2);
@@ -149,6 +148,14 @@ namespace MemeCo.Models
           
         }
 
+        /// <summary>
+        /// Adds a like associated with the given post and userID
+        /// </summary>
+        /// <param name="likes"></param>
+        /// <param name="liked"></param>
+        /// <param name="userID"></param>
+        /// <param name="post"></param>
+        /// <returns></returns>
         private Like addLike(IEnumerable<Like> likes, bool liked, string userID, Post post)
         {
             Like like = new Like();
@@ -160,6 +167,16 @@ namespace MemeCo.Models
             return like;
         }
 
+
+        /// <summary>
+        /// Adds the given follower user to the given user's list of followers
+        /// </summary>
+        /// <param name="follows"></param>
+        /// <param name="userID"></param>
+        /// <param name="user"></param>
+        /// <param name="followerId"></param>
+        /// <param name="follower"></param>
+        /// <returns></returns>
         private Follow addFollower(IEnumerable<Follow> follows, string userID, MemeCoUser user, string followerId, MemeCoUser follower)
         {
             Follow follow = new Follow();

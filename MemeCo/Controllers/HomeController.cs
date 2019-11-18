@@ -25,6 +25,10 @@ namespace MemeCo.Controllers
 
         }
 
+        /// <summary>
+        /// Index view of the MemeCo site represents the Main Feed that is populated with Meme Posts
+        /// </summary>
+        /// <returns></returns>
         public async Task<IActionResult> Index()
         {
             var result = _context.Posts.Include(o => o.Likes).Include(o => o.User).ThenInclude(o => o.Followers).Include(o => o.Comments).ToList();  
@@ -32,6 +36,12 @@ namespace MemeCo.Controllers
         }
 
 
+        /// <summary>
+        /// updates the User with the given user id in the DB to have the given filter. Returns an unsuccessful Json result if the user is not logged in. 
+        /// </summary>
+        /// <param name="user_id"></param>
+        /// <param name="filter"></param>
+        /// <returns></returns>
         [HttpPost]
         public async Task<JsonResult> Select_Filter(string user_id, string filter)
         {
@@ -78,6 +88,14 @@ namespace MemeCo.Controllers
             }
         }
 
+        /// <summary>
+        /// Updates the post in the DB with the given post_id with a like given by the User with the provided user_id. An unsuccessful Json result is returned if
+        /// the user is not logged in or if another error occurs.
+        /// </summary>
+        /// <param name="user_id"></param>
+        /// <param name="liked"></param>
+        /// <param name="post_id"></param>
+        /// <returns></returns>
         [HttpPost]
         public async Task<JsonResult> Like_Post(string user_id, bool liked, Guid post_id)
         {
