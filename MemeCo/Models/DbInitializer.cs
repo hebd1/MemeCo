@@ -32,7 +32,10 @@ namespace MemeCo.Models
                 return; 
             }
 
-        
+            // seed posts
+            postDankMemes();
+
+
             // Seed Users
             var likeUsers = new MemeCoUser[]
             {
@@ -52,20 +55,26 @@ namespace MemeCo.Models
                 addUser("test9", "test9@meme.co", "test9 bio", true),
            };
 
-            // TODO delete my temp user while sendgrid isn't working for me
-            addUser("eli", "fake@meme.co", "i'm the cooliest", true);
+         
 
+            // TODO delete temp user while sendgrid isn't working for me
+            MemeCoUser user1 =  addUser("testuser1", "fake@meme.co", "i'm the cooliest", true);
             _memeCoContext.SaveChanges();
 
+
             // add test post by current user
-            MemeCoUser user = addUser("testuser", "test@meme.co", "test bio", false);
+            MemeCoUser user = addUser("testuser2", "test@meme.co", "test bio", false);
+
+            // add user1 as a follower of user
+            IEnumerable<Follow> follows = new List<Follow>();
+            addFollower(follows, user.Id, user, user1.Id, user1);
             IEnumerable<Like> likes = new List<Like>();
             IEnumerable<Comment> comments = new List<Comment>();
             Post post1 = addPost("test description", likes, File.ReadAllBytes("wwwroot\\meme_templates\\spongebob_burned_note.png"), user.Id, comments, user);
             
 
             // add second test user
-            user = addUser("testuser2", "testy@gmail.com", "i like eggs", false);
+            user = addUser("testuser3", "testy@gmail.com", "i like eggs", false);
             likes = new List<Like>();
             foreach (MemeCoUser usr in likeUsers)
             {
@@ -87,7 +96,7 @@ namespace MemeCo.Models
 
             // add meme templates to DB
             addTemplates();
-
+          
             _memeCoContext.SaveChanges();
             
         }
@@ -151,6 +160,19 @@ namespace MemeCo.Models
             return like;
         }
 
+        private Follow addFollower(IEnumerable<Follow> follows, string userID, MemeCoUser user, string followerId, MemeCoUser follower)
+        {
+            Follow follow = new Follow();
+            follow.Follower = follower;
+            follow.User = user;
+            follow.UserID = userID;
+            follow.FollowerID = followerId;
+            follows.Append(follow);
+            user.Followers = follows;
+            _memeCoContext.Follows.Add(follow);
+            return follow;
+        }
+
         /// <summary>
         /// Adds all templates located in the meme_templates folder to the database. 
         /// </summary>
@@ -166,6 +188,29 @@ namespace MemeCo.Models
             }
 
         }
-        
+
+        /// <summary>
+        /// Adds all templates located in the meme_templates folder to the database. 
+        /// </summary>
+        private void postDankMemes()
+        {
+            var memes = Directory.GetFiles("wwwroot/dank_memes");
+            MemeCoUser poster;
+            int count = 0;
+            Post post;
+            IEnumerable<Like> likes;
+            IEnumerable<Comment> comments;
+            foreach (var meme in memes)
+            {
+                poster = addUser("memePoster" + count, "memePoster" + count + "@gmail.com", "poster" + count + " bio", false);
+                likes = new List<Like>();
+                comments = new List<Comment>();
+                post = addPost("Post " + count  + " description", likes, File.ReadAllBytes(meme), poster.Id, comments, poster);
+                count++;
+
+            }
+
+        }
+
     }
 }

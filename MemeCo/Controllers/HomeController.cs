@@ -27,7 +27,7 @@ namespace MemeCo.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var result = _context.Posts.Include(o => o.Likes).Include(o => o.User).Include(o => o.Comments).ToList();  
+            var result = _context.Posts.Include(o => o.Likes).Include(o => o.User).ThenInclude(o => o.Followers).Include(o => o.Comments).ToList();  
             return View(result);
         }
 

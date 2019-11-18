@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using MemeCo.Models;
@@ -25,5 +26,12 @@ namespace MemeCo.Areas.Identity.Data
         public IEnumerable<Post> Posts { get; set; }
         public IEnumerable<Like> Likes { get; set; }
         public IEnumerable<Comment> Comments { get; set; }
+
+        public MemeCoUser()
+        {
+            // default profile picture is memeco logo
+            ProfilePicture = File.ReadAllBytes("wwwroot\\files\\MemeCo-profile.PNG");
+            Filter = "Popular";
+        }
     }
 }

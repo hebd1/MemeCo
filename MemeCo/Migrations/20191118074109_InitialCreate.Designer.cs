@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MemeCo.Migrations
 {
     [DbContext(typeof(MemeCoContext))]
-    [Migration("20191118040218_Initial")]
-    partial class Initial
+    [Migration("20191118074109_InitialCreate")]
+    partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

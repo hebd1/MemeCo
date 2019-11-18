@@ -18,8 +18,6 @@
                 title: 'Oops...',
                 text: 'You have to login before you can get to memeing',
                 timer: 3000
-            }).then((result) => {
-                location.reload();
             })
         } else {
 

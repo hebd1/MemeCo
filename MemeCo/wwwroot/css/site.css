@@ -75,9 +75,9 @@ body {
     display: inline-block;
 }
 
-.btn {
+/*.btn {
     margin-bottom: 1rem;
-}
+}*/
 
 #posts {
     border: 1px solid #dbe0f1;
@@ -89,4 +89,18 @@ body {
 
 .num-comments {
     float: right;
+}
+
+.card-title {
+    margin: 1rem;
+}
+
+.post-username {
+    margin-top: auto;
+    margin-bottom: auto;
+    margin-left: 1rem;
+}
+
+.profile-pic {
+    border: 1px solid grey;
 }

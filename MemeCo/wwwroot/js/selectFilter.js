@@ -17,13 +17,14 @@
                 title: 'Oops...',
                 text: 'You have to login before you can get to memeing',
                 timer: 3000
-            }).then((result) => {
-                location.reload();
             })
         } else {
             // set filter dropdown and reload
             $('#dropdownMenuButton').text(result.filter);
-            $('#posts').load(location.href + " #posts");
+            $('#posts').fadeOut('1000')
+            $("#posts").load(location.href + " #posts>*", "");
+            $('#posts').fadeIn('1000')
+
            
         }
 

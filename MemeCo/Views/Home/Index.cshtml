@@ -9,7 +9,8 @@
 @inject UserManager<MemeCoUser> userManager
 @{ 
     MemeCoUser currentUser = new MemeCoUser();
-    if (userManager.GetUserId(this.User) != null)
+    IEnumerable<MemeCo.Models.Post> posts = Model;
+    if (this.User.Identity.Name != null)
     {
             currentUser = userManager.GetUserAsync(this.User).Result;
     }
@@ -31,22 +32,16 @@
 
 <body>
     <div id="post_wrapper">
-        <div class="dropdown">
-            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                @{ 
-                    if (currentUser.Filter == null)
-                    {
-                      <i>Sort By</i>
-                    } else
-                    {
-                        <i>@currentUser.Filter</i>
-                    }
-                }
-            </button>
-            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                <a class="dropdown-item" href="#" onclick="select_filter(this, '@currentUser.Id',  'Popular', event)">Popular</a>
-                <a class="dropdown-item" href="#" onclick="select_filter(this, '@currentUser.Id', 'Friends', event)">Friends</a>
-                <a class="dropdown-item" href="#" onclick="select_filter(this, '@currentUser.Id', 'Fresh', event)">Fresh</a>
+        <div id="sort-by">
+            <div class="dropdown">
+                <button class="btn btn-light dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    @currentUser.Filter
+                </button>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                    <a class="dropdown-item" href="#" onclick="select_filter(this, '@currentUser.Id',  'Popular', event)">Popular</a>
+                    <a class="dropdown-item" href="#" onclick="select_filter(this, '@currentUser.Id', 'Friends', event)">Following</a>
+                    <a class="dropdown-item" href="#" onclick="select_filter(this, '@currentUser.Id', 'Fresh', event)">Fresh</a>
+                </div>
             </div>
         </div>
         <div id="posts">
@@ -55,47 +50,44 @@
                 switch (currentUser.Filter)
                 {
                     case "Popular":
-                        Model.OrderBy(o => o.Likes.Count());
+                        posts = posts.OrderByDescending(o => o.Likes.Count());
                         break;
                     case "Friends":
-                        Model.OrderBy(o => o.TimePosted);
+                        posts = posts.Where(o => o.User.Followers.Any(p => p.FollowerID == currentUser.Id));
                         break;
                     case "Fresh":
-                        Model.OrderBy(o => o.TimePosted);
+                        posts = posts.OrderBy(o => o.TimePosted.Millisecond);
                         break;
                 }
             }
-            @foreach (var post in Model)
+            @foreach (var post in posts)
             {
 
                 var user = post.User;
-                var base64 = Convert.ToBase64String(post.Meme);
-                var imgSrc = String.Format("data:image/gif;base64,{0}", base64);
+                var imgSrc = String.Format("data:image/gif;base64,{0}", Convert.ToBase64String(post.Meme));
+                var profileSrc = String.Format("data:image/gif;base64,{0}",  Convert.ToBase64String(post.User.ProfilePicture));
                 double likes = post.Likes.Where(o => o.Liked == true).Count();
                 double dislikes = post.Likes.Where(o => o.Liked == false).Count();
-                var likePercent = "";
-                var dislikePercent = "";
-                if (likes > 0)
-                {
-                    likePercent = Math.Ceiling(likes / (likes + dislikes) * 100) + "%";
-                }
-                if (dislikes > 0)
-                {
-                    dislikePercent = Math.Ceiling(dislikes / (likes + dislikes) * 100) + "%";
-                }
+                var likePercent = (likes > 0) ?  Math.Ceiling(likes / (likes + dislikes) * 100) + "%" : "";
+                var dislikePercent = (dislikes > 0) ? Math.Ceiling(dislikes / (likes + dislikes) * 100) + "%" : "";
+ 
                 <div class="post mx-auto">
                     <div class="card mx-auto" style="width: 40rem;">
+                        <div class="card-title post-header row">
+                            <img class="profile-pic rounded-circle" src="@profileSrc" width="50" height="50">
+                            <p class="post-username">@user.UserName</p>
+                        </div>
                         <div class="mx-auto">
                             <img class="card-img-top" src="@imgSrc" alt="Card image cap">
                         </div>
                         <div class="card-body">
                             @* Post was liked by current logged in user *@
-                            @if (userManager.GetUserId(this.User) != null && post.Likes.Any(o => o.MemeCoUserID == userManager.GetUserId(this.User)))
+                            @if (this.User.Identity.Name != null && post.Likes.Any(o => o.MemeCoUserID == currentUser.Id))
                             {
-                                var reaction = post.Likes.Where(o => o.MemeCoUserID == userManager.GetUserId(this.User)).First();
+                                var reaction = post.Likes.Where(o => o.MemeCoUserID == currentUser.Id).First();
                                 <div class="row no-gutters">
                                     <div class="like_buttons col-8">
-                                        <a href="#" class="btn btn-primary" onclick="handle_change(this, '@userManager.GetUserId(this.User)', 'true', '@post.ID', event)">
+                                        <a href="#" class="btn btn-primary" onclick="handle_change(this, '@currentUser.Id', 'true', '@post.ID', event)">
                                             @if (reaction.Liked == true)
                                             {
                                                 <i id="@post.ID-like" class="fas fa-thumbs-up"></i>
@@ -105,7 +97,7 @@
                                                 <i id="@post.ID-like" class="far fa-thumbs-up"></i>
                                             }
                                         </a>
-                                        <a href="#" class="btn btn-danger" onclick="handle_change(this, '@userManager.GetUserId(this.User)', 'false', '@post.ID', event)">
+                                        <a href="#" class="btn btn-danger" onclick="handle_change(this, '@currentUser.Id', 'false', '@post.ID', event)">
                                             @if (reaction.Liked == false)
                                             {
                                                 <i id="@post.ID-dislike" class="fas fa-thumbs-down"></i>
@@ -117,7 +109,7 @@
                                         </a>
                                     </div>
                                     <div class="col">
-                                        <div class="progress col-6">
+                                        <div class="progress">
                                             <div id="@post.ID-like-percent" class="progress-bar bg-primary" style="width:@likePercent" aria-valuemin="0" aria-valuemax="100">
                                                 @likePercent
                                             </div>
@@ -128,11 +120,10 @@
                                     </div>
                                 </div>
                                 <a class="num-comments">
-                                    <h6>Comments <span class="badge badge-secondary">5</span></h6>
+                                    <h6>Comments <span class="badge badge-secondary">@post.Comments.Count()</span></h6>
                                 </a>
                                 <br />
                                 <hr />
-                                <h5 class="card-title">@user.UserName</h5>
                                 <p class="card-text">@post.Description</p>
                             }
                             @*User not logged in*@
@@ -140,10 +131,10 @@
                             {
                                 <div class="row no-gutters">
                                     <div class="like_buttons col-8">
-                                        <a href="#" class="btn btn-primary" onclick="handle_change(this, '@userManager.GetUserId(this.User)', 'true', '@post.ID', event)">
+                                        <a href="#" class="btn btn-primary" onclick="handle_change(this, '@currentUser.Id', 'true', '@post.ID', event)">
                                             <i id="@post.ID-like" class="far fa-thumbs-up"></i>
                                         </a>
-                                        <a href="#" class="btn btn-danger" onclick="handle_change(this, '@userManager.GetUserId(this.User)', 'false', '@post.ID', event)">
+                                        <a href="#" class="btn btn-danger" onclick="handle_change(this, '@currentUser.Id', 'false', '@post.ID', event)">
                                             <i id="@post.ID-dislike" class="far fa-thumbs-down"></i>
                                         </a>
                                     </div>
@@ -160,11 +151,10 @@
 
                                 </div>
                                 <a class="num-comments">
-                                    <h6>Comments <span class="badge badge-secondary">5</span></h6>
+                                    <h6>Comments <span class="badge badge-secondary">@post.Comments.Count()</span></h6>
                                 </a>
                                 <br />
                                 <hr />
-                                <h5 class="card-title">@user.UserName</h5>
                                 <p class="card-text">@post.Description</p>
                             }
 
