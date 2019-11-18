@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MemeCo.Migrations
 {
     [DbContext(typeof(MemeCoContext))]
-    [Migration("20191113211026_ProfilePic")]
-    partial class ProfilePic
+    [Migration("20191118040218_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -45,6 +45,9 @@ namespace MemeCo.Migrations
 
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("bit");
+
+                    b.Property<string>("Filter")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("bit");
@@ -159,7 +162,6 @@ namespace MemeCo.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("TimeLiked")
-                        .ValueGeneratedOnAddOrUpdate()
                         .HasColumnType("datetime2");
 
                     b.HasKey("ID");
@@ -188,6 +190,9 @@ namespace MemeCo.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
+                    b.Property<int?>("TempleteID")
+                        .HasColumnType("int");
+
                     b.Property<DateTime>("TimePosted")
                         .HasColumnType("datetime2");
 
@@ -208,9 +213,6 @@ namespace MemeCo.Migrations
                     b.Property<byte[]>("Content")
                         .IsRequired()
                         .HasColumnType("varbinary(max)");
-
-                    b.Property<string>("name")
-                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("ID");
 

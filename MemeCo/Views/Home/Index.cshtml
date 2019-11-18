@@ -7,7 +7,13 @@
 @using MemeCo.Areas.Identity.Data
 @model IEnumerable<MemeCo.Models.Post>
 @inject UserManager<MemeCoUser> userManager
-
+@{ 
+    MemeCoUser currentUser = new MemeCoUser();
+    if (userManager.GetUserId(this.User) != null)
+    {
+            currentUser = userManager.GetUserAsync(this.User).Result;
+    }
+}
 
 <!DOCTYPE html>
 <html>
@@ -25,18 +31,40 @@
 
 <body>
     <div id="post_wrapper">
-        <ul class="nav nav-tabs">
-            <li class="nav-item">
-                <a class="nav-link active" href="#">Popular</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">Friends</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">Fresh</a>
-            </li>
-        </ul>
+        <div class="dropdown">
+            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                @{ 
+                    if (currentUser.Filter == null)
+                    {
+                      <i>Sort By</i>
+                    } else
+                    {
+                        <i>@currentUser.Filter</i>
+                    }
+                }
+            </button>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                <a class="dropdown-item" href="#" onclick="select_filter(this, '@currentUser.Id',  'Popular', event)">Popular</a>
+                <a class="dropdown-item" href="#" onclick="select_filter(this, '@currentUser.Id', 'Friends', event)">Friends</a>
+                <a class="dropdown-item" href="#" onclick="select_filter(this, '@currentUser.Id', 'Fresh', event)">Fresh</a>
+            </div>
+        </div>
         <div id="posts">
+            @*sort model by selected filter*@
+            @{
+                switch (currentUser.Filter)
+                {
+                    case "Popular":
+                        Model.OrderBy(o => o.Likes.Count());
+                        break;
+                    case "Friends":
+                        Model.OrderBy(o => o.TimePosted);
+                        break;
+                    case "Fresh":
+                        Model.OrderBy(o => o.TimePosted);
+                        break;
+                }
+            }
             @foreach (var post in Model)
             {
 
@@ -56,7 +84,7 @@
                     dislikePercent = Math.Ceiling(dislikes / (likes + dislikes) * 100) + "%";
                 }
                 <div class="post mx-auto">
-                    <div class="card mx-auto" style="width: 30rem;">
+                    <div class="card mx-auto" style="width: 40rem;">
                         <div class="mx-auto">
                             <img class="card-img-top" src="@imgSrc" alt="Card image cap">
                         </div>
@@ -65,39 +93,44 @@
                             @if (userManager.GetUserId(this.User) != null && post.Likes.Any(o => o.MemeCoUserID == userManager.GetUserId(this.User)))
                             {
                                 var reaction = post.Likes.Where(o => o.MemeCoUserID == userManager.GetUserId(this.User)).First();
-                                <div class="like_buttons">
-                                    <a href="#" class="btn btn-primary" onclick="handle_change(this, '@userManager.GetUserId(this.User)', 'true', '@post.ID', event)">
-                                        @if (reaction.Liked == true)
-                                        {
-                                            <i id="@post.ID-like" class="fas fa-thumbs-up"></i>
-                                        }
-                                        else
-                                        {
-                                            <i id="@post.ID-like" class="far fa-thumbs-up"></i>
-                                        }
-                                    </a>
-                                    <a href="#" class="btn btn-danger" onclick="handle_change(this, '@userManager.GetUserId(this.User)', 'false', '@post.ID', event)">
-                                        @if (reaction.Liked == false)
-                                        {
-                                            <i id="@post.ID-dislike" class="fas fa-thumbs-down"></i>
-                                        }
-                                        else
-                                        {
-                                            <i id="@post.ID-dislike" class="far fa-thumbs-down"></i>
-                                        }
-                                    </a>
-                                    <a href="#" class="btn btn-secondary">
-                                        Comments <span class="badge">5</span>
-                                    </a>
-                                    <div class="progress">
-                                        <div id="@post.ID-like-percent" class="progress-bar bg-primary" style="width:@likePercent">
-                                            @likePercent
-                                        </div>
-                                        <div id="@post.ID-dislike-percent" class="progress-bar bg-danger" style="width:@dislikePercent">
-                                            @dislikePercent
+                                <div class="row no-gutters">
+                                    <div class="like_buttons col-8">
+                                        <a href="#" class="btn btn-primary" onclick="handle_change(this, '@userManager.GetUserId(this.User)', 'true', '@post.ID', event)">
+                                            @if (reaction.Liked == true)
+                                            {
+                                                <i id="@post.ID-like" class="fas fa-thumbs-up"></i>
+                                            }
+                                            else
+                                            {
+                                                <i id="@post.ID-like" class="far fa-thumbs-up"></i>
+                                            }
+                                        </a>
+                                        <a href="#" class="btn btn-danger" onclick="handle_change(this, '@userManager.GetUserId(this.User)', 'false', '@post.ID', event)">
+                                            @if (reaction.Liked == false)
+                                            {
+                                                <i id="@post.ID-dislike" class="fas fa-thumbs-down"></i>
+                                            }
+                                            else
+                                            {
+                                                <i id="@post.ID-dislike" class="far fa-thumbs-down"></i>
+                                            }
+                                        </a>
+                                    </div>
+                                    <div class="col">
+                                        <div class="progress col-6">
+                                            <div id="@post.ID-like-percent" class="progress-bar bg-primary" style="width:@likePercent" aria-valuemin="0" aria-valuemax="100">
+                                                @likePercent
+                                            </div>
+                                            <div id="@post.ID-dislike-percent" class="progress-bar bg-danger" style="width:@dislikePercent" aria-valuemin="0" aria-valuemax="100">
+                                                @dislikePercent
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
+                                <a class="num-comments">
+                                    <h6>Comments <span class="badge badge-secondary">5</span></h6>
+                                </a>
+                                <br />
                                 <hr />
                                 <h5 class="card-title">@user.UserName</h5>
                                 <p class="card-text">@post.Description</p>
@@ -105,25 +138,31 @@
                             @*User not logged in*@
                             else
                             {
-                                <div class="like_buttons">
-                                    <a href="#" class="btn btn-primary" onclick="handle_change(this, '@userManager.GetUserId(this.User)', 'true', '@post.ID', event)">
-                                        <i id="@post.ID-like" class="far fa-thumbs-up"></i>
-                                    </a>
-                                    <a href="#" class="btn btn-danger" onclick="handle_change(this, '@userManager.GetUserId(this.User)', 'false', '@post.ID', event)">
-                                        <i id="@post.ID-dislike" class="far fa-thumbs-down"></i>
-                                    </a>
-                                    <a href="#" class="btn btn-secondary">
-                                        Comments <span class="badge">5</span>
-                                    </a>
-                                    <div class="progress">
-                                        <div id="@post.ID-like-percent" class="progress-bar bg-primary" style="width:@likePercent">
-                                            @likePercent
-                                        </div>
-                                        <div id="@post.ID-dislike-percent" class="progress-bar bg-danger" style="width:@dislikePercent">
-                                            @dislikePercent
+                                <div class="row no-gutters">
+                                    <div class="like_buttons col-8">
+                                        <a href="#" class="btn btn-primary" onclick="handle_change(this, '@userManager.GetUserId(this.User)', 'true', '@post.ID', event)">
+                                            <i id="@post.ID-like" class="far fa-thumbs-up"></i>
+                                        </a>
+                                        <a href="#" class="btn btn-danger" onclick="handle_change(this, '@userManager.GetUserId(this.User)', 'false', '@post.ID', event)">
+                                            <i id="@post.ID-dislike" class="far fa-thumbs-down"></i>
+                                        </a>
+                                    </div>
+                                    <div class="col">
+                                        <div class="progress">
+                                            <div id="@post.ID-like-percent" class="progress-bar bg-primary" style="width:@likePercent" aria-valuemin="0" aria-valuemax="100">
+                                                @likePercent
+                                            </div>
+                                            <div id="@post.ID-dislike-percent" class="progress-bar bg-danger" style="width:@dislikePercent" aria-valuemin="0" aria-valuemax="100">
+                                                @dislikePercent
+                                            </div>
                                         </div>
                                     </div>
+
                                 </div>
+                                <a class="num-comments">
+                                    <h6>Comments <span class="badge badge-secondary">5</span></h6>
+                                </a>
+                                <br />
                                 <hr />
                                 <h5 class="card-title">@user.UserName</h5>
                                 <p class="card-text">@post.Description</p>
@@ -143,6 +182,7 @@
 
 @section Scripts  {
     <script src="~/js/likeDislike.js"></script>
+    <script src="~/js/selectFilter.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/8.11.8/sweetalert2.all.min.js"></script>
 
 }

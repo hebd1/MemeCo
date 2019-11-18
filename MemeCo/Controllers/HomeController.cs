@@ -31,6 +31,53 @@ namespace MemeCo.Controllers
             return View(result);
         }
 
+
+        [HttpPost]
+        public async Task<JsonResult> Select_Filter(string user_id, string filter)
+        {
+            try
+            {
+                var user = await _user_manager.FindByIdAsync(user_id);
+                // not logged in
+                if (user == null)
+                {
+                    return Json(
+                   new
+                   {
+                       success = false,
+                       user_id = user_id,
+                       filter = filter
+
+                   });
+                }
+                else
+                {
+                    user.Filter = filter;
+                    await _user_manager.UpdateAsync(user);
+
+                    // success
+                    return Json(
+                        new
+                        {
+                            success = true,
+                            user_id = user_id,
+                            filter = filter
+                        });
+                }
+                // something else went wrong
+            }
+            catch (Exception)
+            {
+                return Json(
+                   new
+                   {
+                       success = false,
+                       user_id = user_id,
+                       filter = filter
+                   });
+            }
+        }
+
         [HttpPost]
         public async Task<JsonResult> Like_Post(string user_id, bool liked, Guid post_id)
         {

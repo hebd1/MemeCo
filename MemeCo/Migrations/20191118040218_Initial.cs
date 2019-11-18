@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace MemeCo.Migrations
 {
-    public partial class InitialCreate : Migration
+    public partial class Initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -41,7 +41,9 @@ namespace MemeCo.Migrations
                     LockoutEnabled = table.Column<bool>(nullable: false),
                     AccessFailedCount = table.Column<int>(nullable: false),
                     Bio = table.Column<string>(nullable: true),
-                    DarkMode = table.Column<bool>(nullable: false)
+                    DarkMode = table.Column<bool>(nullable: false),
+                    ProfilePicture = table.Column<byte[]>(nullable: true),
+                    Filter = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -54,8 +56,7 @@ namespace MemeCo.Migrations
                 {
                     ID = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Content = table.Column<byte[]>(nullable: false),
-                    name = table.Column<string>(nullable: true)
+                    Content = table.Column<byte[]>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -198,7 +199,8 @@ namespace MemeCo.Migrations
                     MemeCoUserID = table.Column<string>(nullable: false),
                     Meme = table.Column<byte[]>(nullable: false),
                     Description = table.Column<string>(nullable: true),
-                    TimePosted = table.Column<DateTime>(nullable: false)
+                    TimePosted = table.Column<DateTime>(nullable: false),
+                    TempleteID = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {

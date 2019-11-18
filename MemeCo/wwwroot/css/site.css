@@ -80,6 +80,13 @@ body {
 }
 
 #posts {
-    border-right: 1px solid #dbe0f1;
-    border-left: 1px solid #dbe0f1;
+    border: 1px solid #dbe0f1;
+}
+
+.progress {
+    margin-top: 1rem;
+}
+
+.num-comments {
+    float: right;
 }
