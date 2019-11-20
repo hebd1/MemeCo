@@ -4,14 +4,16 @@ using MemeCo.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace MemeCo.Migrations
 {
     [DbContext(typeof(MemeCoContext))]
-    partial class MemeCoContextModelSnapshot : ModelSnapshot
+    [Migration("20191120031805_postIDtoComment")]
+    partial class postIDtoComment
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
