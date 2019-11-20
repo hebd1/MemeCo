@@ -74,11 +74,15 @@
                 <div class="post mx-auto">
                     <div class="card mx-auto" style="width: 40rem;">
                         <div class="card-title post-header row">
-                            <img class="profile-pic rounded-circle" src="@profileSrc" width="50" height="50">
-                            <p class="post-username">@user.UserName</p>
+                            <a href="/@user.UserName">
+                                <img class="profile-pic rounded-circle" src="@profileSrc" width="50" height="50">
+                            </a>
+                            <a href="/@user.UserName" class="post-username">@user.UserName</a>
                         </div>
                         <div class="mx-auto">
-                            <img class="card-img-top" src="@imgSrc" alt="Card image cap">
+                            <a href="/Post/@post.ID">
+                                <img class="card-img-top" src="@imgSrc" alt="Card image cap" onclick="">
+                            </a>
                         </div>
                         <div class="card-body">
                             @* Post was liked by current logged in user *@
