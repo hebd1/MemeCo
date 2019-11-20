@@ -94,10 +94,10 @@ namespace MemeCo.Models
 
             // Seed comments
             addComment("testuser1 comment number 1", user1, post1);
-            addComment("testuser1 comment number 2", user1, post2);
+            addComment("testuser1 comment number 2. This one is going to be super long to test multiple lines showing up. Wow!", user1, post2);
             addComment("testuser2 comment number 1", user2, post1);
             addComment("testuser2 comment number 2", user2, post2);
-            addComment("testuser2 comment number 3", user2, post2);
+            addComment("testuser2 comment number 3. Okay now he's angry about this spicy meme. Watch out test1, test2 is coming for you!", user2, post2);
             
             _memeCoContext.SaveChanges();
         }

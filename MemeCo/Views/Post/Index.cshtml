@@ -13,7 +13,7 @@
     MemeCoUser currentUser = new MemeCoUser();
     if (this.User.Identity.Name != null)
     {
-        currentUser = userManager.GetUserAsync(this.User).Result;
+        currentUser = await userManager.FindByNameAsync(this.User.Identity.Name);
     }
 }
 
@@ -128,10 +128,7 @@
                     {
                     <div class="row no-gutters">
                         <p>
-                            <a href="/@user.UserName" class="post-username">@user.UserName</a> 
-                        </p>
-                        <p>
-                            : @comment.Content
+                            <a href="/@user.UserName" class="post-username">@user.UserName</a>: @comment.Content
                         </p>
                     </div>
                     }
