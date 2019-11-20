@@ -92,7 +92,6 @@
                                 </div>
                             </div>
                         </div>
-                        <br />
                         <hr />
                         <p class="card-text">@post.Description</p>
                     }
@@ -119,7 +118,6 @@
                                 </div>
                             </div>
                         </div>
-                        <br />
                         <hr />
                         <p class="card-text">@post.Description</p>
                     }
@@ -128,14 +126,14 @@
                     <hr />
                     @foreach (Comment comment in post.Comments)
                     {
-                        <div class="row no-gutters">
-                            <p>
-                                @comment.TimeCommented
-                            </p>
-                            <p>
-                                @comment.Content
-                            </p>
-                        </div>
+                    <div class="row no-gutters">
+                        <p>
+                            <a href="/@user.UserName" class="post-username">@user.UserName</a> 
+                        </p>
+                        <p>
+                            : @comment.Content
+                        </p>
+                    </div>
                     }
                 </div>
             </div>

@@ -17,6 +17,8 @@ namespace MemeCo.Models
         public string Content { get; set; }
         [Required]
         public string MemeCoUserID { get; set; }
+        [Required]
+        public Guid PostID { get; set; }
         public DateTime TimeCommented { get; set; }
         public Post Post { get; set; }
         public MemeCoUser User { get; set; }
