@@ -12,7 +12,7 @@
     IEnumerable<MemeCo.Models.Post> posts = Model;
     if (this.User.Identity.Name != null)
     {
-            currentUser = userManager.GetUserAsync(this.User).Result;
+        currentUser = await userManager.FindByNameAsync(this.User.Identity.Name);
     }
 }
 
@@ -57,6 +57,9 @@
                         break;
                     case "Fresh":
                         posts = posts.OrderBy(o => o.TimePosted.Millisecond);
+                        break;
+                    default:
+                        posts = posts.OrderByDescending(o => o.Likes.Count());
                         break;
                 }
             }
@@ -126,6 +129,7 @@
                                 <a class="num-comments">
                                     <h6>Comments <span class="badge badge-secondary">@post.Comments.Count()</span></h6>
                                 </a>
+                                <br />
                                 <hr />
                                 <p class="card-text">@post.Description</p>
                             }
@@ -156,6 +160,7 @@
                                 <a class="num-comments">
                                     <h6>Comments <span class="badge badge-secondary">@post.Comments.Count()</span></h6>
                                 </a>
+                                <br />
                                 <hr />
                                 <p class="card-text">@post.Description</p>
                             }
