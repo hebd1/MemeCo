@@ -92,9 +92,6 @@
                                 </div>
                             </div>
                         </div>
-                        <a class="num-comments">
-                            <h6>Comments <span class="badge badge-secondary">@post.Comments.Count()</span></h6>
-                        </a>
                         <br />
                         <hr />
                         <p class="card-text">@post.Description</p>
@@ -121,16 +118,25 @@
                                     </div>
                                 </div>
                             </div>
-
                         </div>
-                        <a class="num-comments">
-                            <h6>Comments <span class="badge badge-secondary">@post.Comments.Count()</span></h6>
-                        </a>
                         <br />
                         <hr />
                         <p class="card-text">@post.Description</p>
                     }
-
+                    @* Display comments *@
+                    <br />
+                    <hr />
+                    @foreach (Comment comment in post.Comments)
+                    {
+                        <div class="row no-gutters">
+                            <p>
+                                @comment.TimeCommented
+                            </p>
+                            <p>
+                                @comment.Content
+                            </p>
+                        </div>
+                    }
                 </div>
             </div>
         </div>

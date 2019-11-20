@@ -35,7 +35,6 @@ namespace MemeCo.Models
             // seed posts
             postDankMemes();
 
-
             // Seed Users
             var likeUsers = new MemeCoUser[]
             {
@@ -46,16 +45,14 @@ namespace MemeCo.Models
                 addUser("test5", "test5@meme.co", "test5 bio", true),
               
 
-        };
+            };
             var dislikeUsers = new MemeCoUser[]
-           {
+            {
                 addUser("test6", "test6@meme.co", "test6 bio", true),
                 addUser("test7", "test7@meme.co", "test7 bio", true),
                 addUser("test8", "test8@meme.co", "test8 bio", true),
                 addUser("test9", "test9@meme.co", "test9 bio", true),
-           };
-
-         
+            };
 
             MemeCoUser user1 =  addUser("testuser1", "fake@meme.co", "i'm the cooliest", true);
             _memeCoContext.SaveChanges();
@@ -92,12 +89,22 @@ namespace MemeCo.Models
             }
             addLike(likes, true, likeUsers[1].Id, post2);
 
-
+            
             // add meme templates to DB
             addTemplates();
-          
+
+            // Seed comments
+            var commentArr = new Comment[]
+            {
+                addComment("testuser1 comment number 1", user1, post1),
+                addComment("testuser1 comment number 2", user1, post2),
+                addComment("testuser2 comment number 1", user2, post1),
+                addComment("testuser2 comment number 2", user2, post2),
+                addComment("testuser2 comment number 3", user2, post2),
+            };
+
+
             _memeCoContext.SaveChanges();
-            
         }
 
 
@@ -228,6 +235,22 @@ namespace MemeCo.Models
             }
 
         }
+        /// <summary>
+        /// Adds a comment on the post by the user
+        /// </summary>
+        private Comment addComment(string content, MemeCoUser user, Post post)
+        {
+            Comment c = new Comment();
+            c.Content = content;
+            c.User = user;
+            c.MemeCoUserID = user.Id;
+            c.Post = post;
+            c.TimeCommented = DateTime.UtcNow;
 
+            _memeCoContext.Comments.Add(c);
+            _memeCoContext.SaveChanges();
+
+            return c;
+        }
     }
 }
