@@ -49,8 +49,9 @@ a {
 .post .mx-auto {
     background-color: #232323;
     color: rgb(240, 240, 240);
-    border-left: 1px solid #cccccc;
-    border-bottom: 1px solid #cccccc;
+    border-left: 1px groove #212121;
+    border-bottom: 1px groove #212121;
+    border-top: 1px groove #212121;
 }
 
 hr {
@@ -58,4 +59,19 @@ hr {
     height: .5px;
     border-top: 1px solid #cccccc;
     margin: 1em 0;
+}
+
+.card-header {
+    color: #00b0ff;
+    background: #212121;
+    border-top: .5px groove #212121;
+    border-bottom: .5px groove #212121;
+    border-bottom: .5px groove #212121;
+}
+
+.card-body {
+    background-color: #232323;
+    color: rgb(240, 240, 240);
+    border-left: 1px solid #232323;
+    border-bottom: 1px solid #232323;
 }
