@@ -8,6 +8,7 @@
 @using MemeCo.Areas.Identity.Data
 @model Post
 @inject UserManager<MemeCoUser> userManager
+@inject SignInManager<MemeCoUser> SignInManager
 
 @{
     MemeCoUser currentUser = new MemeCoUser();
@@ -121,16 +122,97 @@
                         <hr />
                         <p class="card-text">@post.Description</p>
                     }
-                    @* Display comments *@
                     <br />
                     <hr />
-                    @foreach (Comment comment in post.Comments)
-                    {
-                    <div class="row no-gutters">
-                        <p>
-                            <a href="/@user.UserName" class="post-username">@user.UserName</a>: @comment.Content
-                        </p>
-                    </div>
+
+                    @{
+                        int location = 1;
+
+                        // Checking if the current user has a comment in the post
+                        bool hasComment = false;
+                        foreach (var comment in post.Comments)
+                        {
+                            if (comment.User.Id.Equals(currentUser.Id))
+                            {
+                                hasComment = true;
+                            }
+                        }
+
+                        if (!hasComment && currentUser.UserName != null)
+                        {
+                            // Add Comment
+                            <div id="add" class="card">
+                                <h5 class="card-header">
+                                    Add a Comment
+                                </h5>
+                                    <div class="card-body">
+                                        <form onsubmit="add_comment('@post.ID', '@currentUser.Id', event)" asp-action="add_comment" method="post">
+                                            <textarea id="newnote" name="newnote" class="card-text" rows="4" cols="73"></textarea>
+                                            <br />
+                                            <input class="btn my-2 my-sm-0 btn-sm navb" type="submit" value="Add">
+                                        </form>
+                                    </div>
+                            </div>
+                            <br />
+                        }
+
+                        <div id="placeHolder"></div>
+
+                        // Display All Comments
+                        foreach (var comment in post.Comments.Reverse())
+                        {
+                            string description = comment.Content;
+                            string username = comment.User.UserName;
+                            string profilePic = String.Format("data:image/gif;base64,{0}", Convert.ToBase64String(comment.User.ProfilePicture));
+                            string time = comment.TimeCommented.ToString();
+
+                            if (comment.User == currentUser)
+                            {
+                                // Edit and delete own user comments
+                                <div class="card" id="@location">
+                                    <h5 class="card-header">
+                                        <a href="/@username">
+                                            <img class="profile-pic rounded-circle" src="@profilePic" width="50" height="50">
+                                            @username
+                                        </a>
+                                    </h5>
+
+                                    <div class="card-body">
+                                        <form onsubmit="edit_comment('@comment.ID', event)" asp-action="edit_comment" method="post">
+                                            <textarea onkeydown="change_edit()" id="note" name="note" class="card-text" rows="4" cols="73">@description</textarea>
+                                            <br />
+                                            <input id="editBtn" class="btn my-2 my-sm-0 btn-sm navb" type="submit" value="Save">
+                                        </form>
+
+                                        <button class="btn my-2 my-sm-0 btn-sm navb" 
+                                                onclick="delete_comment('@comment.ID', '@location', event, '@post.ID', '@currentUser.Id')">Delete</button>
+                                    </div>     
+                                </div>
+                                <br />
+                            }
+                            else
+                            {
+                                // Displaying the comment without editing or deleting buttons
+                                <div class="card">
+                                    <h5 class="card-header">
+                                        <a href="/@username">
+                                            <img class="profile-pic rounded-circle" src="@profilePic" width="50" height="50">
+                                            @username
+                                        </a>
+                                        
+                                        <div id="time" style="color: white; font-size: 10px; ">
+                                            <br />
+                                            @time
+                                        </div>
+                                    </h5>
+                                    <div class="card-body">
+                                        <p class="card-text">@description</p>
+                                    </div>
+                                </div>
+                                <br />
+                            }
+                            location++;
+                        }
                     }
                 </div>
             </div>
@@ -138,3 +220,4 @@
     }
 </body>
 </html>
+<script type="text/javascript" src="~/js/comments.js"></script>
