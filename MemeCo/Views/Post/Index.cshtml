@@ -164,6 +164,7 @@
                             string description = comment.Content;
                             string username = comment.User.UserName;
                             string profilePic = String.Format("data:image/gif;base64,{0}", Convert.ToBase64String(comment.User.ProfilePicture));
+                            string time = comment.TimeCommented.ToString();
 
                             if (comment.User == currentUser)
                             {
@@ -198,6 +199,11 @@
                                             <img class="profile-pic rounded-circle" src="@profilePic" width="50" height="50">
                                             @username
                                         </a>
+                                        
+                                        <div id="time" style="color: white; font-size: 10px; ">
+                                            <br />
+                                            @time
+                                        </div>
                                     </h5>
                                     <div class="card-body">
                                         <p class="card-text">@description</p>

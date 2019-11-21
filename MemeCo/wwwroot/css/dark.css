@@ -49,9 +49,15 @@ a {
 .post .mx-auto {
     background-color: #232323;
     color: rgb(240, 240, 240);
-    border-left: 1px groove #212121;
-    border-bottom: 1px groove #212121;
-    border-top: 1px groove #212121;
+    border-left: 3px groove #212121;
+    border-bottom: 3px groove #212121;
+    border-top: 3px groove #212121;
+}
+
+.card .mx-auto {
+    border-left: 3px groove #212121;
+    border-bottom: 3px groove #212121;
+    border-top: 3px groove #212121;
 }
 
 hr {
@@ -74,4 +80,34 @@ hr {
     color: rgb(240, 240, 240);
     border-left: 1px solid #232323;
     border-bottom: 1px solid #232323;
+}
+
+#posts {
+    border-left: 3px solid #212121;
+    border-bottom: 3px solid #212121;
+    border-right: 3px solid #212121;
+    border-top: 3px solid #212121;
+}
+
+#dropdownMenuButton {
+    background-color: #232323;
+    color: #00b0ff;
+    border-left: 3px solid #212121;
+    border-bottom: 3px solid #212121;
+    border-right: 3px solid #212121;
+    border-top: 3px solid #212121;
+}
+
+
+.dropdown-menu {
+    background-color: #232323;
+}
+
+.dropdown-item {
+    color: #00b0ff;
+}
+
+.dropdown-item:hover {
+   color: #0071bc;
+   background-color: #F5F5F5;
 }

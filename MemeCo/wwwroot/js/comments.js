@@ -39,7 +39,7 @@ function add_comment(post, user, e) {
         $('#placeHolder').html("<div class=\"card\" id=\"0\"> "
             + "<h5 class=\"card-header\">"
             + "<a href=\"/" + result.username + "\">"
-            + "<img class=\"profile-pic rounded-circle\" src=" + result.profilepic + " width=\"50\" height=\"50\">" + result.username
+            + "<img class=\"profile-pic rounded-circle\" src=" + result.profilepic + " width=\"50\" height=\"50\">  " + result.username
             + "</a> </h5>"
             + "<div class=\"card-body\">"
             + "<form onsubmit=\"edit_comment('" + result.commentid + "', event)\" action=\"edit_comment\" method=\"post\">"
@@ -108,8 +108,8 @@ function delete_comment(comment_id, comment_location, e, post, user) {
  */
 function edit_comment(comment_id, e) {
     e.preventDefault();
-    var comment = $('#note').val();
 
+    var comment = $('#note').val();
     $.ajax({
         method: "POST",
         url: "../../Post/edit_comment",
@@ -120,8 +120,16 @@ function edit_comment(comment_id, e) {
         }
     }).done(function (result) {
         // Change save button color to reflect changes
-        $('#editBtn').css("color", "green");
-        $('#editBtn').css('border', '1px solid green'); 
+        var oldComment = result.comment_text;
+        if (result.isnull) {
+            $('#editBtn').css("color", "#00b0ff");
+            $('#editBtn').css('border', '1px solid #00b0ff');
+            $('#note').val(oldComment);
+        }
+        else {
+            $('#editBtn').css("color", "green");
+            $('#editBtn').css('border', '1px solid green');
+        }
     }).fail(function (result) {
         // Any backend issues
         Swal.fire({

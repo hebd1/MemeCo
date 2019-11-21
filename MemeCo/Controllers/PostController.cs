@@ -51,8 +51,9 @@ namespace MemeCo.Controllers
                 {
                     Content = comment,
                     Post = post,
-                    User = user
-                };
+                    User = user,
+                    TimeCommented = DateTime.UtcNow
+            };
 
                 // Save changes
                 _context.Comments.Add(c);
@@ -69,7 +70,8 @@ namespace MemeCo.Controllers
                     commentid = uC.ID,
                     description = comment,
                     userid = user_id,
-                    postid = post.ID
+                    postid = post.ID,
+                    time = uC.TimeCommented
                 });
             }
             catch (Exception)
@@ -120,14 +122,33 @@ namespace MemeCo.Controllers
         {
             try
             {
-                // Fing comment
-                Comment comment = await _context.Comments.Where(c => c.ID == comment_id).FirstAsync();
-                comment.Content = comment_text;
-                _context.SaveChanges();
 
-                return Json(new { 
-                    success = true
-                });
+                // editing comment
+                Comment comment = await _context.Comments.Where(c => c.ID == comment_id).FirstAsync();
+                string oldComment = comment.Content;
+
+                // Checking if comment contains nothing
+                if (comment_text == null)
+                {
+                    return Json(new
+                    {
+                        success = true,
+                        isnull = true,
+                        comment_text = oldComment
+                    });
+                }
+                else
+                { 
+                    comment.Content = comment_text;
+                    comment.TimeCommented = DateTime.UtcNow;
+                    _context.SaveChanges();
+
+                    return Json(new
+                    {
+                        success = true,
+                        isnull = false
+                    });
+                }
             }
             catch(Exception)
             {
