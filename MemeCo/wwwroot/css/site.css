@@ -110,3 +110,9 @@ body {
     margin-top: 4rem;
     margin-bottom: 4rem;
 }
+
+#btn-Convert-Html2Image {
+    color: white;
+    text-decoration: none;
+}
+
