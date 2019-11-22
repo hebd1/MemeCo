@@ -1,0 +1,53 @@
+﻿
+@using Microsoft.AspNetCore.Identity
+@using System.IO
+@using Microsoft.AspNetCore.Http;
+@using MemeCo.Areas.Identity.Data
+@model IEnumerable<MemeCo.Models.Post>
+@inject UserManager<MemeCoUser> userManager
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Meme Editor</h1>
+
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>@ViewData["Title"] - Index</title>
+    <meta name="description" content="Main Feed of the Meme.co meme viewer">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="author" content="Eli Hebdon u0871009">
+    <meta name="keywords" content="HTML, CSS, Meme.co, memes">
+    <script src="https://kit.fontawesome.com/50d38ee57a.js"></script>
+</head>
+
+<body>
+    <div class="row" id="editor-window">
+        <div id="image" class="col-8 justify-content-center">
+            <img class="justify-content-center" src="~/meme_templates/spongebob_burned_note.png" onclick="">
+        </div>
+        <div class="toolbar col-4">
+            toolbar
+            <button type="button" class="btn btn-primary">Upload Image</button>
+            <button type="button" class="btn btn-primary">Explort Image</button>
+            <button type="button" class="btn btn-primary">Post Image</button>
+
+
+
+        </div>
+       
+    </div>
+
+
+</body>
+</html>
+
+@section Scripts  {
+
+
+}
