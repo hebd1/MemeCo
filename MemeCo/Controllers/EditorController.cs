@@ -39,19 +39,20 @@ namespace MemeCo.Controllers
             try
             {
                 var user = await _user_manager.FindByIdAsync(user_id);
-                var img = System.IO.File.ReadAllBytes(image);
-
-                //byte[] imageArr;
-                //if (image != null)
-                //{
-                //    using (var ms = new MemoryStream())
-                //    {
-                //        image.CopyTo(ms);
-                //        imageArr = ms.ToArray();
-                //    }
-                //}
-
+                image = image.Substring(image.LastIndexOf(',') + 1);
+                byte[] img = Convert.FromBase64String(image);
                 // save image array to DB
+                if (description == null)
+                {
+                    description = "";
+                }
+                Post post = new Post();
+                post.Description = description;
+                post.Meme = img;
+                post.MemeCoUserID = user.Id;
+                post.User = user;
+                _context.Posts.Add(post);
+                _context.SaveChanges();
 
 
                 // not logged in
@@ -77,7 +78,11 @@ namespace MemeCo.Controllers
                         new
                         {
                             success = true,
-                         
+                            user_id = user_id,
+                            description = description,
+                            image = image,
+                            template_id = template_id
+
                         });
                 }
                 // something else went wrong
@@ -88,7 +93,11 @@ namespace MemeCo.Controllers
                    new
                    {
                        success = false,
-                       
+                       user_id = user_id,
+                       description = description,
+                       image = image,
+                       template_id = template_id
+
                    });
             }
         }

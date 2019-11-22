@@ -116,3 +116,12 @@ body {
     text-decoration: none;
 }
 
+#editor-window {
+    margin-top: 3rem;
+}
+
+#description-box {
+    margin-left: 1rem;
+    margin-right: 1rem;
+}
+
