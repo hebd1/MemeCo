@@ -302,7 +302,7 @@ namespace MemeCo.Controllers
 
                 // Find user with related User name
                 user = user.Trim();
-                MemeCoUser[] users = await _context.Users.Where(u => u.UserName.Contains(user)).Take(7).ToArrayAsync();
+                MemeCoUser[] users = await _context.Users.Where(u => u.UserName.Contains(user)).Take(7).OrderBy(u => u.UserName).ToArrayAsync();
 
                 // Checking for empty search
                 if (users.Length == 0)
