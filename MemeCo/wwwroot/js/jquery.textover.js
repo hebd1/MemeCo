@@ -76,26 +76,30 @@
                 'resize': 'none'
             };
 
-            var textArea = $('<textarea></textarea>');
-            var id = "text" + messages.length;
-            textArea.attr('id', id);
-            textArea.css(text_css);
-        	position = mouseAbs(e);
-        	textArea.css({'left': position[0], 'top': position[1]});
-        	$(this).after(textArea);       	
-            $(textArea).bind('keydown', resizeTextArea);
-        	$(textArea).on('paste', function(e) {
-        		/*TODO Fix resize issue */
-        		$(this).trigger('keydown');
-            })
+            if ($('#insert-text-btn').hasClass("btn-primary")) {
+                var textArea = $('<textarea></textarea>');
+                var id = "text" + messages.length;
+                textArea.attr('id', id);
+                textArea.css(text_css);
+                position = mouseAbs(e);
+                textArea.css({ 'left': position[0], 'top': position[1] });
+                $(this).after(textArea);
+                $(textArea).bind('keydown', resizeTextArea);
+                $(textArea).on('paste', function (e) {
+                    /*TODO Fix resize issue */
+                    $(this).trigger('keydown');
+                })
+
+                $(textArea).focus(function () {
+                    $(this).css('border', '1px dotted #cccccc');
+                }).blur(function () {
+                    $(this).css('border', 'none');
+                });
+                textArea.focus();
+                messages.push($(textArea));
+            }
+
           
-        	$(textArea).focus(function() {
-        		$(this).css('border', '1px dotted #cccccc');
-        	}).blur(function() {
-        		$(this).css('border', 'none');
-        	});
-        	textArea.focus();
-        	messages.push($(textArea));
         };
 
         removeTextArea = function(index) {
