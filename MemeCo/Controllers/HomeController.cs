@@ -314,18 +314,21 @@ namespace MemeCo.Controllers
                     });
                 }
 
-                // Get Usernames
+                //Get UserImages, Usernames
+                string[] profilePics = new string[users.Length];
                 string[] usernames = new string[users.Length];
                 for (int i = 0; i < users.Length; i++)
                 {
                     usernames[i] = users[i].UserName;
+                    profilePics[i] = String.Format("data:image/gif;base64,{0}", Convert.ToBase64String(users[i].ProfilePicture));
                 }
-                
-                // Return array of users
+    
+                // Return array of usernames/userpics
                 return Json(new
                 {
                     success = true,
                     users = usernames,
+                    pics = profilePics,
                     isnull = false,
                     contains = true,
                     length = users.Length

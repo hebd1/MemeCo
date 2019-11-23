@@ -43,12 +43,6 @@ a {
     content:url(../files/LightLogo.png);
 }
 
-/*Main feed posts*/
-.post .mx-auto {
-    border-left: 1px groove #efefef;
-    border-bottom: 1px groove #efefef;
-}
-
 hr {
     display: block;
     height: .5px;
@@ -66,5 +60,14 @@ div#time {
 }
 
 .dropdown-item {
+    color: #0071bc;
+}
+
+div#posts{
+  border: none;
+}
+
+.dropdown-item:hover {
+    background-color: #efefef;
     color: #0071bc;
 }

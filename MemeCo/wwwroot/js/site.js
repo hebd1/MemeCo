@@ -91,11 +91,17 @@ function find_users() {
             if (result.contains) {
                 // Array of users
                 var users = result.users;
+                var pics = result.pics;
                 $('#searchdropdown').html("<div id=\"searchdropdown\" class=\"dropdown-menu\" aria-labelledby=\"dropdownMenuLink\"></div>");
 
                 // Populating dropdown
                 for (var i = 0; i < result.length; i++) {
-                    $('#searchdropdown').append("<a class=\"dropdown-item\" href=\"/"+ users[i] +"\">"+ users[i] +"</a>");
+                    $('#searchdropdown').append("<div class=\"dropdown-item\">"
+                        + "<a href =\"/" + users[i] + "\">"
+                        + "<img class=\"profile-pic rounded-circle\" src=\"" + pics[i] + "\" width=\"25\" height=\"25\">"
+                        + "</a>"
+                        + "   <a class=\"drop-link\" href=\"/" + users[i] + "\">" + users[i] + "</a>"
+                        + "</div>");
                 }
                 return;
             }
