@@ -10,7 +10,8 @@
  *
  * File Contents
  *
- *   functions that set and the get the perfered theme of the user
+ *   Functions that set and the get the perfered theme of the user
+ *   Also searches database for users
  */
 
 /**
@@ -45,8 +46,6 @@ function Get_Theme() {
                 $('#ThemeToggle').attr("mode", "light");
             }
         }
-    }).fail({
-        //Do nothing 
     });
 }
 
@@ -67,25 +66,18 @@ function Set_Theme(user_id) {
         }
     }).done({
         //Succesful found user 
-
-    }).fail({
-        //Do Nothing
     });
 }
 
 /**
- * Search bar event when pressed
- * @param {any} e
- */
-function search_users(e) {
-    e.preventDefault();
-    find_users();
-}
-
+ * Finds the user upon the user search 
+ * */
 function find_users() {
+    // User to search
     var user = $('#usersearch').val();
 
-    $('#searchdropdown').
+    // Clearing dropdown
+    $('#searchdropdown').html("<div id=\"searchdropdown\" class=\"dropdown-menu\" aria-labelledby=\"dropdownMenuLink\"></div>");
     $.ajax({
         method: "POST",
         url: "../../../../Home/Find_User",
@@ -94,24 +86,24 @@ function find_users() {
             user: user
         }
     }).done(function (result) {
-        // TODO: Erase old dropdown
-
-        // Empty User search
+        // Displaying info in dropdown
         if (!result.isnull) {
-            // No users found
             if (result.contains) {
-                // array of users
+                // Array of users
                 var users = result.users;
+                $('#searchdropdown').html("<div id=\"searchdropdown\" class=\"dropdown-menu\" aria-labelledby=\"dropdownMenuLink\"></div>");
 
+                // Populating dropdown
                 for (var i = 0; i < result.length; i++) {
-                    console.log(users[i]);
-                    // Users Found dropdown
+                    $('#searchdropdown').append("<a class=\"dropdown-item\" href=\"/"+ users[i] +"\">"+ users[i] +"</a>");
                 }
-
-
                 return;
             }
+            // No Users Found
+            $('#searchdropdown').append("<a class=\"dropdown-item\" href=\"#\"> No Users Found</a>");
+            return;
         }
-        // TODO: no users found dropdown
-    }).fail(function (result) { });
+        // Empty Search
+        $('#searchdropdown').html("<div id=\"searchdropdown\" class=\"dropdown-menu\" aria-labelledby=\"dropdownMenuLink\"></div>");
+    });
 }

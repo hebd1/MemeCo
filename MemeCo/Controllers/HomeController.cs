@@ -295,12 +295,13 @@ namespace MemeCo.Controllers
                 {
                     return Json(new
                     {
-                        success = false,
+                        success = true,
                         isnull = true
                     });
                 }
 
                 // Find user with related User name
+                user = user.Trim();
                 MemeCoUser[] users = await _context.Users.Where(u => u.UserName.Substring(0, user.Length).Equals(user)).Take(7).ToArrayAsync();
 
                 // Checking for empty search
@@ -314,7 +315,7 @@ namespace MemeCo.Controllers
                 }
 
                 // Get Usernames
-                string[] usernames = new string[7];
+                string[] usernames = new string[users.Length];
                 for (int i = 0; i < users.Length; i++)
                 {
                     usernames[i] = users[i].UserName;

@@ -60,3 +60,11 @@ div#time {
     color: black;
     font-size: 10px;
 }
+
+#dropdownMenuButton {
+    color: #0071bc;
+}
+
+.dropdown-item {
+    color: #0071bc;
+}
