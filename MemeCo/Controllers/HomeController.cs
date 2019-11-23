@@ -281,6 +281,65 @@ namespace MemeCo.Controllers
             }
         }
 
+        /// <summary>
+        /// Live search for users
+        /// </summary>
+        /// <param name="user"></param>
+        /// <returns></returns>
+        public async Task<JsonResult> Find_User(string user)
+        {
+            try
+            {
+                // Checking for empty search
+                if (user == null)
+                {
+                    return Json(new
+                    {
+                        success = false,
+                        isnull = true
+                    });
+                }
+
+                // Find user with related User name
+                MemeCoUser[] users = await _context.Users.Where(u => u.UserName.Substring(0, user.Length).Equals(user)).Take(7).ToArrayAsync();
+
+                // Checking for empty search
+                if (users.Length == 0)
+                {
+                    return Json(new { 
+                        success = true,
+                        length = 0,
+                        contains = false
+                    });
+                }
+
+                // Get Usernames
+                string[] usernames = new string[7];
+                for (int i = 0; i < users.Length; i++)
+                {
+                    usernames[i] = users[i].UserName;
+                }
+                
+                // Return array of users
+                return Json(new
+                {
+                    success = true,
+                    users = usernames,
+                    isnull = false,
+                    contains = true,
+                    length = users.Length
+                });
+            }
+            catch (Exception)
+            {
+                // Any issues
+                return Json(new
+                {
+                    success = false
+                });
+            }
+        }
+
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {

@@ -60,15 +60,58 @@ function Set_Theme(user_id) {
     $.ajax({
         method: "POST",
         url: "../../../../Home/Set_Theme",
-          data:
-          {
-              userid: user_id,
-              theme: theme
-         }
+        data:
+        {
+            userid: user_id,
+            theme: theme
+        }
     }).done({
         //Succesful found user 
 
     }).fail({
         //Do Nothing
     });
+}
+
+/**
+ * Search bar event when pressed
+ * @param {any} e
+ */
+function search_users(e) {
+    e.preventDefault();
+    find_users();
+}
+
+function find_users() {
+    var user = $('#usersearch').val();
+
+    $('#searchdropdown').
+    $.ajax({
+        method: "POST",
+        url: "../../../../Home/Find_User",
+        data:
+        {
+            user: user
+        }
+    }).done(function (result) {
+        // TODO: Erase old dropdown
+
+        // Empty User search
+        if (!result.isnull) {
+            // No users found
+            if (result.contains) {
+                // array of users
+                var users = result.users;
+
+                for (var i = 0; i < result.length; i++) {
+                    console.log(users[i]);
+                    // Users Found dropdown
+                }
+
+
+                return;
+            }
+        }
+        // TODO: no users found dropdown
+    }).fail(function (result) { });
 }

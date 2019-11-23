@@ -62,10 +62,19 @@
                 <div class="navbar-collapse collapse d-sm-inline-flex">
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
-                            <form class="form-inline">
-                                <input class="form-control mr-sm-2 form-control-sm" type="search" placeholder="Find Users" aria-label="Search">
-                                <button class="btn my-2 my-sm-0 btn-sm navb" type="submit">Search</button>
-                            </form>
+                            <div class="dropdown show form-inline">
+                                <form class="form-inline" data-toggle="dropdown">
+                                    <input id="usersearch" onkeyup="find_users()" class="form-control mr-sm-2 form-control-sm" 
+                                           type="search" placeholder="Find Users" aria-label="Search">
+                                    <button onclick="search_users(event)" class="btn my-2 my-sm-0 btn-sm navb" type="submit">Search</button>
+
+                                    <div id="searchdropdown" class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                        <a class="dropdown-item" href="#">Popular</a>
+                                        <a class="dropdown-item" href="#">Following</a>
+                                        <a class="dropdown-item" href="#">Fresh</a>
+                                    </div>
+                                </form>
+                            </div>
                         </li>
                     </ul>
                     <partial name="_LoginPartial" />
