@@ -111,3 +111,8 @@ hr {
    color: #0071bc;
    background-color: #F5F5F5;
 }
+
+div#time {
+    color: white;
+    font-size: 10px;
+}
