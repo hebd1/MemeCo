@@ -10,7 +10,8 @@
  *
  * File Contents
  *
- *   functions that set and the get the perfered theme of the user
+ *   Functions that set and the get the perfered theme of the user
+ *   Also searches database for users
  */
 
 /**
@@ -45,8 +46,6 @@ function Get_Theme() {
                 $('#ThemeToggle').attr("mode", "light");
             }
         }
-    }).fail({
-        //Do nothing 
     });
 }
 
@@ -60,15 +59,57 @@ function Set_Theme(user_id) {
     $.ajax({
         method: "POST",
         url: "../../../../Home/Set_Theme",
-          data:
-          {
-              userid: user_id,
-              theme: theme
-         }
+        data:
+        {
+            userid: user_id,
+            theme: theme
+        }
     }).done({
         //Succesful found user 
+    });
+}
 
-    }).fail({
-        //Do Nothing
+/**
+ * Finds the user upon the user search 
+ * */
+function find_users() {
+    // User to search
+    var user = $('#usersearch').val();
+
+    // Clearing dropdown
+    $('#searchdropdown').html("<div id=\"searchdropdown\" class=\"dropdown-menu\" aria-labelledby=\"dropdownMenuLink\"></div>");
+    $.ajax({
+        method: "POST",
+        url: "../../../../Home/Find_User",
+        data:
+        {
+            user: user
+        }
+    }).done(function (result) {
+        // Displaying info in dropdown
+        if (!result.isnull) {
+            if (result.contains) {
+                // Array of users
+                var users = result.users;
+                var pics = result.pics;
+                $('#searchdropdown').html("<div id=\"searchdropdown\" class=\"dropdown-menu\" aria-labelledby=\"dropdownMenuLink\"></div>");
+
+                // Populating dropdown
+                for (var i = 0; i < result.length; i++) {
+                    $('#searchdropdown').append("<div class=\"dropdown-item\">"
+                        + "<a href =\"/" + users[i] + "\">"
+                        + "<img class=\"profile-pic rounded-circle\" src=\"" + pics[i] + "\" width=\"25\" height=\"25\">"
+                        + "</a>"
+                        + "   <a class=\"drop-link\" href=\"/" + users[i] + "\">" + users[i] + "</a>"
+                        + "</div>");
+                }
+                return;
+            }
+            // No Users Found
+            $('#searchdropdown').append("<a class=\"dropdown-item\" href=\"#\"> No Users Found</a>");
+            return;
+        }
+        // Empty Search
+        $('#searchdropdown').html("<div id=\"searchdropdown\" class=\"dropdown-menu\" aria-labelledby=\"dropdownMenuLink\"></div>");
     });
 }

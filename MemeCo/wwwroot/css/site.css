@@ -75,10 +75,6 @@ body {
     display: inline-block;
 }
 
-/*.btn {
-    margin-bottom: 1rem;
-}*/
-
 #posts {
     border: 1px solid #dbe0f1;
 }
@@ -109,4 +105,20 @@ body {
     text-align: center;
     margin-top: 4rem;
     margin-bottom: 4rem;
+}
+
+#usersearch{
+    width: 400px;
+}
+
+div#sort-by {
+    
+}
+
+#searchdropdown{
+    width: 200px;
+}
+
+.drop-link:hover{
+    text-decoration: none;
 }
