@@ -2,11 +2,11 @@
 
     // set image layout
     if (button == "image-bottom-btn") {
-        $('#image').html("<textarea id=\"meme-text\"></textarea>");
+        $('#image').html("<textarea id=\"meme-text\"  onclick=\"selectSize()\"></textarea>");
         $('#image').append("<img id=\"meme-content\" class=\"img-fluid\" alt=\"Demo Image\" src=\"/files/img_placeholder.png\">");
     } else if (button == "image-top-btn") {
         $('#image').html("<img id=\"meme-content\" class=\"img-fluid\" alt=\"Demo Image\" src=\"/files/img_placeholder.png\">");
-        $('#image').append("<textarea id=\"meme-text\"></textarea>");
+        $('#image').append("<textarea id=\"meme-text\"  onclick=\"selectSize()\"></textarea>");
     } else if (button == "single-image-btn") {
         $('#image').html("");
         $('#image').append("<img id=\"meme-content\" class=\"img-fluid\" alt=\"Demo Image\" src=\"/files/img_placeholder.png\">");

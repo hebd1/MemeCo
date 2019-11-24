@@ -168,7 +168,17 @@ body {
     width: 100%;
     height: 150px;
     background-color: white;
-    margin-bottom: 0;
+    display:block;
+}
+
+#font-size-label {
+    padding-right: 1rem;
+}
+
+.text-block {
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-weight: bold;
+    border: 1px solid black;
 }
 
 

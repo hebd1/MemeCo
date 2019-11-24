@@ -55,7 +55,6 @@
             removeEmpty();
             var fontSize = $('#font-size-selector').val() + "px";
             var text_css = {
-                border: 'none',
                 visibility: 'visible',
                 margin: 0,
                 padding: 0,
@@ -63,23 +62,23 @@
                 top: 0,
                 left: 0,
                 background: 'none',
-                color: '#000000',
                 'font-size': fontSize,
                 padding: '2px',
                 height: '24px',
                 width: '20px',
                 overflow: 'hidden',
-                outline: 'none',
-                'box-shadow': 'none',
-                '-moz-box-shadow': 'none',
-                '-webkit-box-shadow': 'none',
-                'resize': 'none'
+                //outline: 'none',
+                //'box-shadow': 'none',
+                //'-moz-box-shadow': 'none',
+                //'-webkit-box-shadow': 'none',
+                //'resize': 'none'
             };
 
             if ($('#insert-text-btn').hasClass("btn-primary")) {
                 var textArea = $('<textarea></textarea>');
                 var id = "text" + messages.length;
                 textArea.attr('id', id);
+                textArea.attr('class', 'text-block');
                 textArea.css(text_css);
                 position = mouseAbs(e);
                 textArea.css({ 'left': position[0], 'top': position[1] });

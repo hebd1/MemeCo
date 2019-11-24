@@ -49,15 +49,20 @@
             </div>
             <div class="toolbar col-6">
                 <div class="form-group form-inline d-flex justify-content-around">
-                    <label for="exampleFormControlSelect1">Font-Size: </label>
-                    <select class="form-control" id="font-size-selector">
-                        <option value="8">8</option>
-                        <option value="12">12</option>
-                        <option value="18">18</option>
-                        <option value="20">20</option>
-                        <option value="40">40</option>
-                    </select>
-                    <button id="insert-text-btn" type="button" class="btn btn-outline-primary" onclick="insertText()">Insert Text</button>
+                    <div class="row float-left">
+                        <label id="font-size-label" for="exampleFormControlSelect1">Font-Size: </label>
+                        <select class="form-control" id="font-size-selector">
+                            <option value="8">8</option>
+                            <option value="12">12</option>
+                            <option value="18">18</option>
+                            <option value="20">20</option>
+                            <option value="40">40</option>
+                        </select>
+                    </div>
+                    <label id="text-color-label" for="exampleFormControlSelect1">Text Color: </label>
+                    <button id="black-text-btn" type="button" class="btn btn-dark">Black</button>
+                    <button id="white-text-btn" type="button" class="btn btn-light" onclick="textWhite()">White</button>
+                    <button id="insert-text-btn" type="button" class="btn btn-outline-primary float-right" onclick="insertText()">Insert Text</button>
 
                 </div>
 
@@ -66,7 +71,7 @@
                     <button id="single-image-btn" type="button" class="btn btn-primary" onclick="select_layout('single-image-btn')">single image</button>
                     <button id="image-top-btn" type="button" class="btn btn-outline-primary" onclick="select_layout('image-top-btn')">image top</button>
                     <button id="image-bottom-btn" type="button" class="btn btn-outline-primary" onclick="select_layout('image-bottom-btn')">image bottom</button>
-                    <button id="2x2-grid-btn" type="button" class="btn btn-outline-primary" onclick="select_layout('2x2-grid-btn')">2x2 grid</button>
+                    @*<button id="2x2-grid-btn" type="button" class="btn btn-outline-primary" onclick="select_layout('2x2-grid-btn')">2x2 grid</button>*@
                 </div>
         
 
@@ -138,6 +143,8 @@
 
         var textover_api;
 
+      
+
         $('#meme-content').TextOver({}, function () {
             textover_api = this;
         });
@@ -176,6 +183,22 @@
 </script>
 
 <script type='text/javascript'>
+
+    function selectSize() {
+      $('#meme-text').click(function () {
+            $('#meme-text').css("font-size", $('#font-size-selector').val() + "px");
+        })
+    }
+
+    function textWhite() {
+        //$('#black-text-btn').click(function () {
+        //    $('.text-block').css("color", "black");
+        //})
+            $('.text-block').css('color', 'white');
+
+        //$('#white-text-btn').click(function () {
+        //})
+    }
 
     function download() {
         html2canvas(document.getElementById('image')).then(function (canvas) {
