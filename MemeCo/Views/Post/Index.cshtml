@@ -145,13 +145,13 @@
                                 <h5 class="card-header">
                                     Add a Comment
                                 </h5>
-                                    <div class="card-body">
-                                        <form onsubmit="add_comment('@post.ID', '@currentUser.Id', event)" asp-action="add_comment" method="post">
-                                            <textarea id="newnote" name="newnote" class="card-text" rows="4" cols="73"></textarea>
-                                            <br />
-                                            <input class="btn my-2 my-sm-0 btn-sm navb" type="submit" value="Add">
-                                        </form>
-                                    </div>
+                                <div class="card-body">
+                                    <form onsubmit="add_comment('@post.ID', '@currentUser.Id', event)" asp-action="add_comment" method="post">
+                                        <textarea id="newnote" name="newnote" class="card-text" rows="4" cols="73"></textarea>
+                                        <br />
+                                        <input class="btn my-2 my-sm-0 btn-sm navb" type="submit" value="Add">
+                                    </form>
+                                </div>
                             </div>
                             <br />
                         }
@@ -184,9 +184,11 @@
                                             <input id="editBtn" class="btn my-2 my-sm-0 btn-sm navb" type="submit" value="Save">
                                         </form>
 
-                                        <button class="btn my-2 my-sm-0 btn-sm navb" 
-                                                onclick="delete_comment('@comment.ID', '@location', event, '@post.ID', '@currentUser.Id')">Delete</button>
-                                    </div>     
+                                        <button class="btn my-2 my-sm-0 btn-sm navb"
+                                                onclick="delete_comment('@comment.ID', '@location', event, '@post.ID', '@currentUser.Id')">
+                                            Delete
+                                        </button>
+                                    </div>
                                 </div>
                                 <br />
                             }
@@ -199,7 +201,7 @@
                                             <img class="profile-pic rounded-circle" src="@profilePic" width="50" height="50">
                                             @username
                                         </a>
-                                        
+
                                         <div id="time">
                                             <br />
                                             @time
@@ -216,6 +218,11 @@
                     }
                 </div>
             </div>
+        </div>
+
+
+        <div>
+            @await Component.InvokeAsync("Related", new { templateID = 1 })
         </div>
     }
 </body>

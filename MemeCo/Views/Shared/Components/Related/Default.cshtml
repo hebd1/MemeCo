@@ -1,0 +1,23 @@
+﻿<!--
+  Author:    Jose Monterroso
+  Partner:   Jasen Lassig, Eli Hebdon
+  Date:      November 27, 2019
+  Course:    CS 4540, University of Utah, School of Computing
+  Copyright: CS 4540 and Jose, Jasen, Eli - This work may not be copied for use in Academic Coursework.
+
+  I, Jose, certify that I wrote this code from scratch and did not copy it in part or whole from
+  another source.  Any references used in the completion of the assignment are cited in my README file.
+
+  File Contents
+
+    Displays the related Posts. The posts can be clicked where they each link to their respectd pages
+-->
+
+@{
+    @using Microsoft.AspNetCore.Identity
+    @using MemeCo.Areas.Identity.Data
+    @inject UserManager<MemeCoUser> userManager
+    @model IEnumerable<Post>
+}
+
+<h1>HELLO this is the Related View</h1>
