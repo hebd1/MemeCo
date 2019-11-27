@@ -218,12 +218,23 @@
                     }
                 </div>
             </div>
+
+            @{ 
+                // Null Template ID Check
+                int templateID;
+                if (post.TemplateID == null)
+                {
+                    templateID = -1;
+                }
+                else
+                {
+                    templateID = post.TemplateID.Value;
+                }
+
+                @await Component.InvokeAsync("Related", new { templateID = templateID, post = post, isEditor = false });
+            }
         </div>
 
-
-        <div>
-            @await Component.InvokeAsync("Related", new { templateID = 1 })
-        </div>
     }
 </body>
 </html>

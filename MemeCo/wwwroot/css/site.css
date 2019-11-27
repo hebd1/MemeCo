@@ -13,6 +13,10 @@
  *   Overall page css file
  */
 
+a:hover {
+    text-decoration: none;
+}
+
 a.navbar-brand {
   white-space: normal;
   text-align: center;
@@ -67,10 +71,12 @@ body {
   line-height: 60px; /* Vertically center the text there */
 }
 
+/*Post Css*/
 .post {
     padding-top: 4rem;
 }
 
+/*Like Buttons*/
 .like_buttons {
     display: inline-block;
 }
@@ -107,6 +113,7 @@ body {
     margin-bottom: 4rem;
 }
 
+/*User Search bar width*/
 #usersearch{
     width: 400px;
 }
@@ -115,6 +122,7 @@ div#sort-by {
     
 }
 
+/* Search dropdown width and hover*/
 #searchdropdown{
     width: 200px;
 }
@@ -122,3 +130,30 @@ div#sort-by {
 .drop-link:hover{
     text-decoration: none;
 }
+
+/*Scrolling css from
+    https://codeburst.io/how-to-create-horizontal-scrolling-containers-d8069651e9c6
+*/
+.scrolling-wrapper {
+    overflow-x: scroll;
+    overflow-y: hidden;
+    white-space: nowrap;
+    width: 100%;
+}
+
+.card .holder {
+    margin-left: 2%;
+    margin-right: 2%;
+    display: inline-block;
+    width: 30%;
+    height: 30%;
+}
+
+.holder-img {
+
+}
+  
+/*
+    TODO: Card-Holder and holder-img border
+    TODO: Img CSS to prevent leakage of image
+*/

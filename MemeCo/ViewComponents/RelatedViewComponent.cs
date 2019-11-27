@@ -13,9 +13,7 @@
  *    Returns the related posts based on the template ID, otherwise we return random Records
  */
 
-using MemeCo.Areas.Identity.Data;
 using MemeCo.Models;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -48,19 +46,79 @@ namespace MemeCo.ViewComponents
         /// Given a template ID we return the related Posts
         /// </summary>
         /// <param name="templateID"></param>
+        /// <param name="post"></param>
+        /// <param name="isEditor"></param>
         /// <returns></returns>
-        public async Task<IViewComponentResult> InvokeAsync(int templateID)
+        public async Task<IViewComponentResult> InvokeAsync(int templateID, Post post, bool isEditor)
         {
-            List<Post> relatedPosts = await _context.Posts
-                .Include(u => u.User)
-                .Where(p => p.TemplateID == templateID).Take(10).ToListAsync();
+            List<Post> relatedPosts;
 
-            // If the Template does not relate we return random Posts
-            if (relatedPosts.Count < 10)
+            // isEditor vs normal page
+            if (isEditor)
             {
-                relatedPosts = await _context.Posts
-                    .Include(u => u.User)
-                    .OrderBy(r => Guid.NewGuid()).Skip(3).Take(10).ToListAsync();
+                // Null Check
+                if (templateID == -1)
+                {
+                    // Random Posts
+                    relatedPosts = await _context.Posts
+                            .Include(u => u.User)
+                            .OrderBy(r => Guid.NewGuid()).Skip(3).Take(10).ToListAsync();
+                }
+                else
+                {
+                    // Related Posts
+                    relatedPosts = await _context.Posts
+                        .OrderBy(r => Guid.NewGuid())
+                        .Include(u => u.User)
+                        .Where(p => p.TemplateID == templateID)
+                        .Skip(3).Take(10).ToListAsync();
+
+                    // Fills the remaining count of the related memes
+                    if (relatedPosts.Count < 10)
+                    {
+                        // Gets random Posts
+                        List<Post> randomPosts = await _context.Posts
+                            .Include(u => u.User)
+                            .OrderBy(r => Guid.NewGuid()).Skip(3).Take(10 - relatedPosts.Count).ToListAsync();
+
+                        // Adds to the related Posts
+                        relatedPosts.AddRange(randomPosts);
+                    }
+                }
+            }
+            else
+            {
+                // Null Check
+                if (templateID == -1)
+                {
+                    // Random Posts
+                    relatedPosts = await _context.Posts
+                            .Include(u => u.User)
+                            .Where(p => p.ID != post.ID)
+                            .OrderBy(r => Guid.NewGuid()).Skip(3).Take(10).ToListAsync();
+                }
+                else
+                {
+                    // Related Posts
+                    relatedPosts = await _context.Posts
+                        .OrderBy(r => Guid.NewGuid())
+                        .Include(u => u.User)
+                        .Where(p => p.TemplateID == templateID && p.ID != post.ID)
+                        .Skip(3).Take(10).ToListAsync();
+
+                    // Fills the remaining count of the related memes
+                    if (relatedPosts.Count < 10)
+                    {
+                        // Gets random Posts
+                        List<Post> randomPosts = await _context.Posts
+                            .Include(u => u.User)
+                            .Where(p => p.ID != post.ID)
+                            .OrderBy(r => Guid.NewGuid()).Skip(3).Take(10 - relatedPosts.Count).ToListAsync();
+
+                        // Adds to the related Posts
+                        relatedPosts.AddRange(randomPosts);
+                    }
+                }
             }
 
             // Giving the View the related Posts
