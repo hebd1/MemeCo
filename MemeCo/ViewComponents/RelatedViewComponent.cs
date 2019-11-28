@@ -71,18 +71,22 @@ namespace MemeCo.ViewComponents
                         .OrderBy(r => Guid.NewGuid())
                         .Include(u => u.User)
                         .Where(p => p.TemplateID == templateID)
-                        .Skip(3).Take(10).ToListAsync();
+                        .Take(10).ToListAsync();
 
                     // Fills the remaining count of the related memes
                     if (relatedPosts.Count < 10)
                     {
-                        // Gets random Posts
-                        List<Post> randomPosts = await _context.Posts
-                            .Include(u => u.User)
-                            .OrderBy(r => Guid.NewGuid()).Skip(3).Take(10 - relatedPosts.Count).ToListAsync();
+                        while (relatedPosts.Count <= 10)
+                        {
+                            Post temp = await _context.Posts.Include(u => u.User)
+                                .OrderBy(r => Guid.NewGuid())
+                                .Skip(3).FirstOrDefaultAsync();
 
-                        // Adds to the related Posts
-                        relatedPosts.AddRange(randomPosts);
+                            if (!relatedPosts.Contains(temp))
+                            {
+                                relatedPosts.Add(temp);
+                            }
+                        }
                     }
                 }
             }
@@ -104,19 +108,22 @@ namespace MemeCo.ViewComponents
                         .OrderBy(r => Guid.NewGuid())
                         .Include(u => u.User)
                         .Where(p => p.TemplateID == templateID && p.ID != post.ID)
-                        .Skip(3).Take(10).ToListAsync();
+                        .Take(10).ToListAsync();
 
                     // Fills the remaining count of the related memes
                     if (relatedPosts.Count < 10)
                     {
-                        // Gets random Posts
-                        List<Post> randomPosts = await _context.Posts
-                            .Include(u => u.User)
-                            .Where(p => p.ID != post.ID)
-                            .OrderBy(r => Guid.NewGuid()).Skip(3).Take(10 - relatedPosts.Count).ToListAsync();
+                        while (relatedPosts.Count < 10)
+                        {
+                            Post temp = await _context.Posts.Include(u => u.User)
+                                .OrderBy(r => Guid.NewGuid())
+                                .Skip(3) .FirstOrDefaultAsync();
 
-                        // Adds to the related Posts
-                        relatedPosts.AddRange(randomPosts);
+                            if (!relatedPosts.Contains(temp))
+                            {
+                                relatedPosts.Add(temp);
+                            }
+                        }
                     }
                 }
             }
