@@ -109,3 +109,14 @@ div#time {
     color: white;
     font-size: 10px;
 }
+
+.card .holder {
+    border-top: 2px groove #212121;
+    border-right: 2px groove #212121;
+    border-bottom: 2px groove #212121;
+    border-left: 2px groove #212121;
+}
+
+.holder-img {
+    border: none;
+}

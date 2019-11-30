@@ -71,3 +71,7 @@ div#posts{
     background-color: #efefef;
     color: #0071bc;
 }
+
+.card-header {
+    color: #0071bc;
+}

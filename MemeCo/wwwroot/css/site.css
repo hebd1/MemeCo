@@ -13,6 +13,10 @@
  *   Overall page css file
  */
 
+a:hover {
+    text-decoration: none;
+}
+
 a.navbar-brand {
   white-space: normal;
   text-align: center;
@@ -67,10 +71,12 @@ body {
   line-height: 60px; /* Vertically center the text there */
 }
 
+/*Post Css*/
 .post {
     padding-top: 4rem;
 }
 
+/*Like Buttons*/
 .like_buttons {
     display: inline-block;
 }
@@ -107,18 +113,33 @@ body {
     margin-bottom: 4rem;
 }
 
+/*User Search bar width*/
 #usersearch{
-    width: 400px;
+    width: 25rem;
 }
 
 div#sort-by {
     
 }
 
+/* Search dropdown width*/
 #searchdropdown{
-    width: 200px;
+    width: 12.5rem;
 }
 
-.drop-link:hover{
-    text-decoration: none;
+/*Scrolling css from
+    https://codeburst.io/how-to-create-horizontal-scrolling-containers-d8069651e9c6
+*/
+.scrolling-wrapper {
+    overflow-x: scroll;
+    overflow-y: hidden;
+    white-space: nowrap;
+    height: 100%;
+}
+
+.card .holder {
+    margin-left: 1.5%;
+    margin-right: 1.5%;
+    display: inline-block;
+    width: 12rem;
 }
