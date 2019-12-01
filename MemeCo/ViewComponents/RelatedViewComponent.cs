@@ -116,6 +116,7 @@ namespace MemeCo.ViewComponents
                         while (relatedPosts.Count < 10)
                         {
                             Post temp = await _context.Posts.Include(u => u.User)
+                                .Where(p => p.ID != post.ID)
                                 .OrderBy(r => Guid.NewGuid())
                                 .Skip(3) .FirstOrDefaultAsync();
 
