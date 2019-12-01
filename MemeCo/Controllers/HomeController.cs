@@ -344,6 +344,20 @@ namespace MemeCo.Controllers
             }
         }
 
+        /// <summary>
+        /// Returns the Overview View for TA's to grade 
+        /// </summary>
+        /// <returns></returns>
+        public IActionResult Overview()
+        {
+            return View("Views/Home/Overview.cshtml");
+        }
+
+        /// <summary>
+        /// Used whenever an error has occured. Returns a the Error View with its 
+        /// corresponding model
+        /// </summary>
+        /// <returns></returns>
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
