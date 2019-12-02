@@ -6,4 +6,64 @@
 
 @model MemeCo.Areas.Identity.Data.MemeCoUser
 
-<h1>@Model.UserName</h1>
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>@ViewData["Title"] - @Model.UserName</title>
+    <meta name="description" content="Profile page for @Model.UserName">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="author" content="Jasen Lassig u0671257">
+    <meta name="keywords" content="HTML, CSS, Meme.co, memes">
+    <script src="https://kit.fontawesome.com/50d38ee57a.js"></script>
+</head>
+
+<body>
+    <div>
+        <header>
+            @{
+                var profileSrc = String.Format("data:image/gif;base64,{0}", Convert.ToBase64String(Model.ProfilePicture));
+                var postCount = Model.Posts.Count();
+                int followerCount = Model.Followers.Count();
+                int followingCount = Model.Following.Count();
+            }
+            <div class="post mx-auto">
+                <div class="card mx-auto" style="width: 40rem;">
+                    <div class="card-title post-header row">
+                        <span id="profilePic" style="width: 165px; height: 165px;" tabindex="0">
+                            <img class="profile-pic rounded-circle align-self-center" src="@profileSrc" width="150" height="150">
+                        </span>
+                        <section class="justify-content-center">
+                            <h1>@Model.UserName</h1>
+                            <ul class="list-group list-group-horizontal">
+                                <li class="list-group-item">
+                                    @postCount Posts
+                                </li>
+                                <li class="list-group-item">
+                                    @followerCount Followers
+                                </li>
+                                <li class="list-group-item">
+                                    @followingCount Following
+                                </li>
+                            </ul>
+                        </section>
+                    </div>
+                    <article>
+                        <div class="flex-column">
+                            @{ 
+                                for (int i = 0; i < postCount % 3; i++)
+                                {
+
+                                }
+                            }
+                        </div>
+                    </article>
+                </div>
+            </div>
+        </header>
+    </div>
+</body>
+
+</html>
