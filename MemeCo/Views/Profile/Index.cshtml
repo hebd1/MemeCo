@@ -30,28 +30,36 @@
                 int followingCount = Model.Following.Count();
             }
             <div class="post mx-auto">
-                <div class="card mx-auto" style="width: 50rem;">
+                <div class="card mx-auto" style="width: 40rem;">
                     <div class="card-title post-header row">
                         <span id="profilePic" style="width: 165px; height: 165px;" tabindex="0">
                             <img class="profile-pic rounded-circle align-self-center" src="@profileSrc" width="150" height="150">
                         </span>
                         <div class="justify-content-center">
-                            <h1>@Model.UserName</h1>
+                            <div>
+                                <h1>@Model.UserName</h1>
+                                <button type="button" class="btn btn-primary follow-button">Follow</button>
+                            </div>
                             <ul class="list-group list-group-horizontal">
-                                <li class="list-group-item">
+                                <li class="list-group-item profile-info">
                                     @postCount Posts
                                 </li>
-                                <li class="list-group-item">
+                                <li class="list-group-item profile-info">
                                     @followerCount Followers
                                 </li>
-                                <li class="list-group-item">
+                                <li class="list-group-item profile-info">
                                     @followingCount Following
                                 </li>
                             </ul>
+                            <br />
+                            <p>
+                                @Model.Bio
+                            </p>
                         </div>
                     </div>
+                    <hr />
                     <article>
-                        <div class="container">
+                        <div class="container profile-post-display">
                             <table>
                                 @{
                                     // borrowed from MortenRøgenes on StackOverflow

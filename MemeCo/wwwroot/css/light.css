@@ -75,3 +75,13 @@ div#posts{
 .card-header {
     color: #0071bc;
 }
+
+.follow-button {
+    background-color: #0071bc;
+    color:white;
+}
+
+.profile-info {
+    background-color: white;
+    color: black;
+}

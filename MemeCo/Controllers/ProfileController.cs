@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using MemeCo.Areas.Identity.Data;
@@ -22,6 +23,11 @@ namespace MemeCo.Controllers
         public async Task<IActionResult> Index(string username)
         {
             MemeCoUser user = await _userManager.FindByNameAsync(username);
+
+            if (user == null)
+            {
+                return RedirectToActionPermanent("Index", "Home");
+            }
 
             user.Followers = _context.Follows.Where(x => x.UserID == user.Id).OrderBy(x => x.Follower.UserName).ToList();
             user.Following = _context.Follows.Where(x => x.FollowerID == user.Id).OrderBy(x => x.User.UserName).ToList();

@@ -100,7 +100,7 @@ namespace MemeCo.Areas.Identity.Pages.Account
                 else
                 {
                     var confirmed = await _userManager.FindByEmailAsync(Input.Username);
-                    if (!confirmed.EmailConfirmed)
+                    if (confirmed != null && !confirmed.EmailConfirmed)
                     {
                         ModelState.AddModelError(string.Empty, "Please check your email to confirm your account.");
                     } else
