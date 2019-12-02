@@ -24,6 +24,7 @@ namespace MemeCo.Controllers
             _user_manager = user_manager;
         }
 
+        [HttpGet("/editor")]
         public IActionResult Index()
         {
             var result = _context.Posts.Include(o => o.Likes).Include(o => o.User).ThenInclude(o => o.Followers).Include(o => o.Comments).ToList();
