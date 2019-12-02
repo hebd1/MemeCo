@@ -120,3 +120,7 @@ div#time {
 .holder-img {
     border: none;
 }
+
+.navbar-toggler-icon {
+    color: #00b0ff;
+}
