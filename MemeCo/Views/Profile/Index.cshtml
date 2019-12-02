@@ -30,12 +30,12 @@
                 int followingCount = Model.Following.Count();
             }
             <div class="post mx-auto">
-                <div class="card mx-auto" style="width: 40rem;">
+                <div class="card mx-auto" style="width: 50rem;">
                     <div class="card-title post-header row">
                         <span id="profilePic" style="width: 165px; height: 165px;" tabindex="0">
                             <img class="profile-pic rounded-circle align-self-center" src="@profileSrc" width="150" height="150">
                         </span>
-                        <section class="justify-content-center">
+                        <div class="justify-content-center">
                             <h1>@Model.UserName</h1>
                             <ul class="list-group list-group-horizontal">
                                 <li class="list-group-item">
@@ -48,16 +48,30 @@
                                     @followingCount Following
                                 </li>
                             </ul>
-                        </section>
+                        </div>
                     </div>
                     <article>
-                        <div class="flex-column">
-                            @{ 
-                                for (int i = 0; i < postCount % 3; i++)
-                                {
-
+                        <div class="container">
+                            <table>
+                                @{
+                                    // borrowed from MortenRøgenes on StackOverflow
+                                    // https://stackoverflow.com/questions/11625938/how-to-loop-over-generic-listt-and-group-per-3-items
+                                    for (var i = 0; i < postCount; i += 3)
+                                    {
+                                        <tr class="profile-row">
+                                            @foreach (Post post in Model.Posts.Skip(i).Take(3))
+                                            {
+                                                var imgSrc = String.Format("data:image/gif;base64,{0}", Convert.ToBase64String(post.Meme));
+                                                <td>
+                                                    <a href="/Post/@post.ID" class="img-fluid">
+                                                        <img class="profile-meme" src="@imgSrc" alt="Meme">
+                                                    </a>
+                                                </td>
+                                            }
+                                        </tr>
+                                    }
                                 }
-                            }
+                            </table>
                         </div>
                     </article>
                 </div>

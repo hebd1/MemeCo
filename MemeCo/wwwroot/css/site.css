@@ -143,3 +143,15 @@ div#sort-by {
     display: inline-block;
     width: 12rem;
 }
+
+/*
+    Profile page css
+*/
+.profile-meme {
+    display: block;
+    width: 100%;
+    padding: 0px;
+}
+.profile-row {
+    line-height: 200px;
+}
