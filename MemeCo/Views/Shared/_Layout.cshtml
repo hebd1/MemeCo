@@ -51,7 +51,6 @@
     <header>
         <!--Navbar-->
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm mb-3">
-            <div class="container">
                 <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">
                     <img alt="MemeCo Logo" id="Logo" src="~/files/LightLogo.png" width="190" height="35" />
                 </a>
@@ -59,9 +58,9 @@
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex">
-
-                    <ul class="navbar-nav flex-grow-1">
+                <div class="navbar-collapse collapse">
+                
+                    <ul class="navbar-nav mr-auto mt-2 mt-lg">
                         <li class="nav-item">
                             <!--User Search Dropdown-->
                             <div class="dropdown show form-inline">
@@ -74,18 +73,17 @@
                             </div>
                         </li>
                         <li class="nav-item">
+                            <a class="" asp-area="" asp-controller="Editor" asp-action="Index">Editor</a>
+                        </li>
+                        <li class="nav-item">
                             <!--Overview page link-->
                             <a asp-area="" asp-controller="Home" asp-action="Overview" style="padding-left: 5%">  Overview</a>
                         </li>
 
                     </ul>
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="" asp-area="" asp-controller="Editor" asp-action="Index">Editor</a>
-                        </li>
-
-                    </ul>
-                    <partial name="_LoginPartial" />
+                    <div class="float-lg-right">
+                        <partial name="_LoginPartial" />
+                    </div>
 
                     @{
                         if (SignInManager.IsSignedIn(User))
@@ -99,7 +97,6 @@
                         }
                     }
                 </div>
-            </div>
         </nav>
     </header>
     <div class="container">

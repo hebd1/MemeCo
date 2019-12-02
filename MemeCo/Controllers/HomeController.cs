@@ -29,6 +29,7 @@ namespace MemeCo.Controllers
         /// Index view of the MemeCo site represents the Main Feed that is populated with Meme Posts
         /// </summary>
         /// <returns></returns>
+        [HttpGet("/")]
         public async Task<IActionResult> Index()
         {
             var result = _context.Posts.Include(o => o.Likes).Include(o => o.User).ThenInclude(o => o.Followers).Include(o => o.Comments).ToList();  

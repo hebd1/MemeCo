@@ -7,11 +7,11 @@ using MemeCo.Areas.Identity.Data;
 using MemeCo.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authorization;
 
 
 namespace MemeCo.Controllers
 {
-
     public class EditorController : Controller
     {
         private readonly MemeCoContext _context;
@@ -23,7 +23,6 @@ namespace MemeCo.Controllers
             _context = context;
             _user_manager = user_manager;
         }
-
 
         public IActionResult Index()
         {

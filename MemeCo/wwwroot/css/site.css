@@ -132,13 +132,9 @@ body {
     overflow: hidden;
 }
 
-/*input {
-    position: absolute;
-    font-size: 30px;
-    opacity: 0;
-    right: 0;
-    top: 0;
-}*/
+ul li {
+    padding-right: 1rem;
+}
 
 .file {
     visibility: hidden;
