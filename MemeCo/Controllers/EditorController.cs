@@ -27,8 +27,17 @@ namespace MemeCo.Controllers
         [HttpGet("/editor")]
         public IActionResult Index()
         {
-            var result = _context.Posts.Include(o => o.Likes).Include(o => o.User).ThenInclude(o => o.Followers).Include(o => o.Comments).ToList();
-            return View(result);
+            // user not logged in
+            if(this.User.Identity.Name != null)
+            {
+
+                var result = _context.Posts.Include(o => o.Likes).Include(o => o.User).ThenInclude(o => o.Followers).Include(o => o.Comments).ToList();
+                return View(result);
+            }else
+            {
+                return Redirect("Identity/Account/Login");
+            }
+            
         }
 
         [HttpPost]

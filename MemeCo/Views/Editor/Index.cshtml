@@ -73,7 +73,7 @@
                     <button id="image-bottom-btn" type="button" class="btn btn-outline-primary" onclick="select_layout('image-bottom-btn')">image bottom</button>
                     @*<button id="2x2-grid-btn" type="button" class="btn btn-outline-primary" onclick="select_layout('2x2-grid-btn')">2x2 grid</button>*@
                 </div>
-        
+
 
                 <div>
                     <div id="msg"></div>
@@ -131,6 +131,10 @@
             </div>
 
         </div>
+        @{
+          
+            @await Component.InvokeAsync("Related", new { templateID = -1, post = new Post(), isEditor = true });
+        }
     </div>
 
 </body>
