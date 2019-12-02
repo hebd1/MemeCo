@@ -281,6 +281,83 @@ namespace MemeCo.Controllers
             }
         }
 
+        /// <summary>
+        /// Live search for users
+        /// </summary>
+        /// <param name="user"></param>
+        /// <returns></returns>
+        public async Task<JsonResult> Find_User(string user)
+        {
+            try
+            {
+                // Checking for empty search
+                if (user == null)
+                {
+                    return Json(new
+                    {
+                        success = true,
+                        isnull = true
+                    });
+                }
+
+                // Find user with related User name
+                user = user.Trim();
+                MemeCoUser[] users = await _context.Users.Where(u => u.UserName.Contains(user)).Take(7).OrderBy(u => u.UserName).ToArrayAsync();
+
+                // Checking for empty search
+                if (users.Length == 0)
+                {
+                    return Json(new { 
+                        success = true,
+                        length = 0,
+                        contains = false
+                    });
+                }
+
+                //Get UserImages, Usernames
+                string[] profilePics = new string[users.Length];
+                string[] usernames = new string[users.Length];
+                for (int i = 0; i < users.Length; i++)
+                {
+                    usernames[i] = users[i].UserName;
+                    profilePics[i] = String.Format("data:image/gif;base64,{0}", Convert.ToBase64String(users[i].ProfilePicture));
+                }
+    
+                // Return array of usernames/userpics
+                return Json(new
+                {
+                    success = true,
+                    users = usernames,
+                    pics = profilePics,
+                    isnull = false,
+                    contains = true,
+                    length = users.Length
+                });
+            }
+            catch (Exception)
+            {
+                // Any issues
+                return Json(new
+                {
+                    success = false
+                });
+            }
+        }
+
+        /// <summary>
+        /// Returns the Overview View for TA's to grade 
+        /// </summary>
+        /// <returns></returns>
+        public IActionResult Overview()
+        {
+            return View("Views/Home/Overview.cshtml");
+        }
+
+        /// <summary>
+        /// Used whenever an error has occured. Returns a the Error View with its 
+        /// corresponding model
+        /// </summary>
+        /// <returns></returns>
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {

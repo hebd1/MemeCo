@@ -13,6 +13,10 @@
  *   Overall page css file
  */
 
+a:hover {
+    text-decoration: none;
+}
+
 a.navbar-brand {
   white-space: normal;
   text-align: center;
@@ -67,17 +71,15 @@ body {
   line-height: 60px; /* Vertically center the text there */
 }
 
+/*Post Css*/
 .post {
     padding-top: 4rem;
 }
 
+/*Like Buttons*/
 .like_buttons {
     display: inline-block;
 }
-
-/*.btn {
-    margin-bottom: 1rem;
-}*/
 
 #posts {
     border: 1px solid #dbe0f1;

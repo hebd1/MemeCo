@@ -60,13 +60,16 @@ namespace MemeCo.Models
 
             // add test post by current user
             MemeCoUser user2 = addUser("testuser2", "test@meme.co", "test bio", false);
+            MemeCoUser user3 = addUser("testuser3", "testuser3@meme.co", "bio", true);
 
             // add user1 as a follower of user2
             IEnumerable<Follow> follows = new List<Follow>();
             addFollower(follows, user2.Id, user2, user1.Id, user1);
             IEnumerable<Like> likes = new List<Like>();
-            Post post1 = addPost("test description", likes, File.ReadAllBytes("wwwroot\\meme_templates\\spongebob_burned_note.png"), user2.Id, user2);
-            
+            Post post1 = addPost("test description", likes, File.ReadAllBytes("wwwroot\\meme_templates\\spongebob_burned_note.png"), user2.Id, user2, 5);
+            Post post3 = addPost("test", likes, File.ReadAllBytes("wwwroot\\meme_templates\\spongebob_burned_note.png"), user1.Id, user1, 5);
+            Post post4 = addPost("test", likes, File.ReadAllBytes("wwwroot\\meme_templates\\spongebob_burned_note.png"), user3.Id, user3, 5);
+
 
             // add third test user
             user2 = addUser("testuser3", "testy@gmail.com", "i like eggs", false);
@@ -81,7 +84,7 @@ namespace MemeCo.Models
             }
 
             // add second test post
-            Post post2 = addPost("ok boomer test description", likes, File.ReadAllBytes("wwwroot\\meme_templates\\jealous_girlfriend.jpg"), user2.Id, user2);
+            Post post2 = addPost("ok boomer test description", likes, File.ReadAllBytes("wwwroot\\meme_templates\\jealous_girlfriend.jpg"), user2.Id, user2, 2);
             foreach (MemeCoUser usr in dislikeUsers)
             {
                 addLike(likes, false, usr.Id, post2);
@@ -134,7 +137,7 @@ namespace MemeCo.Models
         /// <param name="memeCoUserID"></param>
         /// <param name="comments"></param>
         /// <param name="user"></param>
-        private Post addPost(string description, IEnumerable<Like> likes, byte[] meme, string memeCoUserID, MemeCoUser user)
+        private Post addPost(string description, IEnumerable<Like> likes, byte[] meme, string memeCoUserID, MemeCoUser user, int? templateID)
         {
             Post post = new Post();
             post.Description = description;
@@ -142,6 +145,7 @@ namespace MemeCo.Models
             post.Meme = meme;
             post.MemeCoUserID = memeCoUserID;
             post.User = user;
+            post.TemplateID = templateID;
 
             _memeCoContext.Posts.Add(post);
             _memeCoContext.SaveChanges();
@@ -218,14 +222,14 @@ namespace MemeCo.Models
             Post post;
             IEnumerable<Like> likes;
             IEnumerable<Comment> comments;
+
             foreach (var meme in memes)
             {
                 poster = addUser("memePoster" + count, "memePoster" + count + "@gmail.com", "poster" + count + " bio", false);
                 likes = new List<Like>();
                 comments = new List<Comment>();
-                post = addPost("Post " + count  + " description", likes, File.ReadAllBytes(meme), poster.Id, poster);
+                post = addPost("Post " + count  + " description", likes, File.ReadAllBytes(meme), poster.Id, poster, null);
                 count++;
-
             }
 
         }

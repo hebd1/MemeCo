@@ -49,17 +49,16 @@ a {
 .post .mx-auto {
     background-color: #232323;
     color: rgb(240, 240, 240);
+}
+
+.card {
     border-left: 3px groove #212121;
     border-bottom: 3px groove #212121;
     border-top: 3px groove #212121;
+    border-right: 3px groove #212121;
 }
 
-.card .mx-auto {
-    border-left: 3px groove #212121;
-    border-bottom: 3px groove #212121;
-    border-top: 3px groove #212121;
-}
-
+    
 hr {
     display: block;
     height: .5px;
@@ -72,7 +71,7 @@ hr {
     background: #212121;
     border-top: .5px groove #212121;
     border-bottom: .5px groove #212121;
-    border-bottom: .5px groove #212121;
+    border-left: .5px groove #212121;
 }
 
 .card-body {
@@ -83,19 +82,13 @@ hr {
 }
 
 #posts {
-    border-left: 3px solid #212121;
-    border-bottom: 3px solid #212121;
-    border-right: 3px solid #212121;
-    border-top: 3px solid #212121;
+    border: none;
 }
 
 #dropdownMenuButton {
     background-color: #232323;
     color: #00b0ff;
-    border-left: 3px solid #212121;
-    border-bottom: 3px solid #212121;
-    border-right: 3px solid #212121;
-    border-top: 3px solid #212121;
+    border: none;
 }
 
 
@@ -110,4 +103,20 @@ hr {
 .dropdown-item:hover {
    color: #0071bc;
    background-color: #F5F5F5;
+}
+
+div#time {
+    color: white;
+    font-size: 10px;
+}
+
+.card .holder {
+    border-top: 2px groove #212121;
+    border-right: 2px groove #212121;
+    border-bottom: 2px groove #212121;
+    border-left: 2px groove #212121;
+}
+
+.holder-img {
+    border: none;
 }
