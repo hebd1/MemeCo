@@ -112,4 +112,20 @@ function find_users() {
         // Empty Search
         $('#searchdropdown').html("<div id=\"searchdropdown\" class=\"dropdown-menu\" aria-labelledby=\"dropdownMenuLink\"></div>");
     });
+
+
+}
+
+/**
+ * displays a previous of the edited meme in a modal in the editor view
+ * */
+function showPreview() {
+    var modal = $('#previewModal');
+    modal.find('canvas').remove();
+    html2canvas(document.getElementById('image')).then(function (canvas) {
+        modal.find('.modal-body').append(canvas);
+        console.log(canvas);
+    });
+    $('#previewModal').modal();
+
 }

@@ -54,6 +54,11 @@
         newTextArea = function(e) {
             removeEmpty();
             var fontSize = $('#font-size-selector').val() + "px";
+            if ($('#black-text-btn').hasClass("btn-dark")) {
+                var fontColor = 'black';
+            } else {
+                fontColor = 'white';
+            }
             var text_css = {
                 visibility: 'visible',
                 margin: 0,
@@ -67,12 +72,20 @@
                 height: '24px',
                 width: '50px',
                 overflow: 'hidden',
-                resize: 'both'
+                'color': fontColor
             };
 
             if ($('#insert-text-btn').hasClass("btn-primary")) {
-                var textArea = $('<textarea></textarea>');
                 var id = "text" + messages.length;
+                var textArea = $('<textarea></textarea>').draggable({
+                    cancel: "text",
+                    start: function () {
+                        $('#' + id).focus();
+                    },
+                    stop: function () {
+                        $('#' + id).focus();
+                    }
+                });
                 textArea.attr('id', id);
                 textArea.attr('class', 'text-block');
                 textArea.css(text_css);
@@ -119,7 +132,7 @@
         	}
         };
 
-        $('body').on('click', '#meme-content', newTextArea);
+        $('body').on('click', '.meme-class', newTextArea);
         $(document).keydown(handleEsc);
 	};
  

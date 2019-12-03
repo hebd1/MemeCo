@@ -38,6 +38,8 @@
                     }
                 })
 
+                $('#previewModal').modal('toggle');
+
             }
 
         }).fail(function (jqXHR, textStatus, errorThrown) {

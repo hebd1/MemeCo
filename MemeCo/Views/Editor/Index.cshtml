@@ -31,6 +31,7 @@
     <script type="text/javascript" src="~/js/jquery.textover.js"></script>
     <script type="text/javascript" src="~/js/postMeme.js"></script>
     <script type="text/javascript" src="~/js/select_layout.js"></script>
+    <script type="text/javascript" src="~/js/site.js"></script>
 
 
 
@@ -55,14 +56,15 @@
                             <option value="8">8</option>
                             <option value="12">12</option>
                             <option value="18">18</option>
-                            <option value="20">20</option>
-                            <option value="40">40</option>
+                            <option value="24">24</option>
+                            <option value="36">36</option>
+                            <option value="48">48</option>
                         </select>
                     </div>
                     <label id="text-color-label" for="exampleFormControlSelect1">Text Color: </label>
-                    <button id="black-text-btn" type="button" class="btn btn-dark">Black</button>
-                    <button id="white-text-btn" type="button" class="btn btn-light" onclick="textWhite()">White</button>
-                    <button id="insert-text-btn" type="button" class="btn btn-outline-primary float-right" onclick="insertText()">Insert Text</button>
+                    <button id="black-text-btn" type="button" class="btn btn-dark" onclick="textBlack()">Black</button>
+                    <button id="white-text-btn" type="button" class="btn btn-outline-secondary" onclick="textWhite()">White</button>
+                    <button id="insert-text-btn" type="button" class="btn btn-outline-primary float-right" data-toggle="tooltip" data-placement="bottom" title="when enabled, click on the image to insert a block of text. Press esc to undo an insert." onclick="insertText()">Insert Text</button>
 
                 </div>
 
@@ -83,7 +85,7 @@
                             {
                                 var temp = meme.Split('/')[2];
                                 <div class="template" style="width: 10rem" onclick="selectTemplate('@Url.Content("~/meme_templates/" + temp)')">
-                                    <img class="img-fluid"  src="@Url.Content("~/meme_templates/" + temp)" alt="Card image cap">
+                                    <img class="img-fluid" src="@Url.Content("~/meme_templates/" + temp)" alt="Card image cap">
                                 </div>
                             }
                         }
@@ -120,9 +122,7 @@
                                 </button>
                             </div>
                             <div class="modal-body row justify-content-center">
-                                <div id="meme" class="justify-content-center">
-
-                                </div>
+                                <canvas width="535" height="401" style="width: 535px; height: 401px;"></canvas>
                             </div>
                             <div id="description-box" class="form-group">
                                 <label for="message-text" class="col-form-label">Caption:</label>
@@ -148,7 +148,7 @@
             </div>
 
         </div>
-        
+
         @{
 
             @await Component.InvokeAsync("Related", new { templateID = -1, post = new Post(), isEditor = true });
@@ -206,7 +206,7 @@
 <script type='text/javascript'>
 
     function selectTemplate(id) {
-         $('#meme-content').attr("src", id);
+        $('#meme-content').attr("src", id);
     }
 
     function selectSize() {
@@ -216,13 +216,24 @@
     }
 
     function textWhite() {
-        //$('#black-text-btn').click(function () {
-        //    $('.text-block').css("color", "black");
-        //})
+        if ($('#black-text-btn').hasClass("btn-dark")) {
+            $('#black-text-btn').removeClass();
+            $('#black-text-btn').addClass("btn btn-outline-dark")
+        }
+        $('#white-text-btn').removeClass();
+        $('#white-text-btn').addClass("btn btn-light")
         $('.text-block').css('color', 'white');
 
-        //$('#white-text-btn').click(function () {
-        //})
+    }
+
+    function textBlack() {
+        if ($('#white-text-btn').hasClass("btn-light")) {
+            $('#white-text-btn').removeClass();
+            $('#white-text-btn').addClass("btn btn-outline-secondary")
+        }
+        $('#black-text-btn').removeClass();
+        $('#black-text-btn').addClass("btn btn-dark")
+        $('.text-block').css('color', 'black');
     }
 
     function download() {
@@ -251,14 +262,5 @@
     }
 
 
-    function showPreview() {
-        var modal = $('#previewModal');
-        html2canvas(document.getElementById('image')).then(function (canvas) {
-            modal.find('#meme').replaceWith(canvas);
-            console.log(canvas);
-        });
-
-        $('#previewModal').modal();
-    }
 
 </script>

@@ -56,7 +56,7 @@
                         posts = posts.Where(o => o.User.Followers.Any(p => p.FollowerID == currentUser.Id));
                         break;
                     case "Fresh":
-                        posts = posts.OrderBy(o => o.TimePosted.Millisecond);
+                        posts = posts.OrderByDescending(o => o.TimePosted);
                         break;
                     default:
                         posts = posts.OrderByDescending(o => o.Likes.Count());
