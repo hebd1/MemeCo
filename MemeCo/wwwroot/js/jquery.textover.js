@@ -65,13 +65,9 @@
                 'font-size': fontSize,
                 padding: '2px',
                 height: '24px',
-                width: '20px',
+                width: '50px',
                 overflow: 'hidden',
-                //outline: 'none',
-                //'box-shadow': 'none',
-                //'-moz-box-shadow': 'none',
-                //'-webkit-box-shadow': 'none',
-                //'resize': 'none'
+                resize: 'both'
             };
 
             if ($('#insert-text-btn').hasClass("btn-primary")) {
@@ -123,9 +119,7 @@
         	}
         };
 
-
-
-        $(obj).click(newTextArea);
+        $('body').on('click', '#meme-content', newTextArea);
         $(document).keydown(handleEsc);
 	};
  

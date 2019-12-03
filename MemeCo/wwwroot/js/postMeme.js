@@ -5,7 +5,7 @@
     html2canvas(document.getElementById('image')).then(function (canvas) {
         var imageData = canvas.toDataURL("image/png");
 
-        var caption = $('#caption-text').text();
+        var caption = $('#caption-text').val();
 
         $.ajax({
 

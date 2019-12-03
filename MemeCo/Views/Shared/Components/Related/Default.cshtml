@@ -21,7 +21,7 @@
     IEnumerable<MemeCo.Models.Post> posts = Model;
 }
 
-<div class="post mx-auto">
+<div id="related-memes-partial" class="post mx-auto container">
     <div class="card mx-auto">
         <h5 class="card-header">Related Memes</h5>
         <div class="card-body">
@@ -30,16 +30,16 @@
                 {
                     string profilePic = String.Format("data:image/gif;base64,{0}", Convert.ToBase64String(post.User.ProfilePicture));
                     string imgSrc = String.Format("data:image/gif;base64,{0}", Convert.ToBase64String(post.Meme));
-                    <div class="card holder">
+                    <div class="card-holder"  >
                         <h6 class="card-header">
                             <a href="/@post.User.UserName">
-                                <img class="profile-pic rounded-circle" src="@profilePic" width="25" height="25">
+                                <img class="profile-pic rounded-circle" src="@profilePic" width="10" height="10">
                                 @post.User.UserName
                             </a>
                         </h6>
-                        <div class="holder-img">
+                        <div class="holder-img" style="width: 10rem">
                             <a href="/Post/@post.ID">
-                                <img class="card-img-top" src="@imgSrc" alt="Card image cap">
+                                <img class="card-img-top img-fluid" src="@imgSrc" alt="Card image cap">
                             </a>
                         </div>
                     </div>

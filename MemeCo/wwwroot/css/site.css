@@ -106,6 +106,9 @@ body {
 .profile-pic {
     border: 1px solid grey;
 }
+#text-color-label {
+    padding-left: 1rem;
+}
 
 #empty-feed {
     text-align: center;
@@ -152,7 +155,7 @@ ul li {
 }
 
 #image {
-    width: 500px;
+    width: 535px;
     background-color: white;
     padding-bottom: 0;
     margin-bottom: 0;
@@ -169,6 +172,9 @@ ul li {
     display:block;
 }
 
+#related-memes-partial {
+    padding-right: 3rem;
+}
 #font-size-label {
     padding-right: 1rem;
 }
@@ -178,5 +184,38 @@ ul li {
     font-weight: bold;
     border: 1px solid black;
 }
+
+.template-scroller {
+    height: 160px;
+    width: 100%;
+    white-space: nowrap;
+    overflow-x: scroll;
+    overflow-y: hidden;
+    
+}
+
+.scrolling-wrapper {
+    height: 240px;
+    width: 100%;
+    white-space: nowrap;
+    overflow-x: scroll;
+    overflow-y: hidden;
+}
+
+.card-holder {
+    display: inline-block;
+    padding-bottom: 3rem;
+    vertical-align: top;
+}
+
+#meme-templates {
+    padding-top: 1rem;
+}
+
+.template {
+    display: inline-block;
+    vertical-align:top;
+}
+
 
 

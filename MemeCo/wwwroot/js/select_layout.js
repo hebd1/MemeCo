@@ -37,4 +37,5 @@
     }
     $('#' + button).removeClass();
     $('#' + button).addClass("btn btn-primary");
+
 }

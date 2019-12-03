@@ -43,7 +43,7 @@
         <div class="row" id="editor-window">
             <div class="">
                 <div id="image" class="justify-content-center">
-                    <img id="meme-content" alt="Demo Image" class="img-fluid" src="~/files/img_placeholder.png">
+                    <img id="meme-content" alt="Demo Image" class="img-fluid meme-class" src="~/files/img_placeholder.png">
                 </div>
 
             </div>
@@ -67,13 +67,30 @@
                 </div>
 
                 <br />
-                <div id="format-btns" class="row d-flex justify-content-around">
+                <div id="format-btns" class="row form-inline d-flex justify-content-around">
+                    <label id="layout-label" for="exampleFormControlSelect1">Layout: </label>
                     <button id="single-image-btn" type="button" class="btn btn-primary" onclick="select_layout('single-image-btn')">single image</button>
                     <button id="image-top-btn" type="button" class="btn btn-outline-primary" onclick="select_layout('image-top-btn')">image top</button>
                     <button id="image-bottom-btn" type="button" class="btn btn-outline-primary" onclick="select_layout('image-bottom-btn')">image bottom</button>
-                    @*<button id="2x2-grid-btn" type="button" class="btn btn-outline-primary" onclick="select_layout('2x2-grid-btn')">2x2 grid</button>*@
                 </div>
 
+                <!-- Meme templates-->
+                <div id="meme-templates">
+                    <div class="template-scroller">
+                        @{
+                            var memes = Directory.GetFiles("wwwroot/meme_templates/");
+                            foreach (var meme in memes)
+                            {
+                                var temp = meme.Split('/')[2];
+                                <div class="template" style="width: 10rem" onclick="selectTemplate('@Url.Content("~/meme_templates/" + temp)')">
+                                    <img class="img-fluid"  src="@Url.Content("~/meme_templates/" + temp)" alt="Card image cap">
+                                </div>
+                            }
+                        }
+                    </div>
+
+
+                </div>
 
                 <div>
                     <div id="msg"></div>
@@ -89,7 +106,6 @@
                 </div>
 
                 <button id="preview-btn" type="button" class="btn btn-primary" onclick="showPreview()">Export</button>
-
 
 
 
@@ -128,11 +144,13 @@
                 </div>
 
 
+
             </div>
 
         </div>
+        
         @{
-          
+
             @await Component.InvokeAsync("Related", new { templateID = -1, post = new Post(), isEditor = true });
         }
     </div>
@@ -141,15 +159,14 @@
 </html>
 
 
-<script type="text/javascript">
+<script id="text-over-script" type="text/javascript">
 
     jQuery(function ($) {
 
         var textover_api;
 
-      
-
-        $('#meme-content').TextOver({}, function () {
+        $('#image').TextOver({}, function () {
+            console.log("text over");
             textover_api = this;
         });
 
@@ -188,8 +205,12 @@
 
 <script type='text/javascript'>
 
+    function selectTemplate(id) {
+         $('#meme-content').attr("src", id);
+    }
+
     function selectSize() {
-      $('#meme-text').click(function () {
+        $('#meme-text').click(function () {
             $('#meme-text').css("font-size", $('#font-size-selector').val() + "px");
         })
     }
@@ -198,7 +219,7 @@
         //$('#black-text-btn').click(function () {
         //    $('.text-block').css("color", "black");
         //})
-            $('.text-block').css('color', 'white');
+        $('.text-block').css('color', 'white');
 
         //$('#white-text-btn').click(function () {
         //})
@@ -223,7 +244,7 @@
             $('#insert-text-btn').removeClass();
             $('#insert-text-btn').addClass("btn btn-primary")
         } else {
-              $('#insert-text-btn').removeClass();
+            $('#insert-text-btn').removeClass();
             $('#insert-text-btn').addClass("btn btn-outline-primary")
         }
 
