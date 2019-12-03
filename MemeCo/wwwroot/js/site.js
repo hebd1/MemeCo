@@ -129,3 +129,78 @@ function showPreview() {
     $('#previewModal').modal();
 
 }
+
+/**
+ * Sets the image in the editor to the user selected template
+ * */
+function selectTemplate(img, templateId) {
+    $('#meme-content').attr("src", img);
+    var container = $('#related');
+    var refreshComponent = function () {
+        $.get("/Editor/GetComponent", { _templateID: templateId }, function (data) { container.html(data); });
+    };
+    $(function () {
+        refreshComponent();
+        //$("#related").load(location.href + " #related>*", "");
+    })
+  //  $('#related').empty();
+    
+
+
+ 
+}
+
+
+function selectSize() {
+    $('#meme-text').click(function () {
+        $('#meme-text').css("font-size", $('#font-size-selector').val() + "px");
+    })
+}
+
+function textWhite() {
+    if ($('#black-text-btn').hasClass("btn-dark")) {
+        $('#black-text-btn').removeClass();
+        $('#black-text-btn').addClass("btn btn-outline-dark")
+    }
+    $('#white-text-btn').removeClass();
+    $('#white-text-btn').addClass("btn btn-light")
+    $('.text-block').css('color', 'white');
+
+}
+
+function textBlack() {
+    if ($('#white-text-btn').hasClass("btn-light")) {
+        $('#white-text-btn').removeClass();
+        $('#white-text-btn').addClass("btn btn-outline-secondary")
+    }
+    $('#black-text-btn').removeClass();
+    $('#black-text-btn').addClass("btn btn-dark")
+    $('.text-block').css('color', 'black');
+}
+
+function download() {
+    html2canvas(document.getElementById('image')).then(function (canvas) {
+        var imgageData =
+            canvas.toDataURL("image/png");
+        var newData = imgageData.replace(
+            /^data:image\/png/, "data:application/octet-stream");
+
+        $("#btn-Convert-Html2Image").attr(
+            "download", "meme.png").attr(
+                "href", newData);
+    });
+
+}
+
+function insertText() {
+    if ($('#insert-text-btn').hasClass("btn-outline-primary")) {
+        $('#insert-text-btn').removeClass();
+        $('#insert-text-btn').addClass("btn btn-primary")
+    } else {
+        $('#insert-text-btn').removeClass();
+        $('#insert-text-btn').addClass("btn btn-outline-primary")
+    }
+
+}
+
+

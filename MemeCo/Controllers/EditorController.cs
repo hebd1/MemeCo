@@ -31,13 +31,19 @@ namespace MemeCo.Controllers
             if(this.User.Identity.Name != null)
             {
 
-                var result = _context.Posts.Include(o => o.Likes).Include(o => o.User).ThenInclude(o => o.Followers).Include(o => o.Comments).ToList();
+               // var result = _context.Posts.Include(o => o.Likes).Include(o => o.User).ThenInclude(o => o.Followers).Include(o => o.Comments).ToList();
+               var result = _context.Templates;
                 return View(result);
             }else
             {
                 return Redirect("Identity/Account/Login");
             }
             
+        }
+
+        public IActionResult GetComponent(int _templateID)
+        {
+            return ViewComponent("Related", new { templateID = _templateID, post = new Post(), isEditor = true });
         }
 
         [HttpPost]

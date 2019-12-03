@@ -3,12 +3,13 @@
 @using System.IO
 @using Microsoft.AspNetCore.Http;
 @using MemeCo.Areas.Identity.Data
-@model IEnumerable<MemeCo.Models.Post>
+@model IEnumerable<MemeCo.Models.Template>
 @inject UserManager<MemeCoUser> userManager
 @{
     ViewData["Title"] = "Index";
     var currentUser = await userManager.FindByNameAsync(this.User.Identity.Name);
-    var templateId = 1;
+    var templateId = -1;
+
 
 }
 
@@ -32,11 +33,6 @@
     <script type="text/javascript" src="~/js/postMeme.js"></script>
     <script type="text/javascript" src="~/js/select_layout.js"></script>
     <script type="text/javascript" src="~/js/site.js"></script>
-
-
-
-
-
 </head>
 
 <body>
@@ -80,12 +76,12 @@
                 <div id="meme-templates">
                     <div class="template-scroller">
                         @{
-                            var memes = Directory.GetFiles("wwwroot/meme_templates/");
-                            foreach (var meme in memes)
+                            foreach (var template in Model)
                             {
-                                var temp = meme.Split('/')[2];
-                                <div class="template" style="width: 10rem" onclick="selectTemplate('@Url.Content("~/meme_templates/" + temp)')">
-                                    <img class="img-fluid" src="@Url.Content("~/meme_templates/" + temp)" alt="Card image cap">
+                                var imgSrc = String.Format("data:image/gif;base64,{0}", Convert.ToBase64String(template.Content));
+
+                                <div class="template" style="width: 10rem" onclick="selectTemplate('@imgSrc', '@template.ID')">
+                                    <img class="img-fluid" src="@imgSrc" alt="Card image cap">
                                 </div>
                             }
                         }
@@ -148,11 +144,9 @@
             </div>
 
         </div>
-
-        @{
-
-            @await Component.InvokeAsync("Related", new { templateID = -1, post = new Post(), isEditor = true });
-        }
+        <div id="related">
+                @await Component.InvokeAsync("Related", new { templateID = 9, post = new Post(), isEditor = true });
+        </div>
     </div>
 
 </body>
@@ -168,6 +162,7 @@
         $('#image').TextOver({}, function () {
             console.log("text over");
             textover_api = this;
+           
         });
 
         $('#show').click(function () {
@@ -180,12 +175,7 @@
 
     });
 
-
-
-</script>
-
-<script>
-    $(document).on("click", ".browse", function () {
+      $(document).on("click", ".browse", function () {
         var file = $(this).parents().find(".file");
         file.trigger("click");
     });
@@ -201,65 +191,6 @@
         // read the image file as a data URL.
         reader.readAsDataURL(this.files[0]);
     });
-</script>
-
-<script type='text/javascript'>
-
-    function selectTemplate(id) {
-        $('#meme-content').attr("src", id);
-    }
-
-    function selectSize() {
-        $('#meme-text').click(function () {
-            $('#meme-text').css("font-size", $('#font-size-selector').val() + "px");
-        })
-    }
-
-    function textWhite() {
-        if ($('#black-text-btn').hasClass("btn-dark")) {
-            $('#black-text-btn').removeClass();
-            $('#black-text-btn').addClass("btn btn-outline-dark")
-        }
-        $('#white-text-btn').removeClass();
-        $('#white-text-btn').addClass("btn btn-light")
-        $('.text-block').css('color', 'white');
-
-    }
-
-    function textBlack() {
-        if ($('#white-text-btn').hasClass("btn-light")) {
-            $('#white-text-btn').removeClass();
-            $('#white-text-btn').addClass("btn btn-outline-secondary")
-        }
-        $('#black-text-btn').removeClass();
-        $('#black-text-btn').addClass("btn btn-dark")
-        $('.text-block').css('color', 'black');
-    }
-
-    function download() {
-        html2canvas(document.getElementById('image')).then(function (canvas) {
-            var imgageData =
-                canvas.toDataURL("image/png");
-            var newData = imgageData.replace(
-                /^data:image\/png/, "data:application/octet-stream");
-
-            $("#btn-Convert-Html2Image").attr(
-                "download", "meme.png").attr(
-                    "href", newData);
-        });
-
-    }
-
-    function insertText() {
-        if ($('#insert-text-btn').hasClass("btn-outline-primary")) {
-            $('#insert-text-btn').removeClass();
-            $('#insert-text-btn').addClass("btn btn-primary")
-        } else {
-            $('#insert-text-btn').removeClass();
-            $('#insert-text-btn').addClass("btn btn-outline-primary")
-        }
-
-    }
 
 
 
