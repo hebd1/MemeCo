@@ -1,4 +1,22 @@
-(function ( $ ) {
+/**
+ * Author:    Eli Hebdon
+ * Partner:   Jasen Lassig, Jose Monterroso
+ * Date:      Novemeber 21, 2019
+ * Course:    CS 4540, University of Utah, School of Computing
+ * Copyright: CS 4540 and Jose, Jasen, Eli - This work may not be copied for use in Academic Coursework.
+ *
+ * I, Jose, certify that I wrote this code from scratch and did not copy it in part or whole from
+ * another source.  Any references used in the completion of the assignment are cited in my README file.
+ *
+ * File Contents
+ *
+ *    JavaScript file that allows handles text insertions on images
+ *
+ * Jquery plugin modified for the use cases of the meme editor
+ * 
+ * Based on code from: https://www.jqueryscript.net/other/jQuery-Plugin-To-Add-Text-Notes-Over-The-Images-textover.html
+ * */
+(function ($) {
 
 	$.TextOver = function(obj, options) {
 
@@ -63,6 +81,7 @@
                 visibility: 'visible',
                 margin: 0,
                 padding: 0,
+                'max-width': '800px',
                 position: 'absolute',
                 top: 0,
                 left: 0,
@@ -72,7 +91,8 @@
                 height: '24px',
                 width: '50px',
                 overflow: 'hidden',
-                'color': fontColor
+                'color': fontColor,
+                resize: 'none'
             };
 
             if ($('#insert-text-btn').hasClass("btn-primary")) {
@@ -87,7 +107,7 @@
                     }
                 });
                 textArea.attr('id', id);
-                textArea.attr('class', 'text-block');
+               // textArea.attr('class', 'text-block');
                 textArea.css(text_css);
                 position = mouseAbs(e);
                 textArea.css({ 'left': position[0], 'top': position[1] });

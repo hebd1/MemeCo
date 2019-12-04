@@ -68,7 +68,7 @@ namespace MemeCo.ViewComponents
                 {
                     // Related Posts
                     relatedPosts = await _context.Posts
-                        .OrderBy(r => Guid.NewGuid())
+                        .OrderBy(r => r.TimePosted)
                         .Include(u => u.User)
                         .Where(p => p.TemplateID == templateID)
                         .Take(10).ToListAsync();
