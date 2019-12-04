@@ -66,6 +66,7 @@ namespace MemeCo.Controllers
                 post.Meme = img;
                 post.MemeCoUserID = user.Id;
                 post.User = user;
+                post.TemplateID = template_id;
                 _context.Posts.Add(post);
                 _context.SaveChanges();
 
