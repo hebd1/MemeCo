@@ -124,3 +124,29 @@ div#time {
 .navbar-toggler-icon {
     color: #00b0ff;
 }
+
+.modal-content {
+    background-color: #212121;
+    color: white;
+}
+
+.close {
+    color: #00b0ff;
+}
+
+.close:hover {
+    color: #00b0ff;
+}
+
+.modal-header {
+    border-bottom: #232323;
+}
+
+.modal-footer {
+    border-top: #232323;
+}
+
+.modal-body {
+    border-top: #232323;
+    border-bottom: #232323;
+}
