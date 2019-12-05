@@ -6,6 +6,7 @@ using MemeCo.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -34,6 +35,11 @@ namespace MemeCo
             services.AddTransient<IEmailSender, EmailSender>();
             services.Configure<AuthMessageSenderOptions>(Configuration);
 
+            services.Configure<IdentityOptions>(options =>
+            {
+                options.User.RequireUniqueEmail = true;
+            });
+
 
             // from MindingData on StackOverflow:
             // https://stackoverflow.com/questions/43757189/how-to-get-value-from-appsettings-json
@@ -59,9 +65,6 @@ namespace MemeCo
 
             app.UseAuthorization();
             app.UseAuthentication();
-
-    
-
 
             app.UseEndpoints(endpoints =>
             {

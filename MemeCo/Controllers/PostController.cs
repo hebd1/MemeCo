@@ -42,6 +42,14 @@ namespace MemeCo.Controllers
         {
             try
             {
+                // Ensure comment has content
+                if(comment == null)
+                {
+                    return Json(new
+                    {
+                        success = false
+                    });
+                }
                 // Find user and post
                 MemeCoUser user = await _context.Users.Where(u => u.Id == user_id).FirstAsync();
                 Post post = await _context.Posts.Where(p => p.ID == post_id).FirstAsync();

@@ -78,7 +78,7 @@ namespace MemeCo.Areas.Identity.Pages.Account
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
             if (ModelState.IsValid)
             {
-                var user = new MemeCoUser { UserName = Input.UserName, Email = Input.Email };
+                var user = new MemeCoUser { UserName = Input.UserName, Email = Input.Email, DarkMode = true };
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)
                 {
@@ -111,7 +111,6 @@ namespace MemeCo.Areas.Identity.Pages.Account
                 }
             }
 
-            // If we got this far, something failed, redisplay form
             return Page();
         }
     }
