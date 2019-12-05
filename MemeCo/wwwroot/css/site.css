@@ -66,8 +66,11 @@ html {
 
 body {
   /* Margin bottom by footer height */
-  /*margin-bottom: 60px;*/
+  margin-bottom: 60px;
+  overflow:auto;
 }
+
+
 
 .footer {
   position: absolute;
@@ -79,7 +82,7 @@ body {
 
 /*Post Css*/
 .post {
-    padding-top: 4rem;
+    /*padding-top: 4rem;*/
 }
 
 #post_wrapper {
@@ -183,8 +186,10 @@ ul li {
     display:block;
 }
 
-#related-memes-partial {
+.post {
+    margin-bottom: 3rem;
 }
+
 #font-size-label {
     padding-right: 1rem;
 }
