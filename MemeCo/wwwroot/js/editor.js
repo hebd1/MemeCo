@@ -80,7 +80,9 @@ function post_meme(ths, user_id, template_id, e) {
  * Sets the layout of the editor
  * */
 function select_layout(button) {
-
+    //<div id="image" class="justify-content-center">
+    //    <img id="meme-content" alt="Demo Image" class="img-fluid meme-class" src="~/files/img_placeholder.png">
+    //            </div>
     // set image layout
     if (button == "image-bottom-btn") {
         $('#image').html("<img id=\"meme-text\" class=\"img-fluid meme-class\"  src=\"/files/textbox.PNG\"></img>");
@@ -90,34 +92,8 @@ function select_layout(button) {
         $('#image').append("<img id=\"meme-text\" class=\"img-fluid meme-class\" src=\"/files/textbox.PNG\"></img>");
     } else if (button == "single-image-btn") {
         $('#image').html("");
-        $('#image').append("<img id=\"meme-content\" class=\"img-fluid\" alt=\"Demo Image\" src=\"/files/img_placeholder.png\">");
+        $('#image').append("<img id=\"meme-content\" class=\"img-fluid meme-class\" alt=\"Demo Image\" src=\"/files/img_placeholder.png\">");
     } // TODO implement 2x2 grid
-
-
-    // set active button
-    if ($('#single-image-btn').hasClass("btn-primary")) {
-
-        $('#single-image-btn').removeClass("btn-primary");
-        $('#single-image-btn').addClass("btn btn-outline-primary");
-
-    } else if ($('#image-top-btn').hasClass("btn-primary")) {
-
-        $('#image-top-btn').removeClass("btn-primary");
-        $('#image-top-btn').addClass("btn btn-outline-primary");
-
-    } else if ($('#image-bottom-btn').hasClass("btn-primary")) {
-
-        $('#image-bottom-btn').removeClass("btn-primary");
-        $('#image-bottom-btn').addClass("btn btn-outline-primary");
-
-    } else if ($('#2x2-grid-btn').hasClass("btn-primary")) {
-
-        $('#2x2-grid-btn').removeClass("btn-primary");
-        $('#2x2-grid-btn').addClass("btn btn-outline-primary");
-
-    }
-    $('#' + button).removeClass();
-    $('#' + button).addClass("btn btn-primary");
 
 }
 
@@ -127,6 +103,7 @@ function select_layout(button) {
 function showPreview() {
     var modal = $('#previewModal');
     modal.find('canvas').remove();
+
     html2canvas(document.getElementById('image')).then(function (canvas) {
         modal.find('.modal-body').append(canvas);
         console.log(canvas);
