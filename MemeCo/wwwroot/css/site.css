@@ -23,10 +23,16 @@ a.navbar-brand {
   word-break: break-all;
 }
 
+
+
 .btn-primary {
   color: #fff;
   background-color: #1b6ec2;
   border-color: #1861ac;
+}
+
+.container {
+    /*margin-top: 3rem;*/
 }
 
 .nav-pills .nav-link.active, .nav-pills .show > .nav-link {
@@ -76,6 +82,10 @@ body {
     padding-top: 4rem;
 }
 
+#post_wrapper {
+    justify-content: center;
+}
+
 /*Like Buttons*/
 .like_buttons {
     display: inline-block;
@@ -83,6 +93,7 @@ body {
 
 #posts {
     border: 1px solid #dbe0f1;
+    max-width: 80%;
 }
 
 .progress {
@@ -154,10 +165,12 @@ ul li {
 #image {
     width: 500px;
     background-color: transparent;
+    max-width: 100%;
 }
 
 .img-wrapper {
     margin-bottom: 2rem;
+    max-width: 90%;
 }
 
 #preview-btn {

@@ -46,8 +46,8 @@
 </head>
 
 <body>
-    <div id="post_wrapper">
-        <div id="sort-by">
+    <div id="post_wrapper" class="row">
+        <div id="sort-by" class="col-md-2 col-sm-1"1>
             <div class="dropdown">
                 <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     @currentUser.Filter
@@ -59,7 +59,7 @@
                 </div>
             </div>
         </div>
-        <div id="posts">
+        <div id="posts" class="col-md-8 col-sm-10">
             @*sort model by selected filter*@
             @{
                 switch (currentUser.Filter)
@@ -90,7 +90,7 @@
                 var dislikePercent = (dislikes > 0) ? Math.Ceiling(dislikes / (likes + dislikes) * 100) + "%" : "";
 
                 <div class="post mx-auto">
-                    <div class="card mx-auto" style="width: 40rem;">
+                    <div class="card mx-auto">
                         <div class="card-title post-header row">
                             <a href="/@user.UserName">
                                 <img class="profile-pic rounded-circle" src="@profileSrc" width="50" height="50">
@@ -189,6 +189,9 @@
             {
                 <h3 id="empty-feed">No Memes Here...</h3>
             }
+        </div>
+        <div class="col-md-2 col-sm-1">
+
         </div>
     </div>
 

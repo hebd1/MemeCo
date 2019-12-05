@@ -29,6 +29,8 @@ a {
     color: #00b0ff;
 }
 
+
+
 .navbar {
     background-color: #212121;
     border-bottom: .5px groove #000000;
@@ -87,6 +89,12 @@ hr {
 
 #dropdownMenuButton {
     background-color: #232323;
+    color: #00b0ff;
+    border: none;
+}
+
+#profile-dropdown {
+    background-color: #212121;
     color: #00b0ff;
     border: none;
 }
