@@ -38,7 +38,7 @@ a {
 
 /*Dark theme logo*/
 #Logo {
-    content: url(../files/DarkLogo.png);
+    content: url(~/files/DarkLogo.png);
 }
 
 /*Footer*/
@@ -127,6 +127,15 @@ div#time {
     border: none;
 }
 
+.follow-button {
+    background-color: #00b0ff;
+    color: white;
+}
+
+.profile-info {
+    background-color: #232323;
+    color: rgb(240, 240, 240);
+}
 .navbar-toggler-icon {
     color: #00b0ff;
 }

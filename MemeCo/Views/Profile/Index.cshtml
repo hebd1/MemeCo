@@ -3,7 +3,110 @@
     ViewData["Title"] = "Profile";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+@using Microsoft.AspNetCore.Identity
+@using MemeCo.Areas.Identity.Data
+@model MemeCoUser
+@inject UserManager<MemeCoUser> userManager
 
-@model MemeCo.Areas.Identity.Data.MemeCoUser
+<!DOCTYPE html>
+<html>
 
-<h1>@Model.UserName</h1>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>@ViewData["Title"] - @Model.UserName</title>
+    <meta name="description" content="Profile page for @Model.UserName">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="author" content="Jasen Lassig u0671257">
+    <meta name="keywords" content="HTML, CSS, Meme.co, memes">
+    <script src="https://kit.fontawesome.com/50d38ee57a.js"></script>
+</head>
+
+<body>
+    <div>
+        <header>
+            @{
+                var profileSrc = String.Format("data:image/gif;base64,{0}", Convert.ToBase64String(Model.ProfilePicture));
+                var postCount = Model.Posts.Count();
+                int followerCount = Model.Followers.Count();
+                int followingCount = Model.Following.Count();
+            }
+            <div class="post mx-auto">
+                <div class="card mx-auto" style="width: 40rem;">
+                    <div class="card-title post-header row">
+                        <span id="profilePic" style="width: 165px; height: 165px;" tabindex="0">
+                            <img class="profile-pic rounded-circle align-self-center" src="@profileSrc" width="150" height="150">
+                        </span>
+                        <div class="justify-content-center">
+                            <div>
+                                <h1>@Model.UserName</h1>
+                                @{
+                                    var follower = userManager.FindByNameAsync(User.Identity.Name).Result;
+                                    var temp = new Follow();
+                                    temp.UserID = Model.Id;
+                                    temp.FollowerID = follower.Id;
+                                    if (Model.Followers.Contains(temp))
+                                    {
+                                        <button type="button" id="followButton" class="btn btn-primary follow-button" onclick="unFollow('@Model.UserName', '@User.Identity.Name')">Following</button>
+                                    }
+                                    else
+                                    {
+                                        if (Model.Id != follower.Id)
+                                        {
+                                            <button type="button" id="followButton" class="btn btn-primary follow-button" onclick="follow('@Model.UserName', '@User.Identity.Name')">Follow</button>
+                                        }
+                                    }
+                                }
+                            </div>
+                            <ul class="list-group list-group-horizontal">
+                                <li class="list-group-item profile-info">
+                                    @postCount Posts
+                                </li>
+                                <li class="list-group-item profile-info" id="followCount">
+                                    @followerCount Followers
+                                </li>
+                                <li class="list-group-item profile-info">
+                                    @followingCount Following
+                                </li>
+                            </ul>
+                            <br />
+                            <p>
+                                @Model.Bio
+                            </p>
+                        </div>
+                    </div>
+                    <hr />
+                    <article>
+                        <div class="container profile-post-display">
+                            <table>
+                                @{
+                                    // borrowed from MortenRøgenes on StackOverflow
+                                    // https://stackoverflow.com/questions/11625938/how-to-loop-over-generic-listt-and-group-per-3-items
+                                    for (var i = 0; i < postCount; i += 3)
+                                    {
+                                        <tr class="profile-row">
+                                            @foreach (Post post in Model.Posts.Skip(i).Take(3))
+                                            {
+                                                var imgSrc = String.Format("data:image/gif;base64,{0}", Convert.ToBase64String(post.Meme));
+                                                <td>
+                                                    <a href="/Post/@post.ID" class="img-fluid">
+                                                        <img class="profile-meme" src="@imgSrc" alt="Meme">
+                                                    </a>
+                                                </td>
+                                            }
+                                        </tr>
+                                    }
+                                }
+                            </table>
+                        </div>
+                    </article>
+                </div>
+            </div>
+        </header>
+    </div>
+</body>
+
+</html>
+
+<script src="~/js/follow.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/8.11.8/sweetalert2.all.min.js"></script>

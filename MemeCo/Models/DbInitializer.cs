@@ -45,9 +45,6 @@ namespace MemeCo.Models
                 return; 
             }
 
-            // seed posts
-            postDankMemes();
-
             // Seed Users
             var likeUsers = new MemeCoUser[]
             {
@@ -66,6 +63,9 @@ namespace MemeCo.Models
                 addUser("test8", "test8@meme.co", "test8 bio", true),
                 addUser("test9", "test9@meme.co", "test9 bio", true),
             };
+
+            // seed posts
+            postDankMemes();
 
             MemeCoUser user1 =  addUser("testuser1", "fake@meme.co", "i'm the cooliest", true);
             _memeCoContext.SaveChanges();
@@ -235,6 +235,8 @@ namespace MemeCo.Models
             Post post;
             IEnumerable<Like> likes;
             IEnumerable<Comment> comments;
+            MemeCoUser userOne = _userManager.FindByNameAsync("test1").Result;
+            MemeCoUser userTwo = _userManager.FindByNameAsync("test2").Result;
 
             foreach (var meme in memes)
             {
@@ -243,6 +245,10 @@ namespace MemeCo.Models
                 comments = new List<Comment>();
                 post = addPost("Post " + count  + " description", likes, File.ReadAllBytes(meme), poster.Id, poster, null);
                 count++;
+
+                // for large profile testing
+                post = addPost("Post " + count + " description", likes, File.ReadAllBytes(meme), poster.Id, userOne, null);
+                post = addPost("Post " + count + " description", likes, File.ReadAllBytes(meme), poster.Id, userTwo, null);
             }
 
         }

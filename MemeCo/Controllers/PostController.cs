@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using MemeCo.Areas.Identity.Data;
@@ -27,7 +28,12 @@ namespace MemeCo.Controllers
                 .Include(o => o.Comments)
                     .ThenInclude(o => o.User)
                 .SingleOrDefault(o => o.ID == postID);
-            
+
+            if (post == null)
+            {
+                return RedirectToActionPermanent("Index", "Home");
+            }
+
             return View(post);
         }
 
@@ -146,7 +152,7 @@ namespace MemeCo.Controllers
                     });
                 }
                 else
-                { 
+                {
                     comment.Content = comment_text;
                     comment.TimeCommented = DateTime.UtcNow;
                     _context.SaveChanges();
@@ -158,7 +164,7 @@ namespace MemeCo.Controllers
                     });
                 }
             }
-            catch(Exception)
+            catch (Exception)
             {
                 // Any issues finding/editing comment
                 return Json(new

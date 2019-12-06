@@ -25,7 +25,7 @@ namespace MemeCo.Services
             var client = new SendGridClient(apiKey);
             var msg = new SendGridMessage()
             {
-                From = new EmailAddress("no.reply@meme.co", Options.SendGridUser),
+                From = new EmailAddress("no.reply@meme.co", "Meme.co Admin"),
                 Subject = subject,
                 PlainTextContent = message,
                 HtmlContent = message
