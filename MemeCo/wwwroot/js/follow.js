@@ -30,7 +30,7 @@ function follow(username, follow) {
     }).done(function (result) {
         if (result.success) {
             $('#followButton').text('Following');
-            $('#followButton').attr("onclick", "unfollow('" + username + "', '" + follow + "')");
+            $('#followButton').attr("onclick", "unFollow('" + username + "', '" + follow + "')");
             $('#followCount').text(result.followNum + " Followers");
         } else {
             Swal.fire({
@@ -67,7 +67,7 @@ function unFollow(username, follow) {
     }).done(function (result) {
         if (result.success) {
             $('#followButton').text('Follow');
-            $('#followButton').attr("onclick", "unfollow('" + username + "', '" + follow + "')");
+            $('#followButton').attr("onclick", "follow('" + username + "', '" + follow + "')");
             $('#followCount').text(result.followNum + " Followers");
         } else {
             Swal.fire({
