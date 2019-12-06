@@ -11,6 +11,7 @@
  *
  *    Controller for home page / main feed of the MemeCo application. 
  */
+
 using System;
 using System.Diagnostics;
 using System.Linq;
@@ -24,12 +25,14 @@ using MemeCo.Areas.Identity.Data;
 
 namespace MemeCo.Controllers
 {
+    /// <summary>
+    /// Home controller class
+    /// </summary>
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
         private readonly MemeCoContext _context;
         private readonly UserManager<MemeCoUser> _user_manager;
-
 
         /// <summary>
         /// Controller constructor.
@@ -55,7 +58,6 @@ namespace MemeCo.Controllers
             var result = _context.Posts.Include(o => o.Likes).Include(o => o.User).ThenInclude(o => o.Followers).Include(o => o.Comments).ToList();  
             return View(result);
         }
-
 
         /// <summary>
         /// updates the User with the given user id in the DB to have the given filter. Returns an unsuccessful Json result if the user is not logged in. 
@@ -229,7 +231,7 @@ namespace MemeCo.Controllers
                    userTheme = false;
                 }
 
-                // Get user theme and change it 
+                // Get user theme and saves it 
                 var user = await _user_manager.FindByIdAsync(userid);
                 user.DarkMode = userTheme; 
                 _context.SaveChanges();
