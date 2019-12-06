@@ -33,22 +33,24 @@ function add_comment(post, user, e) {
             comment: comment
         }
     }).done(function (result) {
-        $('#add').remove();
+        if (result.success) {
+            $('#add').remove();
 
-        // Able to Edit comment 
-        $('#placeHolder').html("<div class=\"card\" id=\"0\"> "
-            + "<h5 class=\"card-header\">"
-            + "<a href=\"/" + result.username + "\">"
-            + "<img class=\"profile-pic rounded-circle\" src=" + result.profilepic + " width=\"50\" height=\"50\">  " + result.username
-            + "</a> </h5>"
-            + "<div class=\"card-body\">"
-            + "<form onsubmit=\"edit_comment('" + result.commentid + "', event)\" action=\"edit_comment\" method=\"post\">"
-            + "<textarea onkeydown=\"change_edit()\" id=\"note\" name=\"note\" class=\"card-text\" rows=\"4\" cols=\"73\">" + result.description + "</textarea>"
-            + "<br />"
-            + "<input id=\"editBtn\" class=\"btn my-2 my-sm-0 btn-sm navb\" type=\"submit\" value=\"Save\"> </form>"
-            + "<button class=\"btn my-2 my-sm-0 btn-sm navb\" onclick=\"delete_comment('" + result.commentid + "', '" + 0 + "', event, '" + result.postid
-            + "', '" + result.userid + "')\"> Delete</button >"
-            + "</div></div> <br />");
+            // Able to Edit comment 
+            $('#placeHolder').html("<div class=\"card\" id=\"0\"> "
+                + "<h5 class=\"card-header\">"
+                + "<a href=\"/" + result.username + "\">"
+                + "<img class=\"profile-pic rounded-circle\" src=" + result.profilepic + " width=\"50\" height=\"50\">  " + result.username
+                + "</a> </h5>"
+                + "<div class=\"card-body\">"
+                + "<form onsubmit=\"edit_comment('" + result.commentid + "', event)\" action=\"edit_comment\" method=\"post\" style=\"margin-bottom: .2rem;\">"
+                + "<textarea onkeydown=\"change_edit()\" id=\"note\" name=\"note\" class=\"card-text\" rows=\"4\" cols=\"73\">" + result.description + "</textarea>"
+                + "<br />"
+                + "<input id=\"editBtn\" class=\"btn my-2 my-sm-0 btn-sm navb\" type=\"submit\" value=\"Update\"> </form>"
+                + "<button class=\"btn my-2 my-sm-0 btn-sm navb\" onclick=\"delete_comment('" + result.commentid + "', '" + 0 + "', event, '" + result.postid
+                + "', '" + result.userid + "')\"> Delete</button >"
+                + "</div></div> <br />");
+        }
     }).fail(function (result) {
         // Server issues
         Swal.fire({
@@ -79,16 +81,26 @@ function delete_comment(comment_id, comment_location, e, post, user) {
             comment_id: comment_id
         }
     }).done(function (result) {
-        // Remove comment
-        $('#' + comment_location).remove();
+        if (result.success) {
+            // Remove comment
+            $('#' + comment_location).remove();
 
-        // Ability to add a commment
-        $('#placeHolder').html("<div id=\"add\" class=\"card\"><h5 class=\"card-header\">Add a Comment</h5 ><div class=\"card-body\">"
-            + "<form onsubmit=\"add_comment('" + post +"', '"+ user + "', event)\" action=\"/Post/add_comment\"method=\"post\">"
-            + "<textarea id=\"newnote\" name=\"newnote\" class=\"card-text\" rows=\"4\" cols=\"73\"></textarea>"
-            + "<br />"
-            + "<input class=\"btn my-2 my-sm-0 btn-sm navb\" type=\"submit\" value=\"Add\">"
-            + "</form></div></div><br />"); 
+            // Ability to add a commment
+            $('#placeHolder').html("<div id=\"add\" class=\"card\"><h5 class=\"card-header\">Add a Comment</h5 ><div class=\"card-body\">"
+                + "<form onsubmit=\"add_comment('" + post + "', '" + user + "', event)\" action=\"/Post/add_comment\"method=\"post\">"
+                + "<textarea id=\"newnote\" name=\"newnote\" class=\"card-text\" rows=\"4\" cols=\"73\"></textarea>"
+                + "<br />"
+                + "<input class=\"btn my-2 my-sm-0 btn-sm navb\" type=\"submit\" value=\"Add\">"
+                + "</form></div></div><br />");
+        }
+        else {
+            Swal.fire({
+                type: 'error',
+                title: 'Oops... Server error',
+                text: 'Server Error Please try again later',
+                timer: 2000
+            })
+        }
     }).fail(function (result) {
         // Any server issues
         Swal.fire({

@@ -1,0 +1,206 @@
+﻿<!--
+  Authors:    Eli Hebdon, Jose Monterroso
+  Date:      Septermber 17, 2019
+  Course:    CS 4540, University of Utah, School of Computing
+  Copyright: CS 4540 and Jose Monterroso - This work may not be copied for use in Academic Coursework.
+
+  I, Eli Hebdon, certify that I wrote this code from scratch and did not copy it in part or whole from
+  another source.  Any references used in the completion of the assignment are cited in my README file.
+
+  File Contents
+
+     View for editing and posting memes
+-->
+@using Microsoft.AspNetCore.Identity
+@using System.IO
+@using Microsoft.AspNetCore.Http;
+@using MemeCo.Areas.Identity.Data
+@model IEnumerable<MemeCo.Models.Template>
+@inject UserManager<MemeCoUser> userManager
+@{
+    ViewData["Title"] = "Index";
+    var currentUser = await userManager.FindByNameAsync(this.User.Identity.Name);
+
+}
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>@ViewData["Title"] - Index</title>
+    <meta name="description" content="Main Feed of the Meme.co meme viewer">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="author" content="Eli Hebdon u0871009">
+    <meta name="keywords" content="HTML, CSS, Meme.co, memes">
+    <script src="https://kit.fontawesome.com/50d38ee57a.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js" type="text/javascript"></script>
+    <script type="text/javascript" src="~/js/html2canvas.js"></script>
+    <script type="text/javascript" src="~/js/jquery.textover.js"></script>
+    <script type="text/javascript" src="~/js/editor.js"></script>
+    <script type="text/javascript" src="~/js/site.js"></script>
+
+</head>
+
+<body>
+    <div class="container">
+        <div class="row mx-auto justify-content-center" id="editor-window">
+            <div class="img-wrapper">
+                <div id="image" class="">
+                    <img id="meme-content" alt="Demo Image" class="img-fluid meme-class" src="~/files/img_placeholder.png">
+                </div>
+
+            </div>
+            <div class="toolbar col-md-6 col-6-12">
+                <div class="text-buttons d-flex justify-content-around">
+                    <div class="dropdown">
+                        <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Layout
+                        </button>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <a id="single-image-btn" class="dropdown-item" href="#" onclick="select_layout('single-image-btn')">single image</a>
+                            <a id="image-top-btn" class="dropdown-item"  href="#" onclick="select_layout('image-top-btn')">image top</a>
+                            <a id="image-bottom-btn" class="dropdown-item"  href="#" onclick="select_layout('image-bottom-btn')">image bottom</a>
+                        </div>
+                    </div>
+                    <div class="">
+                        <select class="form-control" id="font-size-selector" data-toggle="tooltip" data-placement="bottom" title="Font Size">
+                            <option value="8">8</option>
+                            <option value="12">12</option>
+                            <option value="18">18</option>
+                            <option value="24">24</option>
+                            <option value="36">36</option>
+                            <option value="48">48</option>
+                        </select>
+                    </div>
+                    <button id="black-text-btn" type="button" class="btn btn-dark" data-toggle="tooltip" data-placement="bottom" title="Sets font color to black" onclick="textBlack()">Black</button>
+                    <button id="white-text-btn" type="button" class="btn btn-outline-secondary" data-toggle="tooltip" data-placement="bottom" title="Sets font color to white" onclick="textWhite()">White</button>
+                    <button id="insert-text-btn" type="button" class="btn btn-outline-primary float-right" data-toggle="tooltip" data-placement="bottom" title="When enabled, click on the image to insert a block of text. Press esc to undo an insert." onclick="insertText()">Insert Text</button>
+                </div>
+                <br />
+                <!-- Meme templates-->
+                <div id="meme-templates">
+                    <div class="template-scroller">
+                        @{
+                            foreach (var template in Model)
+                            {
+                                var imgSrc = String.Format("data:image/gif;base64,{0}", Convert.ToBase64String(template.Content));
+
+                                <div class="template" onclick="selectTemplate('@imgSrc', '@template.ID', '@currentUser.Id')">
+                                    <img class="img-fluid template-img" src="@imgSrc" alt="Card image cap">
+                                </div>
+                            }
+                        }
+                    </div>
+                </div>
+
+                <div>
+                    <div id="msg"></div>
+                    <form method="post" id="image-form">
+                        <input type="file" name="img[]" class="file" accept="image/*">
+                        <div class="input-group my-3">
+                            <input type="text" class="form-control" disabled placeholder="Upload File" id="file">
+                            <div class="input-group-append">
+                                <button type="button" class="browse btn btn-primary">Upload</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+                <button id="preview-btn" type="button" class="btn btn-primary" onclick="showPreview()">Export</button>
+
+
+
+                <!-- Post Meme Modal -->
+                <div class="modal fade" id="previewModal" tabindex="-1" role="dialog" aria-labelledby="Preview" aria-hidden="true">
+                    <div class="modal-dialog modal-lg" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLongTitle">Preview</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body row justify-content-center">
+                                <canvas width="535" height="401" style="width: 535px; height: 401px;"></canvas>
+                            </div>
+                            <div id="description-box" class="form-group">
+                                <label for="message-text" class="col-form-label">Caption:</label>
+                                <textarea class="form-control" id="caption-text"></textarea>
+                            </div>
+
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                <button id="post-btn" type="button" class="btn btn-primary" onclick="post_meme(this, '@currentUser.Id', '-1', event)">Post to MemeCo</button>
+                                <button id="download-btn" type="button" class="btn btn-primary" onclick="download()">
+                                    <a id="btn-Convert-Html2Image" href="#">
+                                        Download
+                                    </a>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+        <div id="related">
+            @await Component.InvokeAsync("Related", new { templateID = -1, post = new Post(), isEditor = true })
+        </div>
+    </div>
+
+</body>
+</html>
+
+
+<script id="text-over-script" type="text/javascript">
+
+    /**
+     * Initializes jquery textover plugin
+     * */
+    jQuery(function ($) {
+
+        var textover_api;
+
+        $('#image').TextOver({}, function () {
+            console.log("text over");
+            textover_api = this;
+
+        });
+
+        $('#show').click(function () {
+            html = '';
+            $.each(textover_api.getData(), function () {
+                html += 'Text &raquo; ' + this.text + ' Left &raquo; ' + this.left + ' Top &raquo; ' + this.top + '<br />';
+            });
+            $('#data').html(html).show();
+        });
+
+    });
+
+
+    /**
+     * Loads a file into the editor
+     * */
+    $(document).on("click", ".browse", function () {
+        var file = $(this).parents().find(".file");
+        file.trigger("click");
+    });
+    $('input[type="file"]').change(function (e) {
+        var fileName = e.target.files[0].name;
+        $("#file").val(fileName);
+
+        var reader = new FileReader();
+        reader.onload = function (e) {
+            // get loaded data and render thumbnail.
+            document.getElementById("meme-content").src = e.target.result;
+        };
+        // read the image file as a data URL.
+        reader.readAsDataURL(this.files[0]);
+    });
+
+
+</script>

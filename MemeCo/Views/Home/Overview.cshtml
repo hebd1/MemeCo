@@ -1,16 +1,176 @@
-﻿
+﻿<!--
+  Author:    Jose Monterroso
+  Partner:   Jasen Lassig, Eli Hebdon
+  Date:      December 2, 2019
+  Course:    CS 4540, University of Utah, School of Computing
+  Copyright: CS 4540 and Jose, Eli, Jasen - This work may not be copied for use in Academic Coursework.
+
+  I, Jose, certify that I wrote this code from scratch and did not copy it in part or whole from
+  another source.  Any references used in the completion of the assignment are cited in my README file.
+
+  File Contents
+
+     Overview page that displays a tutorial 
+-->
+
 @{
     ViewData["Title"] = "Overview";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>OVERVIEW PAGE</h1>
+<h4><b>Welcome to Meme.co!</b></h4>
+<ul>
+    <li>
+        <p>
+            Hello! Welcome to Meme.Co, we are happy you are here. Meme.co is a social media site where you can post,
+            like/dislike, and comment on memes. On this page you will find a quick overview of Meme.co and what it has
+            to offer. We hope you enjoy!
+        </p>
+    </li>
+</ul>
 
-<p>
-    Overview and Tutorial web page
-    On your menu bar, you should have a "overview" link which brings up a web page giving an overview of your project.  
-    This overview should contain (1) important aspects and features of the project, (2) "how to use" the project, 
-    and (3) any non-obvious contributions (e.g., significant DB work).
-</p>
+<!--Important Aspects-->
+<h5><b>Important Aspects and Features of the Project</b></h5>
+<ul>
+    <li>
+        <p>
+            <b>Email: </b>One important aspect of our site is email functionality. When registering to become a user on
+            Meme.Co you will need to confirm your account through email. Resetting your account password
+            is also done through email.
+        </p>
+    </li>
+    <li>
+        <p>
+            <b>Themes: </b>Some users perfer a light theme, others prefer a dark theme. To accomdate all users we decided to add both to Meme.Co.
+            The theme switcher is located on the top right corner of the navbar. User theme preferences are saved.
+        </p>
+    </li>
+    <li>
+        <p>
+            <b>Comments: </b> Our commenting system for posts follows the CRUD functionality. You can create, read, update and delete commments.
+        </p>
+    </li>
+    <li>
+        <p>
+            <b>Editor: </b>You can edit your meme before you post. The editor page allows you to import an image, or choose a meme template.
+            Once you have selected or uploaded a meme, you have the option to edit your meme. When you are satisfied with
+            your meme you can click the export button. You can choose between exporting the meme (saving it to your drive)
+            or posting it to Meme.Co.
+        </p>
+    </li>
+    <li>
+        <p>
+            <b>User Search: </b>The search bar in the navbar allows you to search for users. When you find the user of your choice you can click on
+            their name and it will take you to their profile page.
+        </p>
+    </li>
+    <li>
+        <p>
+            <b>User Profile: </b>Each user has a profile page with a gallery of their own posted memes. A user who goes to another users profile
+            has the option to follow them, and will have the other user's post in their feed.
+        </p>
+    </li>
+    <li>
+        <p>
+            <b>Post Page: </b>Each post has their own unique webpage. It displays the description, likes/dislikes ratio, and comments of the post.
+        </p>
+    </li>
+    <li>
+        <p>
+            <b>Related Memes: </b>At the bottom of the Post page, and Editor there is a related memes section. This section displays the memes
+            that are related to the template of the post. If the user didn't choose a template when posting a meme, a random assortment of memes
+            is shown instead.
+        </p>
+    </li>
+</ul>
 
+<!--How to use-->
+<h5><b>How to Use</b></h5>
+<ul>
+    <li>
+        <p>
+            First off we would like you to create an account by click on the register button above and following through the steps.
+            Upon creation of you account you will recieve an email notification to confirm your account.
+        </p>
+    </li>
+    <li>
+        <p>
+            In the homepage you will find a feed
+            of posts (memes) that users have posted before you. To browse the feed simply scroll up and down the page.
+            There are also filter indicators that you can choose from (Popular, Following, Fresh).
+            If you like or dislike a meme feel free to express you feelings by selecting the
+            appropriate like or dislike button.
+        </p>
+    </li>
+    <li>
+        <p>
+            If you would like to comment on a post, click on the meme image and you will be taken
+            to the post's individual page. If you are signed in you can comment on the post
+            by simply typing in your comment in the indicate area. Lets say you misspelled a
+            word, by retyping in the indicated area and pressing save, your comment will be updated.
+            Or lets say you no longer like your comment, you can click on the delete button.
+            Below the Post you will find related memes. If other users used a related template
+            you will see other user's posts, otherwise you will be given a collection of random memes.
+            If you see a meme you like feel free to click on it to be taken to its individual page.
+        </p>
+    </li>
+    <li>
+        <p>
+            Lets say you like a meme so much that you want to follow the user who created it. What you can do 
+            is click on the username of the person who posted the meme, this action will guide you to the user's
+            profile. Upon arrival to the profile page, you will see a gallery of posted memes, each of which can 
+            be clicked and taken to their respected individual pages. By the username there will be a follow button
+            that allows you to follow the user, and view their memes on your feed.
+        </p>
+    </li>
+    <li>
+        <p>
+            Once you have gotten comfortable with the site and are ready to post a meme, you can click on the editor link.
+            Clicking on this link will take you to the editor page. The editor page allows you to import an image, or choose
+            from an assortment of meme templates. Once you have selected or uploaded a meme, you have the option to add text 
+            to the meme. The text color and font size can be changed to accommodate most situations. When you are satisfied 
+            with your meme you can click the export button. The export button pops up a modal that allows you to add a 
+            description to your post. You can choose between exporting the meme (saving it to your drive) or posting it to Meme.Co.
+        </p>
+    </li>
+    <li>
+        <p>
+            Some users perfer a light theme, others prefer a dark theme. To accomdate all users we decided to add both to Meme.Co.
+            The theme switcher is located on the top right corner of the navbar. User theme preferences are saved.
+            Any person accessing the site can choose the theme of the site. But if you are a user that is signed in, your preference
+            will be saved and upon sigining in it will be changed accordingly.
+        </p>
+    </li>
+    <li>
+        <p>
+            You will notice that there is a search bar in the navbar. This search bar is for searching for users. When you start 
+            typing, a dropdown will show up with 7 of the most closely related usernames. You can click on a dropdown element
+            and it will take you to the users profile page. If no users can be found the dropdown will display a short message.
+        </p>
+    </li>
+</ul>
 
+<!--Non obvious contributions-->
+<h5><b>Non-obvious Contributions</b></h5>
+<ul>
+    <li>
+        <p>
+            A non-obvious contribution in our project is the meme editor. In the meme editor we allow users to upload an image
+            file. These files are stored in the database as byte arrays. When we access the file we have to convert it to an image,
+            and when we store it we convert it to a byte array. 
+        </p>
+    </li>
+    <li>
+        <p>
+            Our seed file is also another non-obvious contribution. Our seed file is an initalizer file that automatically
+            fills our database with data. We had to create a whole network of users with posts, users that liked/disliked
+            posts and users that comment on certain posts. 
+        </p>
+    </li>
+    <li>
+        <p>
+            Our site is SQL injection protected. When adding or editing a comment on a post, html or script tags do not effect 
+            the webpage. 
+        </p>
+    </li>
+</ul>

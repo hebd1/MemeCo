@@ -22,6 +22,12 @@ namespace MemeCo.Areas.Identity
 
                 services.AddDefaultIdentity<MemeCoUser>(options => options.SignIn.RequireConfirmedAccount = true)
                     .AddEntityFrameworkStores<MemeCoContext>();
+
+                // Solves the problem when a users tries to register with the same email
+                services.Configure<IdentityOptions>(options =>
+                {
+                    options.User.RequireUniqueEmail = true;
+                });
             });
         }
     }

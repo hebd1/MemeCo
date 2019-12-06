@@ -1,4 +1,17 @@
-﻿using MemeCo.Areas.Identity.Data;
+﻿/**
+ * Authors:   Eli Hebdon, Jasen Lassig, Jose Monterroso
+ * Date:      December 3, 2019
+ * Course:    CS 4540, University of Utah, School of Computing
+ * Copyright: CS 4540 and Jose, Jasen, Eli - This work may not be copied for use in Academic Coursework.
+ *
+ * I, Eli, certify that I wrote this code from scratch and did not copy it in part or whole from 
+ * another source.  Any references used in the completion of the assignment are cited in my README file.
+ *
+ * File Contents
+ *
+ *    Database initializer that seeds the databse with users posts and vairous other simulated site activity
+ */
+ using MemeCo.Areas.Identity.Data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -66,9 +79,9 @@ namespace MemeCo.Models
             IEnumerable<Follow> follows = new List<Follow>();
             addFollower(follows, user2.Id, user2, user1.Id, user1);
             IEnumerable<Like> likes = new List<Like>();
-            Post post1 = addPost("test description", likes, File.ReadAllBytes("wwwroot\\meme_templates\\spongebob_burned_note.png"), user2.Id, user2, 5);
-            Post post3 = addPost("test", likes, File.ReadAllBytes("wwwroot\\meme_templates\\spongebob_burned_note.png"), user1.Id, user1, 5);
-            Post post4 = addPost("test", likes, File.ReadAllBytes("wwwroot\\meme_templates\\spongebob_burned_note.png"), user3.Id, user3, 5);
+            Post post1 = addPost("test description", likes, File.ReadAllBytes("wwwroot\\meme_templates\\spongebob_burned_note.png"), user2.Id, user2, 4);
+            Post post3 = addPost("test", likes, File.ReadAllBytes("wwwroot\\meme_templates\\spongebob_burned_note.png"), user1.Id, user1, 4);
+            Post post4 = addPost("test", likes, File.ReadAllBytes("wwwroot\\meme_templates\\spongebob_burned_note.png"), user3.Id, user3, 4);
 
 
             // add third test user
@@ -84,7 +97,7 @@ namespace MemeCo.Models
             }
 
             // add second test post
-            Post post2 = addPost("ok boomer test description", likes, File.ReadAllBytes("wwwroot\\meme_templates\\jealous_girlfriend.jpg"), user2.Id, user2, 2);
+            Post post2 = addPost("ok boomer test description", likes, File.ReadAllBytes("wwwroot\\meme_templates\\jealous_girlfriend.jpg"), user2.Id, user2, 44);
             foreach (MemeCoUser usr in dislikeUsers)
             {
                 addLike(likes, false, usr.Id, post2);

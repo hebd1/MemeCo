@@ -1,4 +1,18 @@
-﻿@{
+﻿<!--
+  Authors:    Eli Hebdon
+  Partners:  Jose Monterroso, Jasen Lassig
+  Date:      Septermber 17, 2019
+  Course:    CS 4540, University of Utah, School of Computing
+  Copyright: CS 4540 and Jose Monterroso - This work may not be copied for use in Academic Coursework.
+
+  I, Eli Hebdon, certify that I wrote this code from scratch and did not copy it in part or whole from
+  another source.  Any references used in the completion of the assignment are cited in my README file.
+
+  File Contents
+
+     Main feed view that displays posts and allows users to like and interact with them
+-->
+@{
     ViewData["Title"] = "Main Feed";
 }
 @using Microsoft.AspNetCore.Identity
@@ -7,7 +21,7 @@
 @using MemeCo.Areas.Identity.Data
 @model IEnumerable<MemeCo.Models.Post>
 @inject UserManager<MemeCoUser> userManager
-@{ 
+@{
     MemeCoUser currentUser = new MemeCoUser();
     IEnumerable<MemeCo.Models.Post> posts = Model;
     if (this.User.Identity.Name != null)
@@ -33,11 +47,12 @@
     <meta name="author" content="Eli Hebdon u0871009">
     <meta name="keywords" content="HTML, CSS, Meme.co, memes">
     <script src="https://kit.fontawesome.com/50d38ee57a.js"></script>
+    <script type="text/javascript" src="~/js/site.js"></script>
 </head>
 
 <body>
-    <div id="post_wrapper">
-        <div id="sort-by">
+    <div id="post_wrapper" class="row">
+        <div id="sort-by" class="col-md-2 col-sm-1"1>
             <div class="dropdown">
                 <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     @currentUser.Filter
@@ -49,7 +64,7 @@
                 </div>
             </div>
         </div>
-        <div id="posts">
+        <div id="posts" class="col-md-8 col-sm-10">
             @*sort model by selected filter*@
             @{
                 switch (currentUser.Filter)
@@ -61,7 +76,7 @@
                         posts = posts.Where(o => o.User.Followers.Any(p => p.FollowerID == currentUser.Id));
                         break;
                     case "Fresh":
-                        posts = posts.OrderBy(o => o.TimePosted.Millisecond);
+                        posts = posts.OrderByDescending(o => o.TimePosted);
                         break;
                     default:
                         posts = posts.OrderByDescending(o => o.Likes.Count());
@@ -73,14 +88,14 @@
 
                 var user = post.User;
                 var imgSrc = String.Format("data:image/gif;base64,{0}", Convert.ToBase64String(post.Meme));
-                var profileSrc = String.Format("data:image/gif;base64,{0}",  Convert.ToBase64String(post.User.ProfilePicture));
+                var profileSrc = String.Format("data:image/gif;base64,{0}", Convert.ToBase64String(post.User.ProfilePicture));
                 double likes = post.Likes.Where(o => o.Liked == true).Count();
                 double dislikes = post.Likes.Where(o => o.Liked == false).Count();
-                var likePercent = (likes > 0) ?  Math.Ceiling(likes / (likes + dislikes) * 100) + "%" : "";
+                var likePercent = (likes > 0) ? Math.Ceiling(likes / (likes + dislikes) * 100) + "%" : "";
                 var dislikePercent = (dislikes > 0) ? Math.Ceiling(dislikes / (likes + dislikes) * 100) + "%" : "";
- 
+
                 <div class="post mx-auto">
-                    <div class="card mx-auto" style="width: 40rem;">
+                    <div class="card mx-auto">
                         <div class="card-title post-header row">
                             <a href="/@user.UserName">
                                 <img class="profile-pic rounded-circle" src="@profileSrc" width="50" height="50">
@@ -89,7 +104,7 @@
                         </div>
                         <div class="mx-auto">
                             <a href="/Post/@post.ID">
-                                <img class="card-img-top" src="@imgSrc" alt="Card image cap" onclick="">
+                                <img class="card-img-top img-fluid" src="@imgSrc" alt="Card image cap" onclick="">
                             </a>
                         </div>
                         <div class="card-body">
@@ -175,10 +190,13 @@
                 </div>
 
             }
-            @if(posts.Count() == 0)
+            @if (posts.Count() == 0)
             {
                 <h3 id="empty-feed">No Memes Here...</h3>
             }
+        </div>
+        <div class="col-md-2 col-sm-1">
+
         </div>
     </div>
 
@@ -187,8 +205,6 @@
 </html>
 
 @section Scripts  {
-    <script src="~/js/likeDislike.js"></script>
-    <script src="~/js/selectFilter.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/8.11.8/sweetalert2.all.min.js"></script>
 
 }
