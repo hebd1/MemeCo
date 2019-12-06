@@ -37,5 +37,12 @@ namespace MemeCo.Controllers
 
             return View(user);
         }
+
+        public async Task<IActionResult> Follow(string username, string follower)
+        {
+
+
+            return null;
+        }
     }
 }
