@@ -37,12 +37,53 @@ namespace MemeCo.Controllers
 
             return View(user);
         }
-
-        public async Task<IActionResult> Follow(string username, string follower)
+        [HttpPost("/Profile/Follow")]
+        public IActionResult Follow(string username, string follower)
         {
+            var user =  _userManager.FindByNameAsync(username).Result;
+            var follow = _userManager.FindByNameAsync(follower).Result;
 
+            if (user == null || follow == null)
+            {
+                return Json(new { success = false });
+            }
 
-            return null;
+            var temp = new Follow();
+            temp.UserID = user.Id;
+            temp.FollowerID = follow.Id;
+            temp.User = user;
+            temp.Follower = follow;
+
+            var result = _context.Follows.Add(temp);
+            _context.SaveChanges();
+
+            return Json(new { success = true, followNum = _context.Follows.Count(x => x.UserID == user.Id) });
+        }
+        [HttpPost("/Profile/UnFollow")]
+        public IActionResult UnFollow(string username, string follower)
+        {
+            var user = _userManager.FindByNameAsync(username).Result;
+            var follow = _userManager.FindByNameAsync(follower).Result;
+
+            if (username == follower)
+            {
+                return Json(new { success = true, followNum = _context.Follows.Count(x => x.UserID == user.Id) });
+            }
+            if (user == null || follow == null)
+            {
+                return Json(new { success = false });
+            }
+
+            var temp = new Follow();
+            temp.UserID = user.Id;
+            temp.FollowerID = follow.Id;
+            temp.User = user;
+            temp.Follower = follow;
+
+            _context.Follows.Remove(temp);
+            _context.SaveChanges();
+
+            return Json(new { success = true, followNum = _context.Follows.Count(x => x.UserID == user.Id) });
         }
     }
 }

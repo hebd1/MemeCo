@@ -3,8 +3,10 @@
     ViewData["Title"] = "Profile";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
-@model MemeCo.Areas.Identity.Data.MemeCoUser
+@using Microsoft.AspNetCore.Identity
+@using MemeCo.Areas.Identity.Data
+@model MemeCoUser
+@inject UserManager<MemeCoUser> userManager
 
 <!DOCTYPE html>
 <html>
@@ -38,13 +40,29 @@
                         <div class="justify-content-center">
                             <div>
                                 <h1>@Model.UserName</h1>
-                                <button type="button" class="btn btn-primary follow-button">Follow</button>
+                                @{
+                                    var follower = userManager.FindByNameAsync(User.Identity.Name).Result;
+                                    var temp = new Follow();
+                                    temp.UserID = Model.Id;
+                                    temp.FollowerID = follower.Id;
+                                    if (Model.Followers.Contains(temp))
+                                    {
+                                        <button type="button" id="followButton" class="btn btn-primary follow-button" onclick="unFollow('@Model.UserName', '@User.Identity.Name')">Following</button>
+                                    }
+                                    else
+                                    {
+                                        if (Model.Id != follower.Id)
+                                        {
+                                            <button type="button" id="followButton" class="btn btn-primary follow-button" onclick="follow('@Model.UserName', '@User.Identity.Name')">Follow</button>
+                                        }
+                                    }
+                                }
                             </div>
                             <ul class="list-group list-group-horizontal">
                                 <li class="list-group-item profile-info">
                                     @postCount Posts
                                 </li>
-                                <li class="list-group-item profile-info">
+                                <li class="list-group-item profile-info" id="followCount">
                                     @followerCount Followers
                                 </li>
                                 <li class="list-group-item profile-info">
@@ -89,3 +107,6 @@
 </body>
 
 </html>
+
+<script src="~/js/follow.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/8.11.8/sweetalert2.all.min.js"></script>

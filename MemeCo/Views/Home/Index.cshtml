@@ -13,6 +13,11 @@
     if (this.User.Identity.Name != null)
     {
         currentUser = await userManager.FindByNameAsync(this.User.Identity.Name);
+        if (currentUser == null)
+        {
+            currentUser = new MemeCoUser();
+        currentUser.Filter = "Popular";
+        }
     }
 }
 
