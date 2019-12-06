@@ -23,18 +23,13 @@ a.navbar-brand {
   word-break: break-all;
 }
 
-
-
 .btn-primary {
   color: #fff;
   background-color: #1b6ec2;
   border-color: #1861ac;
 }
 
-.container {
-    /*margin-top: 3rem;*/
-}
-
+/*Navbar*/
 .nav-pills .nav-link.active, .nav-pills .show > .nav-link {
   color: #fff;
   background-color: #1b6ec2;
@@ -70,8 +65,6 @@ body {
   overflow:auto;
 }
 
-
-
 .footer {
   position: absolute;
   bottom: 0;
@@ -81,10 +74,6 @@ body {
 }
 
 /*Post Css*/
-.post {
-    /*padding-top: 4rem;*/
-}
-
 #post_wrapper {
     justify-content: center;
 }
@@ -99,6 +88,7 @@ body {
     max-width: 80%;
 }
 
+/*Home page css*/
 .progress {
     margin-top: 1rem;
 }
@@ -111,12 +101,14 @@ body {
     margin: 1rem;
 }
 
+/*Post css*/
 .post-username {
     margin-top: auto;
     margin-bottom: auto;
     margin-left: 1rem;
 }
 
+/*Profile css*/
 .profile-pic {
     border: 1px solid grey;
 }
@@ -135,7 +127,7 @@ body {
     text-decoration: none;
 }
 
-
+/*Editor css*/
 #description-box {
     margin-left: 1rem;
     margin-right: 1rem;
@@ -186,6 +178,7 @@ ul li {
     display:block;
 }
 
+/*Post css*/
 .post {
     margin-bottom: 3rem;
 }
@@ -227,9 +220,7 @@ ul li {
     width: 12rem;
 }
 
-/*
-    Profile page css
-*/
+/*Profile page css*/
 .profile-meme {
     display: block;
     max-width: 200px;

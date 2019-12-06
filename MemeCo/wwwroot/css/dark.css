@@ -29,8 +29,6 @@ a {
     color: #00b0ff;
 }
 
-
-
 .navbar {
     background-color: #212121;
     border-bottom: .5px groove #000000;
@@ -38,7 +36,7 @@ a {
 
 /*Dark theme logo*/
 #Logo {
-    content: url(~/files/DarkLogo.png);
+    content: url(../files/DarkLogo.png);
 }
 
 /*Footer*/
@@ -53,6 +51,7 @@ a {
     color: rgb(240, 240, 240);
 }
 
+/*Comments*/
 .card {
     border-left: 3px groove #212121;
     border-bottom: 3px groove #212121;
@@ -98,6 +97,7 @@ hr {
     border: none;
 }
 
+/*Search dropdown*/
 .dropdown-menu {
     background-color: #232323;
 }
@@ -111,6 +111,7 @@ hr {
    background-color: #F5F5F5;
 }
 
+/*Comment time dark mode*/
 div#time {
     color: white;
     font-size: 10px;
@@ -166,6 +167,7 @@ div#time {
     border-bottom: #232323;
 }
 
+/*Swal fire dark mode*/
 .swal2-container:not(.swal2-top):not(.swal2-top-start):not(.swal2-top-end):not(.swal2-top-left):not(.swal2-top-right):not(.swal2-center-start):not(.swal2-center-end):not(.swal2-center-left):not(.swal2-center-right):not(.swal2-bottom):not(.swal2-bottom-start):not(.swal2-bottom-end):not(.swal2-bottom-left):not(.swal2-bottom-right):not(.swal2-grow-fullscreen) > .swal2-modal {
     margin: auto;
     background-color: #232323;

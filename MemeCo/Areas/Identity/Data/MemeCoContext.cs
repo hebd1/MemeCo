@@ -1,14 +1,27 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿/**
+ * Author:    Jose Monterroso
+ * Partner:   Jasen Lassig, Eli Hebdon
+ * Date:      December 6, 2019
+ * Course:    CS 4540, University of Utah, School of Computing
+ * Copyright: CS 4540 and Jose, Eli, Jasen - This work may not be copied for use in Academic Coursework.
+ *
+ * I, Jose, certify that I wrote this code from scratch and did not copy it in part or whole from 
+ * another source.  Any references used in the completion of the assignment are cited in my README file.
+ *
+ * File Contents
+ *
+ *    MemeCo Context
+ */
+
 using MemeCo.Areas.Identity.Data;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace MemeCo.Models
 {
+    /// <summary>
+    /// MemeCo DB Context
+    /// </summary>
     public class MemeCoContext : IdentityDbContext<MemeCoUser>
     {
         public DbSet<Post> Posts { get; set; }
@@ -16,11 +29,12 @@ namespace MemeCo.Models
         public DbSet<Like> Likes { get; set; }
         public DbSet<Template> Templates { get; set; }
         public DbSet<Follow> Follows { get; set; }
-        public MemeCoContext(DbContextOptions<MemeCoContext> options)
-            : base(options)
-        {
-        }
+        public MemeCoContext(DbContextOptions<MemeCoContext> options) : base(options) { }
 
+        /// <summary>
+        /// Model specified foriegn keys
+        /// </summary>
+        /// <param name="modelBuilder"></param>
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);

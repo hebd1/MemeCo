@@ -22,6 +22,7 @@
 function add_comment(post, user, e) {
     e.preventDefault();
 
+    // Get comment string
     var comment = $('#newnote').val();
     $.ajax({
         method: "POST",
@@ -109,8 +110,7 @@ function delete_comment(comment_id, comment_location, e, post, user) {
             text: 'Server Error Please try again later',
             timer: 2000
         })
-    });
-    
+    }); 
 }
 
 /**
@@ -121,6 +121,7 @@ function delete_comment(comment_id, comment_location, e, post, user) {
 function edit_comment(comment_id, e) {
     e.preventDefault();
 
+    // Get the new comment
     var comment = $('#note').val();
     $.ajax({
         method: "POST",
