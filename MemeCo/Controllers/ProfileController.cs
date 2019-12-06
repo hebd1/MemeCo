@@ -75,7 +75,10 @@ namespace MemeCo.Controllers
         [HttpPost("/Profile/Follow")]
         public JsonResult Follow(string username, string follower)
         {
-            // Get User
+            if (follower == null)
+            {
+                return Json(new { success = false });
+            }
             var user =  _userManager.FindByNameAsync(username).Result;
             var follow = _userManager.FindByNameAsync(follower).Result;
 

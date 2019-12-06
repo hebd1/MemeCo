@@ -55,22 +55,29 @@
                             <div>
                                 <h1>@Model.UserName</h1>
                                 @{
-                                    var follower = userManager.FindByNameAsync(User.Identity.Name).Result;
-                                    var temp = new Follow();
-                                    temp.UserID = Model.Id;
-                                    temp.FollowerID = follower.Id;
-                                    if (Model.Followers.Contains(temp))
+                                    if (User.Identity.Name == null)
                                     {
-                                        <button type="button" id="followButton" class="btn btn-primary follow-button" onclick="unFollow('@Model.UserName', '@User.Identity.Name')">Following</button>
+                                        <button type="button" id="followButton" class="btn btn-primary follow-button" onclick="follow('@Model.UserName', '@User.Identity.Name')">Follow</button>
                                     }
                                     else
                                     {
-                                        if (Model.Id != follower.Id)
+                                        var follower = userManager.FindByNameAsync(User.Identity.Name).Result;
+                                        var temp = new Follow();
+                                        temp.UserID = Model.Id;
+                                        temp.FollowerID = follower.Id;
+                                        if (Model.Followers.Contains(temp))
                                         {
+                                        <button type="button" id="followButton" class="btn btn-primary follow-button" onclick="unFollow('@Model.UserName', '@User.Identity.Name')">Following</button>
+                                        }
+                                        else
+                                        {
+                                            if (Model.Id != follower.Id)
+                                            {
                                             <button type="button" id="followButton" class="btn btn-primary follow-button" onclick="follow('@Model.UserName', '@User.Identity.Name')">Follow</button>
+                                                }
+                                            }
                                         }
                                     }
-                                }
                             </div>
                             <ul class="list-group list-group-horizontal">
                                 <li class="list-group-item profile-info">
