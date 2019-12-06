@@ -16,16 +16,24 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
-using System.IO;using System.Linq;
-using System.Threading.Tasks;
+using System.IO;
+using System.Linq;
 
 namespace MemeCo.Models
 {
+    /// <summary>
+    /// DBInitalizer class
+    /// </summary>
     public class DbInitializer
     {
         private UserManager<MemeCoUser> _userManager;
         private MemeCoContext _memeCoContext;
 
+        /// <summary>
+        /// Dependency Injection
+        /// </summary>
+        /// <param name="usermanager"></param>
+        /// <param name="memeCoContext"></param>
         public DbInitializer(UserManager<MemeCoUser> usermanager, MemeCoContext memeCoContext)
         {
             _userManager = usermanager;
@@ -118,8 +126,6 @@ namespace MemeCo.Models
             _memeCoContext.SaveChanges();
         }
 
-
-
         /// <summary>
         /// Adds a user with the given username, email, bio, and darkmode preference to the userManager and returns on success.
         /// All seeded users are assigned the default password "123ABC!@#def"
@@ -139,7 +145,6 @@ namespace MemeCo.Models
             IdentityResult result =  _userManager.CreateAsync(user, "123ABC!@#def").Result;
             return user;
         }
-
 
         /// <summary>
         /// Adds a post with the given properties to the database.
@@ -184,7 +189,6 @@ namespace MemeCo.Models
             _memeCoContext.Likes.Add(like);
             return like;
         }
-
 
         /// <summary>
         /// Adds the given follower user to the given user's list of followers
@@ -252,6 +256,7 @@ namespace MemeCo.Models
             }
 
         }
+
         /// <summary>
         /// Adds a comment on the post by the user
         /// </summary>
