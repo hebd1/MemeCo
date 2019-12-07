@@ -1,4 +1,19 @@
-﻿@using Microsoft.AspNetCore.Identity
+﻿<!--
+  Author:    Jasen Lassig
+  Partner:   Jose Monterroso, Eli Hebdon
+  Date:      December 6, 2019
+  Course:    CS 4540, University of Utah, School of Computing
+  Copyright: CS 4540 and Jasen, Jose, Eli - This work may not be copied for use in Academic Coursework.
+
+  I, Jasen, certify that I wrote this code from scratch and did not copy it in part or whole from
+  another source.  Any references used in the completion of the assignment are cited in my README file.
+
+  File Contents
+
+     Login Partial for when user is signed in
+-->
+
+@using Microsoft.AspNetCore.Identity
 @using MemeCo.Areas.Identity.Data
 
 @inject SignInManager<MemeCoUser> SignInManager
@@ -7,7 +22,7 @@
 <ul class="navbar-nav flex-grow-0">
     @if (SignInManager.IsSignedIn(User))
     {
-
+        <!--User image-->
         var usrImg = UserManager.GetUserAsync(User).Result.ProfilePicture;
         var profileSrc = String.Format("data:image/gif;base64,{0}", Convert.ToBase64String(usrImg));
         <li class="nav-item">
@@ -18,7 +33,7 @@
                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                     <a class="dropdown-item" href="@Url.Action("", UserManager.GetUserName(User))" title="Manage">Profile</a>
                     <form asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
-                        <button  class="dropdown-item" type="submit">Logout</button>
+                        <button class="dropdown-item" type="submit">Logout</button>
                     </form>
                     <dark-mode-toggle class="dropdown-item" id="ThemeToggle" appearance="toggle" permanent mode="dark"
                                       onclick="Set_Theme('@UserManager.GetUserId(User)')"></dark-mode-toggle>

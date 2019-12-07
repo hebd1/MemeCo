@@ -32,18 +32,21 @@ function Get_Theme() {
             darkmode: false
         }
     }).done(function (result) {
-        var theme = $('#ThemeToggle').attr("mode");
+        //Verify correct user
+        if (result.success) {
+            var theme = $('#ThemeToggle').attr("mode");
 
-        if (theme == "light") {
-            if (result.darkmode) { 
-                // change to dark mode
-                $('#ThemeToggle').attr("mode", "dark");
+            if (theme == "light") {
+                if (result.darkmode) {
+                    // change to dark mode
+                    $('#ThemeToggle').attr("mode", "dark");
+                }
             }
-        }
-        else if (theme == "dark") {
-            if (!result.darkmode) {
-                // change to light
-                $('#ThemeToggle').attr("mode", "light");
+            else if (theme == "dark") {
+                if (!result.darkmode) {
+                    // change to light
+                    $('#ThemeToggle').attr("mode", "light");
+                }
             }
         }
     });
@@ -86,34 +89,34 @@ function find_users() {
             user: user
         }
     }).done(function (result) {
-        // Displaying info in dropdown
-        if (!result.isnull) {
-            if (result.contains) {
-                // Array of users
-                var users = result.users;
-                var pics = result.pics;
-                $('#searchdropdown').html("<div id=\"searchdropdown\" class=\"dropdown-menu\" aria-labelledby=\"dropdownMenuLink\"></div>");
+        if (result.success) {
+            // Displaying info in dropdown
+            if (!result.isnull) {
+                if (result.contains) {
+                    // Array of users
+                    var users = result.users;
+                    var pics = result.pics;
+                    $('#searchdropdown').html("<div id=\"searchdropdown\" class=\"dropdown-menu\" aria-labelledby=\"dropdownMenuLink\"></div>");
 
-                // Populating dropdown
-                for (var i = 0; i < result.length; i++) {
-                    $('#searchdropdown').append("<div class=\"dropdown-item\">"
-                        + "<a href =\"/" + users[i] + "\">"
-                        + "<img class=\"profile-pic rounded-circle\" src=\"" + pics[i] + "\" width=\"25\" height=\"25\">"
-                        + "</a>"
-                        + "   <a class=\"drop-link\" href=\"/" + users[i] + "\">" + users[i] + "</a>"
-                        + "</div>");
+                    // Populating dropdown
+                    for (var i = 0; i < result.length; i++) {
+                        $('#searchdropdown').append("<div class=\"dropdown-item\">"
+                            + "<a href =\"/" + users[i] + "\">"
+                            + "<img class=\"profile-pic rounded-circle\" src=\"" + pics[i] + "\" width=\"25\" height=\"25\">"
+                            + "</a>"
+                            + "   <a class=\"drop-link\" href=\"/" + users[i] + "\">" + users[i] + "</a>"
+                            + "</div>");
+                    }
+                    return;
                 }
+                // No Users Found
+                $('#searchdropdown').append("<a class=\"dropdown-item\" href=\"#\"> No Users Found</a>");
                 return;
             }
-            // No Users Found
-            $('#searchdropdown').append("<a class=\"dropdown-item\" href=\"#\"> No Users Found</a>");
-            return;
+            // Empty Search
+            $('#searchdropdown').html("<div id=\"searchdropdown\" class=\"dropdown-menu\" aria-labelledby=\"dropdownMenuLink\"></div>");
         }
-        // Empty Search
-        $('#searchdropdown').html("<div id=\"searchdropdown\" class=\"dropdown-menu\" aria-labelledby=\"dropdownMenuLink\"></div>");
     });
-
-
 }
 
 /**
@@ -121,7 +124,6 @@ function find_users() {
  * */
 function select_filter(ths, user_id, filter, e) {
     e.preventDefault();
-    console.log("select filter reached");
     $.ajax({
         method: "POST",
         url: "/Home/Select_Filter",
@@ -145,10 +147,7 @@ function select_filter(ths, user_id, filter, e) {
             $('#posts').fadeOut('1000')
             $("#posts").load(location.href + " #posts>*", "");
             $('#posts').fadeIn('1000')
-
-
         }
-
     }).fail(function (jqXHR, textStatus, errorThrown) {
         console.log("fail");
         Swal.fire({
@@ -158,7 +157,6 @@ function select_filter(ths, user_id, filter, e) {
             timer: 2000
         })
     }).always(function () { });
-
 }
 
 /**
@@ -166,7 +164,6 @@ function select_filter(ths, user_id, filter, e) {
  * */
 function handle_change(ths, user_id, liked, post_id, e) {
     e.preventDefault();
-    console.log("handle change reached");
     $.ajax({
         method: "POST",
         url: "/Home/Like_Post",
@@ -186,7 +183,6 @@ function handle_change(ths, user_id, liked, post_id, e) {
                 timer: 3000
             })
         } else {
-
             var likedButton = $('#' + result.post_id + '-like');
             var dislikedButton = $('#' + result.post_id + '-dislike');
             if (result.liked == true) {
@@ -219,9 +215,7 @@ function handle_change(ths, user_id, liked, post_id, e) {
             var dislikeProgress = $('#' + result.post_id + '-dislike-percent');
             dislikeProgress.css('width', result.dislike_percent);
             dislikeProgress.text(result.dislike_percent);
-            //location.reload();
         }
-
     }).fail(function (jqXHR, textStatus, errorThrown) {
         console.log("fail");
         Swal.fire({
@@ -231,6 +225,4 @@ function handle_change(ths, user_id, liked, post_id, e) {
             timer: 2000
         })
     }).always(function () { });
-
 }
-

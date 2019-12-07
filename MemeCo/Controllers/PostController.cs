@@ -1,22 +1,49 @@
-﻿using System;
-using System.Collections.Generic;
+﻿/**
+ * Author:    Jasen Lassig
+ * Partner:   Jose Monterroso, Eli Hebdon
+ * Date:      December 6, 2019
+ * Course:    CS 4540, University of Utah, School of Computing
+ * Copyright: CS 4540 and Jasen, Jose, Eli - This work may not be copied for use in Academic Coursework.
+ *
+ * I, Jassen, certify that I wrote this code from scratch and did not copy it in part or whole from 
+ * another source.  Any references used in the completion of the assignment are cited in my README file.
+ *
+ * File Contents
+ *
+ *    Post controller class, used to display post and comments
+ */
+
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 using MemeCo.Areas.Identity.Data;
 using MemeCo.Models;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace MemeCo.Controllers
 {
+    /// <summary>
+    /// Post Controller class
+    /// </summary>
     public class PostController : Controller
     {
         private MemeCoContext _context;
+
+        /// <summary>
+        /// Dependency Injection
+        /// </summary>
+        /// <param name="context"></param>
         public PostController(MemeCoContext context)
         {
             _context = context;
         }
+
+        /// <summary>
+        /// Individual post display
+        /// </summary>
+        /// <param name="postID"></param>
+        /// <returns></returns>
         [HttpGet("Post/{postID}")]
         public IActionResult Index(Guid postID)
         {
@@ -27,7 +54,12 @@ namespace MemeCo.Controllers
                 .Include(o => o.Comments)
                     .ThenInclude(o => o.User)
                 .SingleOrDefault(o => o.ID == postID);
-            
+
+            if (post == null)
+            {
+                return RedirectToActionPermanent("Index", "Home");
+            }
+
             return View(post);
         }
 
@@ -146,7 +178,7 @@ namespace MemeCo.Controllers
                     });
                 }
                 else
-                { 
+                {
                     comment.Content = comment_text;
                     comment.TimeCommented = DateTime.UtcNow;
                     _context.SaveChanges();
@@ -158,7 +190,7 @@ namespace MemeCo.Controllers
                     });
                 }
             }
-            catch(Exception)
+            catch (Exception)
             {
                 // Any issues finding/editing comment
                 return Json(new

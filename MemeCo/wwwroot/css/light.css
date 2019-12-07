@@ -50,11 +50,13 @@ hr {
     margin: 1em 0;
 }
 
+/*Comment time light css*/
 div#time {
     color: black;
     font-size: 10px;
 }
 
+/*Search bar light css*/
 #dropdownMenuButton {
     color: #0071bc;
 }
@@ -63,6 +65,7 @@ div#time {
     color: #0071bc;
 }
 
+/*Posts light css*/
 div#posts{
   border: none;
 }
@@ -72,10 +75,21 @@ div#posts{
     color: #0071bc;
 }
 
+/*Comment light css*/
 .card-header {
     color: #0071bc;
 }
 
+/*Profile light css*/
+.follow-button {
+    background-color: #0071bc;
+    color:white;
+}
+
+.profile-info {
+    background-color: white;
+    color: black;
+}
 .navbar-toggler-icon {
     color: #0071bc;
 }

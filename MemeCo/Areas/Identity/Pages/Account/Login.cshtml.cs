@@ -1,4 +1,18 @@
-﻿using System;
+﻿/**
+ * Author:    Jasen Lassig
+ * Partner:   Jasen Lassig, Eli Hebdon
+ * Date:      December 6, 2019
+ * Course:    CS 4540, University of Utah, School of Computing
+ * Copyright: CS 4540 and Jose, Eli, Jasen - This work may not be copied for use in Academic Coursework.
+ *
+ * I, Jasen, certify that I wrote this code from scratch and did not copy it in part or whole from 
+ * another source.  Any references used in the completion of the assignment are cited in my README file.
+ *
+ * File Contents
+ *
+ *    Login page
+ */
+
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -100,7 +114,7 @@ namespace MemeCo.Areas.Identity.Pages.Account
                 else
                 {
                     var confirmed = await _userManager.FindByEmailAsync(Input.Username);
-                    if (!confirmed.EmailConfirmed)
+                    if (confirmed != null && !confirmed.EmailConfirmed)
                     {
                         ModelState.AddModelError(string.Empty, "Please check your email to confirm your account.");
                     } else

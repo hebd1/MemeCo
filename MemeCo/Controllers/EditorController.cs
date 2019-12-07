@@ -26,6 +26,9 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace MemeCo.Controllers
 {
+    /// <summary>
+    /// Editor Controller class
+    /// </summary>
     public class EditorController : Controller
     {
         private readonly MemeCoContext _context;
@@ -41,7 +44,6 @@ namespace MemeCo.Controllers
             _context = context;
             _user_manager = user_manager;
         }
-
 
         /// <summary>
         /// Returns main view of the meme editor containing all meme templates
@@ -62,7 +64,6 @@ namespace MemeCo.Controllers
             }
             
         }
-
 
         /// <summary>
         /// Helper function that returns the view component containing templates with the input template ID.
@@ -96,6 +97,7 @@ namespace MemeCo.Controllers
                     description = "";
                 }
 
+                // Post to post
                 Post post = new Post();
                 post.Description = description;
                 post.TemplateID = template_id;

@@ -18,15 +18,13 @@
  * */
 function post_meme(ths, user_id, template_id, e) {
     e.preventDefault();
-    console.log("post meme reached");
 
+    //Getting canvas image to post/export
     html2canvas(document.getElementById('image')).then(function (canvas) {
         var imageData = canvas.toDataURL("image/png");
-
         var caption = $('#caption-text').val();
 
         $.ajax({
-
             method: "POST",
             url: "/Editor/Post_Meme",
             data:
@@ -37,7 +35,6 @@ function post_meme(ths, user_id, template_id, e) {
                 template_id: template_id
             }
         }).done(function (result) {
-
             if (result.success == false) {
                 Swal.fire({
                     type: 'error',
@@ -57,9 +54,7 @@ function post_meme(ths, user_id, template_id, e) {
                 })
 
                 $('#previewModal').modal('toggle');
-
             }
-
         }).fail(function (jqXHR, textStatus, errorThrown) {
             console.log("fail");
             Swal.fire({
@@ -69,21 +64,14 @@ function post_meme(ths, user_id, template_id, e) {
                 timer: 2000
             })
         }).always(function () { });
-
-
     });
-
-
 }
 
 /**
  * Sets the layout of the editor
  * */
 function select_layout(button) {
-    //<div id="image" class="justify-content-center">
-    //    <img id="meme-content" alt="Demo Image" class="img-fluid meme-class" src="~/files/img_placeholder.png">
-    //            </div>
-    // set image layout
+    // Set image layout
     if (button == "image-bottom-btn") {
         $('#image').html("<img id=\"meme-text\" class=\"img-fluid meme-class\"  src=\"/files/textbox.PNG\"></img>");
         $('#image').append("<img id=\"meme-content\" class=\"img-fluid meme-class\" alt=\"Demo Image\" src=\"/files/img_placeholder.png\">");
@@ -93,8 +81,7 @@ function select_layout(button) {
     } else if (button == "single-image-btn") {
         $('#image').html("");
         $('#image').append("<img id=\"meme-content\" class=\"img-fluid meme-class\" alt=\"Demo Image\" src=\"/files/img_placeholder.png\">");
-    } // TODO implement 2x2 grid
-
+    }
 }
 
 /**
@@ -109,7 +96,6 @@ function showPreview() {
         console.log(canvas);
     });
     $('#previewModal').modal();
-
 }
 
 /**
@@ -180,7 +166,6 @@ function download() {
             "download", "meme.png").attr(
                 "href", newData);
     });
-
 }
 
 /**
@@ -194,5 +179,4 @@ function insertText() {
         $('#insert-text-btn').removeClass();
         $('#insert-text-btn').addClass("btn btn-outline-primary")
     }
-
 }
