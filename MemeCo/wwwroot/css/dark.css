@@ -37,6 +37,8 @@ a {
 /*Dark theme logo*/
 #Logo {
     content: url(../files/DarkLogo.png);
+    /*width:90%;
+    margin-left:-125px;*/
 }
 
 /*Footer*/
@@ -80,7 +82,9 @@ hr {
     border-left: 1px solid #232323;
     border-bottom: 1px solid #232323;
 }
-
+.navbar-toggler-icon {
+    background-image: url('https://mdbootstrap.com/img/svg/hamburger2.svg?color=fff');
+}
 #posts {
     border: none;
 }

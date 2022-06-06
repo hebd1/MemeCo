@@ -50,48 +50,47 @@
 <body>
     <header>
         <!--Navbar-->
-        <nav class="navbar navbar-expand-md navbar-toggleable-md mb-3">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">
-                    <img alt="MemeCo Logo" id="Logo" src="~/files/LightLogo.png" width="190" height="35" />
-                </a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon">Menu</span>
-                </button>
-                <div class="navbar-collapse collapse">
+        <nav class="navbar navbar-expand-md mb-3">
+            <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">
+                <img alt="MemeCo Logo" id="Logo" src="~/files/LightLogo.png" width="190" height="35" />
+            </a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                    aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+                    <li class="nav-item active">
+                        <!--User Search Dropdown-->
+                        <div class="dropdown show form-inline">
+                            <input id="usersearch" onkeyup="find_users()" class="form-control mr-sm-1 form-control-sm" data-toggle="dropdown"
+                                   type="search" placeholder="Find Users" aria-label="Search" style="margin-top: 5px;">
 
-                    <ul class="navbar-nav mr-auto mt-2 mt-lg">
-                        <li class="nav-item">
-                            <!--User Search Dropdown-->
-                            <div class="dropdown show form-inline">
-                                <input id="usersearch" onkeyup="find_users()" class="form-control mr-sm-1 form-control-sm" data-toggle="dropdown"
-                                       type="search" placeholder="Find Users" aria-label="Search">
+                            <div id="searchdropdown" class="dropdown-menu" aria-labelledby="dropdownMenuLink">
 
-                                <div id="searchdropdown" class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-
-                                </div>
                             </div>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" asp-area="" asp-controller="Editor" asp-action="Index">Editor</a>
-                        </li>
-                        <li class="nav-item">
-                            <!--Overview page link-->
-                            <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Overview">  Overview</a>
-                        </li>
+                        </div>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" asp-area="" asp-controller="Editor" asp-action="Index">Editor</a>
+                    </li>
+                    <li class="nav-item">
+                        <!--Overview page link-->
+                        <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Overview">  Overview</a>
+                    </li>
 
-                    </ul>
-                    <div class="float-lg-right">
-                        <partial name="_LoginPartial" />
-                    </div>
-
-                        @if (!SignInManager.IsSignedIn(User))
-                        {
-                            <dark-mode-toggle id="ThemeToggle" appearance="toggle" permanent mode="dark"></dark-mode-toggle>
-
-                        }
-                   
+                </ul>
+                <div class="float-lg-right">
+                    <partial name="_LoginPartial" />
                 </div>
+
+                @if (!SignInManager.IsSignedIn(User))
+                {
+                    <dark-mode-toggle id="ThemeToggle" appearance="toggle" permanent mode="dark"></dark-mode-toggle>
+
+                }
+
+            </div>
         </nav>
     </header>
     <div class="container mb-5">

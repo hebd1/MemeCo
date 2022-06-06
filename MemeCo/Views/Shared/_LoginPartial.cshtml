@@ -18,34 +18,31 @@
 
 @inject SignInManager<MemeCoUser> SignInManager
 @inject UserManager<MemeCoUser> UserManager
-
 <ul class="navbar-nav flex-grow-0">
+
     @if (SignInManager.IsSignedIn(User))
     {
         <!--User image-->
         var usrImg = UserManager.GetUserAsync(User).Result.ProfilePicture;
         var profileSrc = String.Format("data:image/gif;base64,{0}", Convert.ToBase64String(usrImg));
-        <li class="nav-item">
-            <div class="dropdown">
-                <button class="btn dropdown-toggle" type="button" id="profile-dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    @UserManager.GetUserName(User)
-                </button>
-                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                    <a class="dropdown-item" href="@Url.Action("", UserManager.GetUserName(User))" title="Manage">Profile</a>
-                    <form asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
-                        <button class="dropdown-item" type="submit">Logout</button>
-                    </form>
-                    <dark-mode-toggle class="dropdown-item" id="ThemeToggle" appearance="toggle" permanent mode="dark"
-                                      onclick="Set_Theme('@UserManager.GetUserId(User)')"></dark-mode-toggle>
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" id="profile-dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                @UserManager.GetUserName(User)            <img class="profile-pic rounded-circle" href="@Url.Action("", UserManager.GetUserName(User))" src="@profileSrc" width="40" height="40">
 
-                </div>
+            </a>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                <a class="dropdown-item" href="@Url.Action("", UserManager.GetUserName(User))" title="Manage">Profile</a>
+                <form asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+                    <button class="dropdown-item" type="submit">Logout</button>
+                </form>
+                <dark-mode-toggle class="dropdown-item" id="ThemeToggle" appearance="toggle" permanent mode="dark"
+                                  onclick="Set_Theme('@UserManager.GetUserId(User)')"></dark-mode-toggle>
+
             </div>
         </li>
 
 
-        <li class="nav-item">
-            <img class="profile-pic rounded-circle" href="@Url.Action("", UserManager.GetUserName(User))" src="@profileSrc" width="40" height="40">
-        </li>
+      
         <li class="nav-item">
 
         </li>

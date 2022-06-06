@@ -51,8 +51,8 @@
 </head>
 
 <body>
-    <div id="post_wrapper" class="row">
-        <div id="sort-by" class="col-md-2 col-sm-1"1>
+    <div id="post_wrapper" class="">
+        <div id="sort-by" class="row"1>
             <div class="dropdown">
                 <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     @currentUser.Filter
@@ -64,140 +64,141 @@
                 </div>
             </div>
         </div>
-        <div id="posts" class="col-md-8 col-sm-10">
-            @*sort model by selected filter*@
-            @{
-                switch (currentUser.Filter)
-                {
-                    case "Popular":
-                        posts = posts.OrderByDescending(o => o.Likes.Count());
-                        break;
-                    case "Friends":
-                        posts = posts.Where(o => o.User.Followers.Any(p => p.FollowerID == currentUser.Id));
-                        break;
-                    case "Fresh":
-                        posts = posts.OrderByDescending(o => o.TimePosted);
-                        break;
-                    default:
-                        posts = posts.OrderByDescending(o => o.Likes.Count());
-                        break;
+        <div id="posts" class="row">
+            <div class="col-sm-12 col-md-6">
+                @*sort model by selected filter*@
+                @{
+                    switch (currentUser.Filter)
+                    {
+                        case "Popular":
+                            posts = posts.OrderByDescending(o => o.Likes.Count());
+                            break;
+                        case "Friends":
+                            posts = posts.Where(o => o.User.Followers.Any(p => p.FollowerID == currentUser.Id));
+                            break;
+                        case "Fresh":
+                            posts = posts.OrderByDescending(o => o.TimePosted);
+                            break;
+                        default:
+                            posts = posts.OrderByDescending(o => o.Likes.Count());
+                            break;
+                    }
                 }
-            }
-            @foreach (var post in posts)
-            {
+                @foreach (var post in posts)
+                {
 
-                var user = post.User;
-                var imgSrc = String.Format("data:image/gif;base64,{0}", Convert.ToBase64String(post.Meme));
-                var profileSrc = String.Format("data:image/gif;base64,{0}", Convert.ToBase64String(post.User.ProfilePicture));
-                double likes = post.Likes.Where(o => o.Liked == true).Count();
-                double dislikes = post.Likes.Where(o => o.Liked == false).Count();
-                var likePercent = (likes > 0) ? Math.Ceiling(likes / (likes + dislikes) * 100) + "%" : "";
-                var dislikePercent = (dislikes > 0) ? Math.Ceiling(dislikes / (likes + dislikes) * 100) + "%" : "";
+                    var user = post.User;
+                    var imgSrc = String.Format("data:image/gif;base64,{0}", Convert.ToBase64String(post.Meme));
+                    var profileSrc = String.Format("data:image/gif;base64,{0}", Convert.ToBase64String(post.User.ProfilePicture));
+                    double likes = post.Likes.Where(o => o.Liked == true).Count();
+                    double dislikes = post.Likes.Where(o => o.Liked == false).Count();
+                    var likePercent = (likes > 0) ? Math.Ceiling(likes / (likes + dislikes) * 100) + "%" : "";
+                    var dislikePercent = (dislikes > 0) ? Math.Ceiling(dislikes / (likes + dislikes) * 100) + "%" : "";
 
-                <div class="post mx-auto">
-                    <div class="card mx-auto">
-                        <div class="card-title post-header row">
-                            <a href="/@user.UserName">
-                                <img class="profile-pic rounded-circle" src="@profileSrc" width="50" height="50">
-                            </a>
-                            <a href="/@user.UserName" class="post-username">@user.UserName</a>
-                        </div>
-                        <div class="mx-auto">
-                            <a href="/Post/@post.ID">
-                                <img class="card-img-top img-fluid" src="@imgSrc" alt="Card image cap" onclick="">
-                            </a>
-                        </div>
-                        <div class="card-body">
-                            @* Post was liked by current logged in user *@
-                            @if (this.User.Identity.Name != null && post.Likes.Any(o => o.MemeCoUserID == currentUser.Id))
-                            {
-                                var reaction = post.Likes.Where(o => o.MemeCoUserID == currentUser.Id).First();
-                                <div class="row no-gutters">
-                                    <div class="like_buttons col-8">
-                                        <a href="#" class="btn btn-primary" onclick="handle_change(this, '@currentUser.Id', 'true', '@post.ID', event)">
-                                            @if (reaction.Liked == true)
-                                            {
-                                                <i id="@post.ID-like" class="fas fa-thumbs-up"></i>
-                                            }
-                                            else
-                                            {
+                    <div class="post mx-auto">
+                        <div class="card mx-auto">
+                            <div class="card-title post-header row">
+                                <a href="/@user.UserName">
+                                    <img class="profile-pic rounded-circle" src="@profileSrc" width="50" height="50">
+                                </a>
+                                <a href="/@user.UserName" class="post-username">@user.UserName</a>
+                            </div>
+                            <div class="mx-auto">
+                                <a href="/Post/@post.ID">
+                                    <img class="card-img-top img-fluid" src="@imgSrc" alt="Card image cap" onclick="">
+                                </a>
+                            </div>
+                            <div class="card-body">
+                                @* Post was liked by current logged in user *@
+                                @if (this.User.Identity.Name != null && post.Likes.Any(o => o.MemeCoUserID == currentUser.Id))
+                                {
+                                    var reaction = post.Likes.Where(o => o.MemeCoUserID == currentUser.Id).First();
+                                    <div class="row no-gutters">
+                                        <div class="like_buttons col-8">
+                                            <a href="#" class="btn btn-primary" onclick="handle_change(this, '@currentUser.Id', 'true', '@post.ID', event)">
+                                                @if (reaction.Liked == true)
+                                                {
+                                                    <i id="@post.ID-like" class="fas fa-thumbs-up"></i>
+                                                }
+                                                else
+                                                {
+                                                    <i id="@post.ID-like" class="far fa-thumbs-up"></i>
+                                                }
+                                            </a>
+                                            <a href="#" class="btn btn-danger" onclick="handle_change(this, '@currentUser.Id', 'false', '@post.ID', event)">
+                                                @if (reaction.Liked == false)
+                                                {
+                                                    <i id="@post.ID-dislike" class="fas fa-thumbs-down"></i>
+                                                }
+                                                else
+                                                {
+                                                    <i id="@post.ID-dislike" class="far fa-thumbs-down"></i>
+                                                }
+                                            </a>
+                                        </div>
+                                        <div class="col">
+                                            <div class="progress">
+                                                <div id="@post.ID-like-percent" class="progress-bar bg-primary" style="width:@likePercent" aria-valuemin="0" aria-valuemax="100">
+                                                    @likePercent
+                                                </div>
+                                                <div id="@post.ID-dislike-percent" class="progress-bar bg-danger" style="width:@dislikePercent" aria-valuemin="0" aria-valuemax="100">
+                                                    @dislikePercent
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <a class="num-comments">
+                                        <h6>Comments <span class="badge badge-secondary">@post.Comments.Count()</span></h6>
+                                    </a>
+                                    <br />
+                                    <hr />
+                                    <p class="card-text">@post.Description</p>
+                                }
+                                @*User not logged in*@
+                                else
+                                {
+                                    <div class="row no-gutters">
+                                        <div class="like_buttons col-8">
+                                            <a href="#" class="btn btn-primary" onclick="handle_change(this, '@currentUser.Id', 'true', '@post.ID', event)">
                                                 <i id="@post.ID-like" class="far fa-thumbs-up"></i>
-                                            }
-                                        </a>
-                                        <a href="#" class="btn btn-danger" onclick="handle_change(this, '@currentUser.Id', 'false', '@post.ID', event)">
-                                            @if (reaction.Liked == false)
-                                            {
-                                                <i id="@post.ID-dislike" class="fas fa-thumbs-down"></i>
-                                            }
-                                            else
-                                            {
+                                            </a>
+                                            <a href="#" class="btn btn-danger" onclick="handle_change(this, '@currentUser.Id', 'false', '@post.ID', event)">
                                                 <i id="@post.ID-dislike" class="far fa-thumbs-down"></i>
-                                            }
-                                        </a>
-                                    </div>
-                                    <div class="col">
-                                        <div class="progress">
-                                            <div id="@post.ID-like-percent" class="progress-bar bg-primary" style="width:@likePercent" aria-valuemin="0" aria-valuemax="100">
-                                                @likePercent
-                                            </div>
-                                            <div id="@post.ID-dislike-percent" class="progress-bar bg-danger" style="width:@dislikePercent" aria-valuemin="0" aria-valuemax="100">
-                                                @dislikePercent
+                                            </a>
+                                        </div>
+                                        <div class="col">
+                                            <div class="progress">
+                                                <div id="@post.ID-like-percent" class="progress-bar bg-primary" style="width:@likePercent" aria-valuemin="0" aria-valuemax="100">
+                                                    @likePercent
+                                                </div>
+                                                <div id="@post.ID-dislike-percent" class="progress-bar bg-danger" style="width:@dislikePercent" aria-valuemin="0" aria-valuemax="100">
+                                                    @dislikePercent
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                </div>
-                                <a class="num-comments">
-                                    <h6>Comments <span class="badge badge-secondary">@post.Comments.Count()</span></h6>
-                                </a>
-                                <br />
-                                <hr />
-                                <p class="card-text">@post.Description</p>
-                            }
-                            @*User not logged in*@
-                            else
-                            {
-                                <div class="row no-gutters">
-                                    <div class="like_buttons col-8">
-                                        <a href="#" class="btn btn-primary" onclick="handle_change(this, '@currentUser.Id', 'true', '@post.ID', event)">
-                                            <i id="@post.ID-like" class="far fa-thumbs-up"></i>
-                                        </a>
-                                        <a href="#" class="btn btn-danger" onclick="handle_change(this, '@currentUser.Id', 'false', '@post.ID', event)">
-                                            <i id="@post.ID-dislike" class="far fa-thumbs-down"></i>
-                                        </a>
-                                    </div>
-                                    <div class="col">
-                                        <div class="progress">
-                                            <div id="@post.ID-like-percent" class="progress-bar bg-primary" style="width:@likePercent" aria-valuemin="0" aria-valuemax="100">
-                                                @likePercent
-                                            </div>
-                                            <div id="@post.ID-dislike-percent" class="progress-bar bg-danger" style="width:@dislikePercent" aria-valuemin="0" aria-valuemax="100">
-                                                @dislikePercent
-                                            </div>
-                                        </div>
-                                    </div>
 
-                                </div>
-                                <a class="num-comments">
-                                    <h6>Comments <span class="badge badge-secondary">@post.Comments.Count()</span></h6>
-                                </a>
-                                <br />
-                                <hr />
-                                <p class="card-text">@post.Description</p>
-                            }
+                                    </div>
+                                    <a class="num-comments">
+                                        <h6>Comments <span class="badge badge-secondary">@post.Comments.Count()</span></h6>
+                                    </a>
+                                    <br />
+                                    <hr />
+                                    <p class="card-text">@post.Description</p>
+                                }
 
+                            </div>
                         </div>
                     </div>
-                </div>
 
-            }
-            @if (posts.Count() == 0)
-            {
-                <h3 id="empty-feed">No Memes Here...</h3>
-            }
+                }
+                @if (posts.Count() == 0)
+                {
+                    <h3 id="empty-feed">No Memes Here...</h3>
+                }
+            </div>
+           
         </div>
-        <div class="col-md-2 col-sm-1">
-
-        </div>
+       
     </div>
 
 

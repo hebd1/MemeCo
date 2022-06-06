@@ -78,6 +78,9 @@ body {
     justify-content: center;
 }
 
+.navbar-toggler-icon {
+    background-image: url('https://mdbootstrap.com/img/svg/hamburger2.svg?color=fff');
+}
 /*Like Buttons*/
 .like_buttons {
     display: inline-block;
@@ -85,7 +88,7 @@ body {
 
 #posts {
     border: 1px solid #dbe0f1;
-    max-width: 80%;
+    justify-content:center;
 }
 
 /*Home page css*/
